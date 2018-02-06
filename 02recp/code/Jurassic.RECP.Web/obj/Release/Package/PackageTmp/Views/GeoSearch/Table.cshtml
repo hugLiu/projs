@@ -1,0 +1,234 @@
+﻿
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Table</title>
+
+    <link href="@Url.Content("~/content/RECP/css/bootstrap.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/content/assets/css/font-awesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/content/RECP/css/plugins/jqGrid/ui.jqgrid.css")" rel="stylesheet" />
+
+    <script src="@Url.Content("~/content/RECP/js/jquery.min.js")"></script>
+    <script src="@Url.Content("~/content/RECP/js/bootstrap.min.js")"></script>
+    @*grid*@
+    <script src="@Url.Content("~/content/RECP/js/plugins/jqGrid/jquery.jqGrid.min.js")"></script>
+
+    @*ionrange*@
+    <link href="~/content/RECP/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet" />
+    <link href="~/content/RECP/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet" />
+    <script src="~/content/RECP/js/plugins/chosen/chosen.jquery.js"></script>
+    <script src="~/content/RECP/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+    <script>
+
+        $.jgrid.defaults.responsive = true;
+        $.jgrid.defaults.styleUI = 'Bootstrap';
+    </script>
+</head>
+
+<body>
+
+
+    <div class="ibox-content" style="padding: 5px 5px 0px 5px; ">
+            <div class="jqGrid_wrapper" style="overflow-x:auto">
+                <table id="table_list_1"></table>
+                <div id="pager_list_1"></div>
+            </div>
+        </div>
+        <br />
+    @*    <div class="col-sm-7">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+                <div id="ionrange_1"></div>
+            </div>
+        </div>
+    </div>*@
+    <div class="ibox-content" style="padding: 5px 5px 0px 5px; ">
+        <div class="jqGrid_wrapper" style="overflow-x:auto">
+            <table id="table_list_2"></table>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.ajax({
+                url: '/GeoSearch/TableXml',
+                type: "post",
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                    var d = result.split('#');
+                    var d1 = eval('(' + d[3] + ')');
+                    var d2 = eval('(' + d[1] + ')');
+                    var arr = eval('(' + d[0] + ')');
+                    var temp = [];
+                    for (var i = 0; i < arr.length; i++) {
+                        var obj;
+                        if (i < 0) {
+                            obj = {
+                                "index": arr[i],
+                                "name": arr[i],
+                                "frozen": true
+                            }
+                        }
+                        else {
+                            obj = {
+                                "index": arr[i],
+                                "name": arr[i]
+                            }
+                        }
+                        temp.push(obj);
+                    }
+                    var d3 = temp;
+                    var d4 = eval('(' + d[2] + ')');
+                    loadGrid1(d1, d2, d3, d4);
+                }
+            });
+        });
+
+        function loadGrid1(d1, d2, d3, d4) {
+            $("#table_list_1").jqGrid({
+                data: d1,
+                datatype: "local",
+                height: 150,
+                //rowNum: 10,
+                //rowList: [10, 20, 30],
+                colNames: d2,
+                colModel: d3,
+
+
+                //shrinkToFit: false,
+                //autoScroll: true,
+                //gridview: true,
+                //scrollrows: true,
+                //pgbuttons: false,
+                //pginput: false,
+                //viewrecords: true,
+                //add: false,
+                //edit: false,
+                //hidegrid: false,
+                onSelectRow: function (id) {
+                    // targetTree.jstree('select_node', id)
+                }
+            }).jqGrid('setFrozenColumns');
+            $('#table_list_1').setGroupHeaders({
+                useColSpanStyle: true,
+                groupHeaders: d4
+            });
+        }
+    </script>
+
+    <script>
+        //$("#ionrange_1").ionRangeSlider({
+        //    min: 2000,
+        //    max: 2017,
+        //    type: 'double',
+        //    //prefix: "&yen;",
+        //    postfix: "年",
+        //    prettify: false,
+        //    hasGrid: true
+        //});
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '/GeoSearch/TableXml2',
+                type: "post",
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                    var d = result.split('#');
+                    var data1 = eval('(' + d[0] + ')');
+                    var arr = eval('(' + d[1] + ')');
+                    var temp = [];
+                    for (var i = 0; i < arr.length; i++) {
+                        if (arr[i] == "ID") {
+                            temp.push({ "index": arr[i], "name": arr[i], hidden: true });
+                        } else {
+                            temp.push({ "index": arr[i], "name": arr[i],"align":"center" });
+                        }
+                    }
+                    var data2 = temp;
+                    var data3 = eval('(' + d[2] + ')');
+                    var data4 = eval('(' + d[3] + ')'); 
+                    loadGrid2(data1, data2, data3, data4);
+                }
+            });
+        });
+
+        function loadGrid2(data1, data2, data3, data4) { 
+            $("#table_list_2").jqGrid({
+                data: data4,
+                datatype: "local",
+                height: 150,
+                colNames: data1,
+                colModel: data2, 
+                onSelectRow: function (id) {
+                    // targetTree.jstree('select_node', id)
+                }
+            });
+            $('#table_list_2').closest("div.ui-jqgrid-view")
+             .children("div.ui-jqgrid-titlebar")
+             .css("text-align", "center")
+             .children("span.ui-jqgrid-title")
+              .css("float", "none");
+            $('#table_list_2').setGroupHeaders({
+                useColSpanStyle: true,
+                groupHeaders: data3
+            }); 
+            $('#table_list_2').jqGrid('navButtonAdd', {
+                caption: "显示隐藏列",
+                title: "选择列",
+                onClickButton: function () {
+                    debugger
+                    table.jqGrid('columnChooser', {
+                        width: 550,
+                        dialog_opts: {
+                            modal: true,
+                            minWidth: 470,
+                            height: 470,
+                            show: 'blind',
+                            hide: 'explode',
+                            dividerLocation: 0.5
+                        },
+                        done: function (perm) {
+                            if (perm) {
+                                //点击确定   
+                                console.log(2)
+                                this.jqGrid("remapColumns", perm, true);
+                                var width = $(window).width() - 150;
+                                $(tableName).setGridWidth(width, true);
+                                //要存的就json,已经 隐藏部分的部分    
+                                //获取列名    
+                                var colModel = $(tableName).jqGrid('getGridParam', 'colModel');
+                                var newColumnName = [];
+                                for (var i = 0; i < colModel.length; i++) {
+                                    var columnHidden = colModel[i].hidden;
+                                    if (columnHidden == true) {
+                                        // newColumnName.push(colNames[i]);    
+                                        newColumnName.push(i);
+                                    }
+                                }
+                                var strHidden = JSON.stringify(newColumnName);
+                                console.log(strHidden);
+                                //数据库存储  
+                                $.ajax({
+                                    type: "POST",
+                                    url: "myurl",
+                                    data: { serverID: myID, hiddenC: strHidden },
+                                    success: function (data) {
+                                        console.log('finish');
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+            }); 
+           
+        }
+    </script>
+</body>
+</html>

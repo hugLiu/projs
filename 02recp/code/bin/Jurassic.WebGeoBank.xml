@@ -1,0 +1,200 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Jurassic.WebGeoBank</name>
+    </assembly>
+    <members>
+        <member name="T:Jurassic.WebGeoBank.Controllers.BankController`1">
+            <summary>
+            成果管理后台控制器
+            </summary>
+        </member>
+        <member name="M:Jurassic.WebGeoBank.Controllers.BankController`1.Index">
+            <summary>
+            返回主页面
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Jurassic.WebGeoBank.Controllers.BankController`1.#ctor(Jurassic.GeoBank.Services.IQueryService{Jurassic.GeoBank.Services.ArchiveMetadata})">
+            <summary>
+            根据queryserivce创建成果管理控制器
+            </summary>
+            <param name="queryService">后台查询服务</param>
+        </member>
+        <member name="M:Jurassic.WebGeoBank.Controllers.BankController`1.GetData">
+            <summary>
+            获取成果数据列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Jurassic.WebGeoBank.Controllers.BankController`1.GetDetails(System.String)">
+            <summary>
+            根据一个或多个成果ID返回成果明细内容
+            </summary>
+            <param name="ids">一个或多个成果ID，多个用,号分隔</param>
+            <returns>成果明细内容json数据</returns>
+        </member>
+        <member name="M:Jurassic.WebGeoBank.Controllers.BankController`1.Stat">
+            <summary>
+            资产统计
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Jurassic.WebGeoBank.Controllers.BankController`1.Cat">
+            <summary>
+            返回左侧栏目树
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Jurassic.WebGeoBank.Controllers.BankController`1.BatchExcel(System.String,System.Int32)">
+            <summary>
+            批量从Excel导入
+            </summary>
+            <param name="fileIds"></param>
+            <param name="treeNodeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jurassic.WebGeoBank.Controllers.BankController`1.GetBatchList">
+            <summary>
+            获取批次下拉框的数据列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Jurassic.WebGeoBank.Controllers.BankController`1.Batch(System.String,System.Int32)">
+            <summary>
+            批量提交成果的不用Excel的版本
+            </summary>
+            <param name="fileIds"></param>
+            <param name="treeNodeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jurassic.WebGeoBank.Controllers.BankController`1.GetKeyFilter(System.String)">
+            <summary>
+            通用查询逻辑
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Jurassic.WebGeoBank.Controllers.PTController">
+            <summary>
+            成果管理后台控制器，此控制器只是一个标记，实际不会执行它，
+            而是执行的BankController[T]泛型控制器，T用于外部根据项目需要扩展
+            </summary>
+        </member>
+        <member name="T:Jurassic.WebGeoBank.Application1">
+            <summary>
+            应用程序必须继承MvcApplication
+            </summary>
+        </member>
+        <member name="M:Jurassic.WebGeoBank.Application1.RedefineViewLocator">
+            <summary>
+            追加或重新定义视图搜索路径
+            </summary>
+        </member>
+        <member name="T:Jurassic.WebGeoBank.Models.AppConfig">
+            <summary>
+            本程序的全局配置常量
+            </summary>
+        </member>
+        <member name="F:Jurassic.WebGeoBank.Models.AppConfig.AutoComplement">
+            <summary>
+            是否自动打标签
+            </summary>
+        </member>
+        <member name="T:Jurassic.WebGeoBank.Models.ArchiveMetaConverter`1">
+            <summary>
+            元数据转换成数据实体的基类
+            </summary>
+            <typeparam name="T">成果数据实体类型</typeparam>
+        </member>
+        <member name="M:Jurassic.WebGeoBank.Models.ArchiveMetaConverter`1.ToEntity(`0)">
+            <summary>
+            将模型转换成成果实体
+            </summary>
+            <param name="m"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Jurassic.WebGeoBank.Models.ArchiveMetaConverter`1.EntityToModel">
+            <summary>
+            将成果实体转换成模型，用于LINQ查询。
+            </summary>
+        </member>
+        <member name="T:Jurassic.WebGeoBank.Models.ArchiveModel">
+            <summary>
+            成果元数据业务模型
+            </summary>
+        </member>
+        <member name="P:Jurassic.WebGeoBank.Models.ArchiveModel.Status">
+            <summary>
+            是否已通过审核
+            </summary>
+        </member>
+        <member name="T:Jurassic.WebGeoBank.Models.Attachment">
+            <summary>
+            成果的附件
+            </summary>
+        </member>
+        <member name="T:Jurassic.WebGeoBank.Models.BatchManager">
+            <summary>
+            对于导入批次的管理
+            </summary>
+        </member>
+        <member name="M:Jurassic.WebGeoBank.Models.BatchManager.GetLogBatchs">
+            <summary>
+            获取批量导入的批次列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Jurassic.WebGeoBank.Models.BatchManager.GetProductIdsByBatch(System.String)">
+            <summary>
+            根据批次号获取当批的所有成果ID
+            </summary>
+            <param name="batch"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Jurassic.WebGeoBank.Models.GeoBankRoot">
+            <summary>
+            用于初始化GeoBank元数据栏目的类
+            </summary>
+        </member>
+        <member name="M:Jurassic.WebGeoBank.Models.MongoMetaDataService`1.#ctor(Jurassic.PKS.Service.Submission.ISubmission,Jurassic.PKS.Service.Adapter.IAdapter,Jurassic.GeoBank.Services.IQueryService{Jurassic.GeoBank.Services.ArchiveMetadata},Jurassic.WebGeoBank.Models.ArchiveMetaConverter{`0})">
+            <summary>
+            创建新的Mongo数据访问对象
+            </summary>
+            <param name="submissionService"></param>
+            <param name="adapterService"></param>
+            <param name="queryService"></param>
+            <param name="converter"></param>
+        </member>
+        <member name="T:Jurassic.WebGeoBank.Models.StatInfo">
+            <summary>
+            统计信息
+            </summary>
+        </member>
+        <member name="P:Jurassic.WebGeoBank.Models.StatInfo.TotalProductCount">
+            <summary>
+            总资源量
+            </summary>
+        </member>
+        <member name="P:Jurassic.WebGeoBank.Models.StatInfo.TotalFilesCount">
+            <summary>
+            总文件数
+            </summary>
+        </member>
+        <member name="P:Jurassic.WebGeoBank.Models.StatInfo.TotalFilesSize">
+            <summary>
+            文件总长度
+            </summary>
+        </member>
+        <member name="T:Jurassic.WebGeoBank.GeoBankRegistration">
+            <summary>
+            初始化Jurassic.GeoBank组件
+            </summary>
+        </member>
+        <member name="T:Jurassic.WebGeoBank.GeoBankControllerFactory">
+            <summary>
+            为解决MVC不支持泛型控制器，而改写的控制器工厂类，用于反射生成需要的泛型控制器
+            </summary>
+        </member>
+    </members>
+</doc>

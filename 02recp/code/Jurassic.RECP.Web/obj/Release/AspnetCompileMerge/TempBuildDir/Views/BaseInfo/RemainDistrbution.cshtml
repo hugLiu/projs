@@ -1,0 +1,1064 @@
+﻿@{
+    Layout = "~/Views/shared/_RECPLayout.cshtml";
+}
+@section css{
+    <link rel="stylesheet" href="/scripts/GeoTopic/bootstrap-3.3.5-dist/css/font-awesome.css">
+    <link href="~/content/RECP/css/animate.css" rel="stylesheet" />
+    <link href="~/content/RECP/css/jquery.gritter.css" rel="stylesheet" />
+    <link href="~/content/RECP/css/morris-0.4.3.min.css" rel="stylesheet" />
+    <link href="~/content/RECP/css/ion.rangeSlider.css" rel="stylesheet" />
+    <link href="~/content/RECP/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet" />
+    <link href="~/content/RECP/css/chosen.css" rel="stylesheet" />
+    <link href="~/content/RECP/css/style.css" rel="stylesheet" />
+    <link href="~/content/RECP/css/plugins/toastr/toastr.min.css" rel="stylesheet" />
+    <link href="~/Content/RECP/css/plugins/split/css/style.css" rel="stylesheet" />
+    <style>
+        .jstree-open > .jstree-anchor > .fa-folder:before {
+            content: "\f07c";
+        }
+
+        .jstree-default .jstree-icon.none {
+            width: 0;
+        }
+
+        .panel-body-height {
+            height: 100%;
+        }
+
+        .nav-tabs a {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            text-align: center !important;
+            min-width: 0 !important;
+        }
+	#gbox_table_list_2{
+		height:100%
+	}
+        #gview_table_list_2 {
+            width: 223px;
+            height:100%;
+        }
+        .ui-jqgrid-bootstrap-corner-bottom{
+            height: calc(100% - 25px) !important;
+	}
+	#ulul a{padding:15px 21px !important;};
+
+    </style>
+}
+<form id="formDown" method="post" style="display:inline-block;">
+    <input type="hidden" name="id" id="id" />
+    <input type="hidden" name="title" id="title" />
+    <input type="hidden" name="url" id="url" />
+    <input type="hidden" name="ticket" id="ticket" />
+    <input type="hidden" name="format" id="format" />
+    <input type="hidden" name="name" id="name" />
+</form>
+<div id="splitter">
+    <div id="wellDistributionPane" class="split split-horizontal">
+        <div class="panel panel-default" style="margin-bottom: 0; height: 100%;">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a>按层系查看井点分布</a>
+                </h4>
+            </div>
+            <div class="panel-body well-panel-body-height" style="width:100%; overflow-y:auto; ">
+                <div id="well-distribution-tree"></div>
+            </div>
+        </div>
+    </div>
+    <div id="wellInfoPane" class="split split-horizontal">
+        <div class="panel panel-default" style="margin-bottom: 0; height: 100%;">
+            <div class="panel-body panel-body-height">
+                <div class="form-group">
+                    <label>井区</label>
+                    <div class="input-group" style="width: 100%;">
+                        <select data-placeholder="选择井区..." class="chosen-select" id="BlockGuan" name="BlockGuan" style="width: 120px;"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>井别</label>
+                    <div class="input-group" style="width: 100%;">
+                        <select data-placeholder="选择井别..." class="chosen-select" id="BlockType" name="BlockType" style="width: 120px;"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>井号</label>
+                    <input type="text" placeholder="请输入井号" id="BlockName" class="form-control">
+                </div>
+                <div class="form-group">
+                    <button id="btnsearch-unit" class="btn btn-primary btn-block" type="button"><i class="fa fa-search"></i></button>
+                </div>
+                <div class="form-group" style="margin: 0px; height: calc(100% - 260px);">
+                    <label>井点结果列表</label>
+                    <div class="ibox float-e-margins" style="margin-bottom: 0px;height: calc(100% - 25px);">
+                        <div class="ibox-content" style="padding: 0;height:100%;width:100%;">
+                            <div class="jqGrid_wrapper" style="overflow-x: auto;overflow-y:hidden; height:100%;width:100%">
+                                <table id="table_list_2" style="height:100%;width:100%;"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="mapPane" class="split split-horizontal">
+        <div class="tabs-container panel-body-height">
+            <div class="tabs-right panel-body-height">
+                <ul class="nav nav-tabs" style="margin-left:0;width:6%;height:99%;background-color:rgba(242, 242, 243, 1)" id="ulul">
+                    <li class="active">
+                        <a data-toggle="tab" href="#tab-1" aria-expanded="true"> @*<i class="fa fa-television"></i>*@井点分布</a>
+                    </li>
+                    <li class="">
+                        <a data-toggle="tab" href="#tab-2" aria-expanded="false"> @*<i class="fa fa-list-ol"></i>*@相关成果</a>
+                    </li>
+                </ul>
+                <div class="tab-content panel-body-height">
+                    <div id="tab-1" class="tab-pane active panel-body-height">
+                        <div class="panel panel-default" style="margin-bottom: 0; height: 100%;">
+                            <div class="panel-body panel-body-height" style="padding:0;width:94%;">
+                                <div id="joGIS_map" class="split content">
+                                    <div class="ibox float-e-margins" style="margin-bottom: 0; height: 100%;">
+                                        <div class="ibox-content" style="padding: 0;height: 100%;">
+                                            <object id="joGIS1" classid="clsid:D2546426-13FD-4018-85F1-F5BD61147C8F" codebase="JoGIS4.ocx#version=1,0,0,1" style="width: 100%; height: 100%;" wmode="Opaque"
+                                                    viewastext>
+                                                <param name="_Version" value="65536">
+                                                <param name="_ExtentX" value="20000">
+                                                <param name="_ExtentY" value="15000">
+                                                <param name="_StockProps" value="0">
+                                                <param name="WMODE" value="transparent">
+                                            </object>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tablelist_oil" class="split content" style="overflow: hidden;">
+                                    <div class="ibox float-e-margins" style="margin-bottom: 0px;">
+                                        <div class="ibox-title">
+                                            <h5><span id="tbWellNo"></span>试油成果列表</h5>
+                                        </div>
+                                        <div class="ibox-content" style="padding: 5px 5px 0px 5px;">
+                                            <div class="jqGrid_wrapper" style="overflow-x: auto;">
+                                                <table id="table_list_3"></table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tab-2" class="tab-pane panel-body panel-body-height" style="padding:0;width:94%">
+                        <div class="panel panel-default" style="margin-bottom: 0; height: 100%;">
+                            <div class="panel-body" style="padding:0;width:100%;">
+                                <div class="col-md-12 col-sm-12" style="padding-right:0">
+                                    <div class="row" style="width:100%;">
+                                        <div class="project-list" id="myAchieveList">
+                                            <table id="table_list" class="table table-hover no-margins">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width: 45px">编号</th>
+                                                        <th style="width: 120px;">名称</th>
+                                                        <th style="width: 65px">作者</th>
+                                                        <th style="width: 60px">浏览次数</th>
+                                                        <th style="width:70px">成果来源</th>
+                                                        <th style="width: 80px;">操作</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody data-bind="foreach:myAchieveListData">
+                                                    <tr>
+                                                        <td data-bind="text:$index() + 1"></td>
+                                                        <td data-bind="text:name"></td>
+                                                        <td data-bind="text:author"></td>
+                                                        <td data-bind="text:skimCount"></td>
+                                                        <td data-bind="text:source"></td>
+                                                        <td>
+                                                            <button class="btn btn-info btn-circle" data-bind="click: $parent.openDetailPage" type="button" data-toggle="tooltip" data-placement="left" title="浏览">
+                                                                <i class="fa fa-sticky-note-o"></i>
+                                                            </button>
+                                                            <span data-bind="click: $parent.collectAchieveList">
+                                                                <button data-bind="css:(flagFav ==1 ?  'btn btn-danger btn-circle btn-outline hasCollected' : 'btn  btn-default btn-circle btn-outline hasNotCollected'),attr:{title:(flagFav ==1 ?'已收藏':'未收藏')}" type="button" data-toggle="tooltip" data-placement="left" title="">
+                                                                    <i class="fa fa-heart"></i>
+                                                                </button>
+                                                            </span>
+                                                            <button class="btn btn-success btn-circle" type="button" data-bind="click: $parent.downloadAchieve" data-toggle="tooltip" data-placement="left" title="下载">
+                                                                <i class="fa fa-download"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div class="container" style="width:97%">
+                                                <div class="col-md-8 col-md-offset-2">
+                                                    <div id="app">
+                                                        <div id="_id">
+                                                            <nav class="boot-nav" v-if="show">
+                                                                <ul class="pagination boot-item pagination-lg">
+                                                                    <li v-if="_showFirstPrev">
+                                                                        <a href="##" @@click="onPrev">
+                                                                            <span aria-hidden="true">上一页</span>
+                                                                        </a>
+                                                                    </li>
+                                                                    <li v-for="item in _items" class="activeItem === item ? 'active' : ''">
+                                                                        <a href="##" v-text="item" @@click="onCurrent(item)"></a>
+                                                                    </li>
+                                                                    <li v-if="_showNextLast">
+                                                                        <a href="##" @@click="onNext">
+                                                                            <span aria-hidden="true">下一页</span>
+                                                                        </a>
+                                                                    </li>
+                                                                </ul>
+                                                            </nav>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/content/RECP/js/content.js"></script>
+    <script src="~/content/RECP/js/jquery.slimscroll.min.js"></script>
+    <script src="~/content/RECP/js/jquery.easypiechart.js"></script>
+    <script src="~/content/RECP/js/jquery.peity.min.js"></script>
+    <script src="~/content/RECP/js/jquery.sparkline.min.js"></script>
+    <script src="~/content/RECP/js/plugins/chosen/chosen.jquery.js"></script>
+    <script src="~/content/RECP/js/linq.min.js"></script>
+    <script src="~/content/RECP/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+    <script src="~/content/RECP/js/plugins/toastr/toastr.min.js"></script>
+    <script src="~/content/RECP/js/plugins/knockout/knockout.js"></script>
+    <script src="~/Content/RECP/js/vue.js"></script>
+    <script src="~/Content/RECP/js/common/AchieveDown.js"></script>
+    <script src="~/Content/RECP/js/plugins/split/split.min.js"></script>
+
+    <script>
+        // 正文高度
+        var fixSplitterHeight = function () {
+            var heightWithoutNavbar = $("body").height();
+            $("#splitter").css("height", heightWithoutNavbar - 85);
+        }
+        //panel高度
+        var fixPanelHeight = function () {
+            var height = $("#wellDistributionPane").height();
+            $(".well-panel-body-height").css("height", height - 36);
+        }
+
+        //修复JoGis展示区
+        var fixJoGISHeight = function () {
+            var height = $("#joGIS_map").height();
+            $("#joGIS1").css("height", height - 10);
+        };
+
+        //树在超过容器的时候会自动出现滚动条
+        function fixCss() {
+            $("#well-distribution-tree").slimScroll({
+                height: '100%',
+                railOpacity: 0.9
+            });
+        }
+        var jogis4_options = {
+            Style: { border: "solid 1px #666", width: "100%" },
+            ShowEagleEye: true
+        };
+        var JoGis4 = null;
+        var df_ZoomScale;
+        //fix_height();
+        var BlockGuanData = [], BlockTypeData = [];  //井区和井别
+        var currentGdbUrl = null;
+        var currentTreeNodeSID = "";
+        var currentWellName = "";  //当前点击的井点的名称
+        //分页组件
+        var _pagesize = 10;
+        var _count = 0;
+        var _items = 10;
+        //按层系查看井点分布 拿到树的数据
+        function initTree() {
+            $.ajax({
+                url: "/BaseInfo/GetBOBaseInfo",
+                type: "post",
+                data: {
+                    boc: "地层年代"
+                },
+                success: function (result) {
+                    var arr = [];
+                    result.forEach(function (value) {
+                        arr.push({
+                            "id": value.ID,
+                            "parent": value.PID == null ? "#" : value.PID,
+                            "text": value.Name,
+                            "bot": value.BOT,
+                            "sid": value.SID,
+                            "objectparam": value.ObjectParam,
+                            "state": {
+                                "opened": value.PID == null ? true : false,
+                                "selected": value.PID == null ? true : false
+                            }
+                        });
+                    });
+                    //wellDisTreeData = arr;
+                    initUnitTree(arr);
+                    loadDefaultGDB("地层年代", arr);
+                }
+            });
+        }
+        //按照层系井点分布树 加载树
+        function initUnitTree(jsondata) {
+            $("#well-distribution-tree").jstree({
+                'plugins': ['types', 'dnd'],
+                'types': {
+                    'default': {
+                        'icon': 'fa fa-folder'
+                    },
+                    'html': {
+                        'icon': 'fa fa-file-code-o'
+                    },
+                    'svg': {
+                        'icon': 'fa fa-file-picture-o'
+                    },
+                    'css': {
+                        'icon': 'fa fa-file-code-o'
+                    },
+                    'img': {
+                        'icon': 'fa fa-file-image-o'
+                    },
+                    'js': {
+                        'icon': 'fa fa-file-text-o'
+                    }
+                },
+                'core': {
+                    "animation": true,
+                    "data": jsondata
+                }
+            });
+        }
+
+        //加载GDB图件
+        function loadDefaultGDB(boc, arr) {
+            var _id;
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i].state.selected == true) {
+                    _id = arr[i].id;
+                }
+            }
+            loadGdb(boc, _id);
+        }
+        function loadGdb(boc, id) {
+            $.ajax({
+                url: "/BaseInfo/GetBOBaseInfoUrl",
+                type: "post",
+                data: {
+                    boc: boc,
+                    id: id,
+                    feature: "Well"
+                },
+                dataType: "json",
+                success: function (url) {
+                    if (url) {
+                        url = defaultUrl.ResourceDefaultUrl + "GDB/" + encodeURI(url);
+                        currentGdbUrl = url;
+                        loadGdbFile(url);
+                    }
+                }
+            });
+        }
+        function loadGdbFile(url) {
+            try {
+                JoGis4.options.GDBPath = url;
+                JoGis4.loadGeoMapFile();
+
+            } catch (e) {
+                console.log(e);
+            }
+        }
+        //初始化JoGIS
+        function initJoGis() {
+            JoGis4 = new JoGis(joGIS1, jogis4_options);
+            joGIS1.SelectMode = 0;
+            joGIS1.ShowToolTips(1);
+            df_ZoomScale = joGIS1.ZoomScale; //记录默认比例尺
+
+            createContextMenu();
+        }
+
+        //拿到井区下拉框的数据
+        function initBlockGuanData(sid) {
+            $.ajax({
+                url: "/BaseInfo/GetBlockGuanData",
+                type: "post",
+                data: { sid: sid },
+                success: function (result) {
+                    BlockGuanData = [];
+                    for (var i = 0; i < result.length; i++) {
+                        BlockGuanData.push(result[i].blockGuan);
+                    }
+                    BlockGuanData = outRepeat(BlockGuanData);
+                },
+                error: function (result) {
+                }
+            });
+        }
+
+        //拿到井别下拉框的数据
+        function initBlockTypeData(sid) {
+            $.ajax({
+                url: "/BaseInfo/GetBlockTypeData",
+                type: "post",
+                data: { sid: sid },
+                success: function (result) {
+                    BlockTypeData = [];
+                    for (var i = 0; i < result.length; i++) {
+                        BlockTypeData.push(result[i].blockType);
+                    }
+                    BlockTypeData = outRepeat(BlockTypeData);
+                },
+                error: function (result) {
+                }
+            });
+        }
+
+        //去除数组重复项
+        function outRepeat(a) {
+            var hash = [], arr = [];
+            for (var i = 0; i < a.length; i++) {
+                hash[a[i]] = null;
+            }
+            for (var key in hash) {
+                arr.push(key);
+            }
+            return arr;
+        }
+
+        //初始化下拉框事件
+        function initSearchData() {
+            $(".chosen-select").each(function () {
+                $(this).chosen({
+                    allow_single_deselect: true,
+                    disable_search_threshold: 10,
+                    no_results_text: '未找到此选项!',
+                    width: '100%'
+                });
+
+                var data = { id: $(this).attr("id"), name: $(this).attr("name") };
+                $(this).bind('chosen:showing_dropdown', data, targetSelectDataBind);
+            });
+        }
+        //下拉框绑定事件
+        function targetSelectDataBind(event) {
+            var name = event.data.name;
+            $('#' + name).empty();
+            if (name == "BlockGuan") {
+                $('#' + name).append($("<option>选择" + "井区" + "...</option>"));
+                for (var i = 0; i < BlockGuanData.length; i++) {
+                    $('#BlockGuan').append($("<option>" + BlockGuanData[i] + "</option>"));
+                }
+                $('#BlockGuan').trigger("chosen:updated");
+            } else if (name == "BlockType") {
+                $('#' + name).append($("<option>选择" + "井别" + "...</option>"));
+                for (var i = 0; i < BlockTypeData.length; i++) {
+                    $('#BlockType').append($("<option>" + BlockTypeData[i] + "</option>"));
+                }
+                $('#BlockType').trigger("chosen:updated");
+            }
+        }
+
+        //初始化树的点击事件
+        function initEvent() {
+            $("#well-distribution-tree").on('changed.jstree', function (e, data) {
+                if (data.action == "model") {
+
+                } else if (data.action == "select_node") {
+                    currentTreeNodeSID = data.node.original.sid;
+                    if (!(data.node.parent == "#" || data.node.parent == null)) { //根节点不更新图层
+                        updateGDBLayer(currentTreeNodeSID); //更新图层
+                        initBlockGuanData(currentTreeNodeSID) //更新井区
+                        initBlockTypeData(currentTreeNodeSID) //更新井别
+                    }
+                }
+                //loadGdb(boc, id);    //加载图件
+            });
+        }
+
+        //全局记录存在的图层
+        var names = [];
+        //选择层系，显示当前层系的 井位及试油成果图层
+        function updateGDBLayer(sid) {
+            clearLayers();
+            var n = joGIS1.LayerCount;
+            console.log(sid);
+            for (var i = 0; i < n; i++) {
+                var name = joGIS1.GetLayerName(i);
+                if (name.indexOf(sid) > -1) {
+                    console.log(name);
+                    joGIS1.ShowLayer(name, 1);
+                    names.push(name);
+                }
+            }
+        }
+
+        //清除相关的图层
+        function clearLayers() {
+            var len = names.length;
+            for (var i = 0; i < len; i++) {
+                var name = names[i];
+                joGIS1.ShowLayer(name, 0);
+            }
+            names.splice(0, len);
+        }
+
+        //初始化搜索按钮
+        function initSearchBtn() {
+            $("#btnsearch-unit").on('click', function () {
+                if (currentTreeNodeSID == "") {
+                    toastr.warning('请先选择层系！', '提示');
+                    return;
+                }
+                getWellPointData();
+                //加载所有井的成果
+                currentWellName = "";
+                loadAchieveList("", 0);
+            });
+        }
+        //点击搜索按钮的时候拿到井点结果列表
+        var countSearch = 0;
+        function getWellPointData() {
+            countSearch++;
+
+            var data3 = [];
+            var data4 = [];
+            //检测井区、井别、井号、树节点数据拿到井点结果
+            var BlockGuanText = typeof ($('#BlockGuan').val()) == "undefined" || $('#BlockGuan').val() == null || $('#BlockGuan').val() == "选择井区..." ? "" : $('#BlockGuan').val();
+            var BlockTypeText = typeof ($('#BlockType').val()) == "undefined" || $('#BlockType').val() == null || $('#BlockType').val() == "选择井别..." ? "" : $('#BlockType').val();
+            var BlockNameText = $('#BlockName').val();
+
+            $.ajax({
+                url: "/BaseInfo/SearchWellPointData",
+                type: "post",
+                data: { sid: currentTreeNodeSID, blockGuan: BlockGuanText, blockType: BlockTypeText, blockName: BlockNameText },
+                success: function (result) {
+                    //拿到表格数据
+                    for (var i = 0; i < result.length; i++) {
+                        data4.push({
+                            "id": result[i].ID,
+                            "井号": result[i].Name,
+                            "井区": result[i].BlockGuan,
+                            "井别": result[i].BlockType,
+                            "补心海拔": result[i].Elevation,
+                            "初测6度带X": result[i].XCoordinate,
+                            "初测6度带Y": result[i].YCoordinate
+                        });
+                    }
+                    $("#table_list_2").jqGrid("clearGridData");
+                    $("#table_list_2").jqGrid("setGridParam", { data: data4 }).trigger("reloadGrid");
+                }
+            });
+        }
+        function loadGridWell() {
+            var data1 = ['id', '井号', '井区', '井别', '补心海拔', '初测6度带X', '初测6度带Y'];
+            var data2 = [
+                { align: "center", name: 'id', index: 'id', hidden: true, height: 100 },
+                { align: "center", name: '井号', index: '井号', width: 65, height: 100 },
+                { align: "center", name: '井区', index: '井区', width: 70, height: 100 },
+                { align: "center", name: '井别', index: '井别', width: 65, height: 100 },
+                { align: "center", name: '补心海拔', index: '补心海拔', width: 65, height: 100 },
+                { align: "center", name: '初测6度带X', index: '初测6度带X', width: 65, height: 100 },
+                { align: "center", name: '初测6度带Y', index: '初测6度带Y', width: 65, height: 100 }
+            ];
+            $("#table_list_2").jqGrid({
+                data: [],
+                datatype: "local",
+                //rowNum: -1,    //不加分页并且同时显示所有的数据
+                //pager: "#table_list_2_pager",
+                rowNum: 1000000,
+                
+                colNames: data1,
+                colModel: data2,
+                shrinkToFit: false,
+                forceFit: true,
+                autoScroll: true,
+                gridview: true,
+                scrollrows: true,
+                pgbuttons: false,
+                pginput: false,
+                viewrecords: true,
+                add: false,
+                edit: false,
+                hidegrid: false,
+                guiStyle: "bootstrap",
+                iconSet: "fontAwesome",
+                onSelectRow: function (id) {
+                    var thisId = $("#table_list_2").getCell(id, "id");
+                    //$('#' + treeId).jstree('select_node', thisId); 取消此事件
+
+                    var entity = $("#table_list_2").getLocalRow(id);//获取行数据（原始数据）
+                    var name = entity.井号;
+                    currentWellName = name;
+                    //定位当前井点位置
+                    locateWell(thisId);
+
+                    //加载试油成果表
+                    getWellDisOilGridData(name);
+                    //加载当前井成果列表
+                    loadAchieveList(name, 0);
+                }
+            });
+        }
+
+        function locateWell(id) {
+            $.ajax({
+                url: "/BaseInfo/GetBaseInfoFeatureById",
+                type: "post",
+                data: { id: id, feature: "Well" },
+                success: function (result) {
+                    var d = result.split('#');
+                    var url = d[0];
+                    var layerName = d[1];
+                    var elementName = d[2];
+                    var elementId = d[3];
+                    if (layerName != "" && elementId != "") {
+                        var layer = layerName.split('|');
+                        var element = elementId.split('|');
+                        var sid = currentTreeNodeSID;
+                        for (var i = 0; i < layer.length; i++) {
+                            var _layer = layer[i];
+                            if (_layer.indexOf(sid) > -1) {
+                                var eleid = _layer + "-" + element[i];
+                                joGIS1.Locate(eleid, 1);
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        //点击井点结果的某一行时拿到试油成果列表
+        var countWellPointGridClick = 0;
+        var flag = false;
+        function getWellDisOilGridData(_name) {
+            countWellPointGridClick++;
+            $.ajax({
+                url: "/BaseInfo/GetWellDisBaseInfoViewData",
+                type: "post",
+                data: { name: _name },
+                success: function (result) {
+                    if (!result) return;
+                    var d = result.split('#');
+                    var data1 = eval('(' + d[0] + ')');
+                    var arr = eval('(' + d[1] + ')');
+                    var temp = [];
+                    for (var i = 0; i < arr.length; i++) {
+                        if (arr[i] == "id") {
+                            temp.push({
+                                "index": arr[i],
+                                "name": arr[i],
+                                hidden: true
+                            });
+                        } else {
+                            temp.push({
+                                "index": arr[i],
+                                "name": arr[i]
+                            });
+                        }
+                    }
+                    var data2 = temp;
+                    var data3 = eval('(' + d[2] + ')');
+                    var data4 = eval('(' + d[3] + ')');
+                    //如果是第一次就生成表格，如果多余一次就只需要刷新数据
+                    if (data2.length == 0) {
+                        if (flag == false) {
+                            countWellPointGridClick -= 1;
+                        } else if (flag == true) {
+                            countWellPointGridClick -= 1;
+                            $("#table_list_3").jqGrid("clearGridData");
+                            $("#table_list_3").jqGrid("setGridParam", {
+                                data: data4
+                            }).trigger("reloadGrid");
+                        }
+                    } else if (data2.length > 0) {
+                        if (countWellPointGridClick == 1) {
+                            loadGrid3("table_list_3", "well-distribution-tree", data1, data2, data3, data4);
+                            flag = true;
+                        }
+                        else {
+                            $("#table_list_3").jqGrid("clearGridData");
+                            $("#table_list_3").jqGrid("setGridParam", {
+                                data: data4
+                            }).trigger("reloadGrid");
+                        }
+                    }
+
+                }
+            });
+        }
+        function loadGrid3(domId, treeId, data1, data2, data3, data4) {
+            $("#" + domId).jqGrid({
+                data: data4,
+                datatype: "local",
+                //rowNum: -1,    //不加分页并且同时显示所有的数据
+                //pager: "#table_list_2_pager",
+                rowNum: data4.length + 1,
+                height: 150,
+                colNames: data1,
+                colModel: data2,
+                shrinkToFit: false,
+                forceFit: true,
+                autoScroll: true,
+                gridview: true,
+                scrollrows: true,
+                pgbuttons: false,
+                pginput: false,
+                viewrecords: true,
+                add: false,
+                edit: false,
+                hidegrid: false,
+                guiStyle: "bootstrap",
+                iconSet: "fontAwesome",
+                onSelectRow: function (id) {
+                    //var thisId = $("#" + domId).getCell(id, "id");
+                    //$('#' + treeId).jstree('select_node', thisId); 取消此事件
+                }
+            });
+            $("#" + domId).setGroupHeaders({
+                useColSpanStyle: true,
+                groupHeaders: data3
+            });
+        }
+
+        //创建右键菜单
+        var createContextMenu = function () {
+            joGIS1.ResetTools();
+            // 定制右键菜单测试
+            joGIS1.AddTool(0); //选择
+            joGIS1.AddTool(13); //放大
+            joGIS1.AddTool(14); //缩小
+            joGIS1.AddTool(15); //移动/手势
+            joGIS1.AddTool(17); //复位
+            // 定制自定义菜单测试
+            joGIS1.AddCustomTool("下载", 99); //菜单开始
+        }
+
+        $(document).ready(function () {
+            fixSplitterHeight();
+            fixPanelHeight();
+
+            //fixSplitterRightHeight();
+            //修复JoGis展示区
+            $(window).bind("load resize click scroll", function () {
+                if (!$("body").hasClass('body-small')) {
+                    fixSplitterHeight();
+                    fixJoGISHeight();
+                    //fixSplitterRightHeight();
+                }
+            });
+            $('.navbar-nav li a').each(function () {
+                if ($($(this))[0].href == String(window.location)) {
+                    $("#homepage").removeClass('active');
+                    $(this).parent().parent().parent().addClass('active');
+                }
+            });
+
+            Split(['#wellDistributionPane', '#wellInfoPane', '#mapPane'], {
+                gutterSize: 8,
+                sizes: [15, 20, 65]
+            });
+
+            Split(['#joGIS_map', '#tablelist_oil'], {
+                gutterSize: 8,
+                direction: 'vertical',
+                sizes: [75, 25],
+                onDrag: fixJoGISHeight
+            });
+            initJoGis();
+            fixJoGISHeight();
+
+            initTree();
+
+            initEvent();
+            //initBlockGuanData();
+            // initBlockTypeData();
+            initSearchData();
+            initSearchBtn();
+
+            loadGridWell();
+
+            var achieveListData = [];
+            // 新增ep.bo.type 2017/6/16
+            var _param = {
+                "filter": {
+                    "$and": [
+                        {
+                            "ep.bo.value": {
+                                "$regex": ""
+                            }
+                        },
+                        {
+                            "ep.bo.type": {
+                                "$eq": "Well"
+                            }
+                        },
+                        {
+                            "$or": [
+                                {
+                                    "ep.producttype": {
+                                        "$eq": "完井地质总结报告"
+                                    }
+                                },
+                                {
+                                    "ep.producttype": {
+                                        "$eq": "完井综合录井报告"
+                                    }
+                                },
+                                {
+                                    "ep.producttype": {
+                                        "$eq": "完井地化报告"
+                                    }
+                                },
+                                {
+                                    "ep.producttype": {
+                                        "$eq": "试油小结"
+                                    }
+                                },
+                                {
+                                    "ep.producttype": {
+                                        "$eq": "试油意见"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "pager": {
+                    "From": 0,
+                    "Size": 10
+                }
+            }
+            var ViewModel = function () {
+                var self = this;
+                self.myAchieveListData = ko.observableArray(achieveListData);
+                //加载成果列表
+                loadAchieveList = function (wellName, index) {
+                    _param.filter["$and"][0]["ep.bo.value"]["$regex"] = wellName;
+                    _param.pager.From = index;
+                    var paramJson = JSON.stringify(_param);
+                    $.ajax({
+                        url: "/Document/GetMatchData",
+                        type: "post",
+                        data: { param: paramJson },
+                        success: function (resultMetaData) {
+                            var _resultMetaData = JSON.parse(resultMetaData);
+                            pager_demo.count = _resultMetaData.count;
+                            if (_resultMetaData.count <= _pagesize) {
+                                pager_demo.show = false;
+                            }
+                            if (_resultMetaData.count > _pagesize) {
+                                pager_demo.show = true;
+                            }
+                            self.myAchieveListData.removeAll();
+
+                            if (_resultMetaData.count > 0) {
+                                for (var i = 0; i < _resultMetaData.metadatas.length; i++) {
+                                    //针对某条成果-->通过iiid拿到所有人浏览次数和以及当前用户这条成果是否收藏
+                                    var _iiid = _resultMetaData.metadatas[i].iiid;
+                                    var result = _resultMetaData.metadatas[i];
+                                    $.ajax({
+                                        url: "/GeoNav/GetSkimCountByiiid",
+                                        type: "post",
+                                        async: false,
+                                        data: { iiid: _iiid },
+                                        success: function (result2) {
+                                            var name = result.dc ? result.dc.title ? result.dc.title[0].text : '' : '';
+                                            var author = result.dc ? result.dc.contributor ? result.dc.contributor[0].name : '' : '';
+                                            var source = result.ep ? result.ep.scope ? result.ep.scope : '' : '';
+                                            self.myAchieveListData.push({
+                                                "iiid": result.iiid,
+                                                "name": name,
+                                                "author": author,
+                                                "skimCount": result2.countLook,
+                                                "source": source,
+                                                "flagFav": result2.flagFav,
+                                                "producttype": result.ep.producttype ? result.ep.producttype : '',
+                                                "indexDate": result.indexeddate ? result.indexeddate.slice(0, 10) : "",
+                                                "createdDate": new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate(),
+                                            });
+
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    });
+                },
+
+                //浏览
+                self.openDetailPage = function ($parent) {
+                    var _iiid = $parent.iiid;
+                    var _name = $parent.name;
+                    var _author = $parent.author;
+                    var _producttype = $parent.producttype;
+                    window.open("/Render/PTDetail?iiid=" + _iiid);
+                    //当前用户成果浏览次数加1
+                    $.ajax({
+                        url: "/User/OpenDetailPage",
+                        type: "post",
+                        data: { "iiid": _iiid, name: _name, author: _author, producttype: _producttype },
+                        success: function (result) {
+                            console.log(result);
+                        },
+                        error: function (result) {
+                            console.log(result);
+                        }
+                    });
+                },
+
+                //收藏成果列表
+                self.collectAchieveList = function ($parent, $index) {
+                    var data = $parent;
+                    $.ajax({
+                        url: "/GeoNav/Collect",
+                        type: "post",
+                        //async:false,
+                        data: { iiid: data.iiid, name: data.name, author: data.author, producttype: data.producttype, indexDate: data.indexDate, createdDate: data.createdDate },
+                        success: function (result) {
+                            //debugger;
+                            if (result == "CollectSuccess") {
+                                toastr.success('收藏成功！', '成功提示');
+                                var searchText = "";
+                                var index = 0;
+                                loadAchieveList(currentWellName, index);
+                            } else if (result == "CollectCancel") {
+                                toastr.warning('取消收藏！', '成功提示');
+                                var searchText = "";
+                                var index = 0;
+                                loadAchieveList(currentWellName, index);
+                            }
+                        }
+                    });
+                },
+                self.downloadAchieve = function ($parent) {
+                    var iiid = $parent.iiid;
+                    $.ajax({
+                        url: "/RECP/GetMateData",
+                        type: "post",
+                        data: { iiid: iiid },
+                        async: false,
+                        success: function (result) {
+                            var data = JSON.parse(result);
+                            var id = iiid;
+                            var urlStr = data.source.url;
+                            var _apiPath = "@ViewBag._apiPath";
+                            var _achieveDown = "@ViewBag._achieveDown";
+                            Retrieve(id, urlStr, _apiPath, _achieveDown);
+                        }
+                    });
+                    // 下载记录收集到表
+                    downloadRecords($parent);
+                }
+            };
+
+            var currentViewModel = new ViewModel();
+            ko.applyBindings(currentViewModel);
+        });
+
+        // 下载记录收集到表
+        function downloadRecords(parent) {
+            var _iiid = parent.iiid;
+            var _name = parent.name;
+            var _author = parent.author;
+            var _producttype = parent.producttype;
+            //当前的下载次数+1
+            $.ajax({
+                url: "/User/DownLoadRecords",
+                type: "post",
+                data: { "iiid": _iiid, name: _name, author: _author, producttype: _producttype },
+                success: function (result) {
+                    console.log(result);
+                },
+                error: function (result) {
+                    console.log(result);
+                }
+            });
+        }
+
+        var pager_demo = new Vue({
+            el: '#app',
+            data: function () {
+                return {
+                    id: "_id1",
+                    activeItem: 1,
+                    pagesize: _pagesize,
+                    count: _count,
+                    items: _items,
+                    show: true
+                }
+            },
+            computed: {
+                _showFirstPrev: function () {
+                    return this.activeItem > 1
+                },
+                _showNextLast: function () {
+                    return this.activeItem < Math.ceil(this.count / this.pagesize)
+                },
+                _items: function () {
+                    var temp = [],
+                    maxItem = Math.ceil(this.count / this.pagesize),
+                    len = maxItem > this.items ? this.items : maxItem,
+                    midIndex = this.items % 2 == 0 ? Math.ceil((this.items + 1) / 2) : Math.ceil(this.items / 2)
+                    for (var i = 1; i <= len; i++) {
+                        temp.push(i);
+                    }
+                    if (this.activeItem > midIndex) {
+                        var span = this.activeItem - midIndex;
+                        for (var i = 0; i < span && temp[temp.length - 1] < maxItem; i++) {
+                            temp.shift(temp[i]);
+                            temp.push(len + 1 + i);
+                        }
+                    }
+                    return temp;
+                }
+            },
+            watch: {
+                activeItem: function () {
+                    this.selectItem();
+                }
+            },
+            methods: {
+                onPrev: function () {
+                    this.activeItem = this.activeItem - 1;
+                },
+                onCurrent: function (item) {
+                    this.activeItem = item;
+                },
+                onNext: function () {
+                    this.activeItem = this.activeItem + 1;
+                },
+                selectItem: function () {
+                    var page = this.activeItem;
+                    var index = (page - 1) * 10;
+                    loadAchieveList(currentWellName, index);
+                }
+            }
+        });
+
+        //菜单事件
+        function joGIS1::CustomMenu(nID) {
+            var filedir = null;
+            switch (nID) {
+                case 99: {//下载
+                    filedir = joGIS1.DoFileDialog(false, "GDBX", "Geomap图件");
+                    if (filedir == '') return;
+                    joGIS1.SaveMapFile(filedir);
+                    break;
+                }
+            }
+        }
+    </script>
+}
+
+
+
+

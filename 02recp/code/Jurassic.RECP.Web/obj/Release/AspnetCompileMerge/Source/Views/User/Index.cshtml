@@ -1,0 +1,1001 @@
+﻿@{
+    Layout = "~/Views/shared/_RECPLayout.cshtml";
+}
+@section css{
+    <link rel="stylesheet" href="/scripts/GeoTopic/bootstrap-3.3.5-dist/css/font-awesome.css">
+    <link href="~/Content/RECP/css/plugins/chosen/chosen.css" rel="stylesheet" />
+    <link href="~/Content/RECP/css/plugins/footable/footable.core.css" rel="stylesheet" />
+    <link href="~/Content/RECP/css/plugins/miniui/miniui.css" rel="stylesheet" />
+    <link href="~/Content/RECP/css/animate.css" rel="stylesheet" />
+    <link href="~/Content/RECP/css/style.css" rel="stylesheet" />
+    <link href="~/Content/RECP/css/plugins/toastr/toastr.min.css" rel="stylesheet" />
+    @*密码验证的提示*@
+    <link href="~/Content/RECP/js/User/FormCheckTip.css" rel="stylesheet" />
+
+<link href="~/Content/RECP/css/plugins/split/css/style.css" rel="stylesheet" />
+    <style>
+        .modal-body table tr {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .modal-body table {
+            margin-left: 100px;
+        }
+        .form-horizontal .control-label {
+            float: left;
+            width: 160px;
+            padding-top: 5px;
+            text-align: right;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 20px;
+        }
+        .navbar-static-side {
+            background: #FFFFFF;
+        }
+        .top-navigation .nav > li a:hover, .top-navigation .nav > li a:focus {
+            background: #F7F7F7;
+            color: #1296DB;
+        }
+        .icon-minus, .icon-edit, .icon-plus :hover {
+            cursor: pointer;
+        }       
+        .icon-plus:hover{
+            cursor:pointer;
+        } 
+    </style>
+}
+
+<form id="formDown" method="post" style="display:inline-block;">
+    <input type="hidden" name="id" id="id" />
+    <input type="hidden" name="title" id="title" />
+    <input type="hidden" name="url" id="url" />
+    <input type="hidden" name="ticket" id="ticket" />
+    <input type="hidden" name="format" id="format" />
+    <input type="hidden" name="name" id="name" />
+</form>
+<div style="margin-top:5px" id="splitter">
+    <div id="userInfo" class="split split-horizontal">
+        <div class="ibox float-e-margins" style="margin-bottom: 5px">
+            <div class="ibox-title">
+                <h5>个人资料</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="ibox-content no-padding border-left-right" style="padding-top: 5px;">
+                            <img alt="image" class="img-responsive" src="~/Content/RECP/images/User2.png" style="border: none;">
+                        </div>
+                    </div>
+                    <div class="col-sm-8" style="font-family: '微软雅黑'; font-weight: normal; font-size: 13px;">
+                        <div class="row">
+                            <div>姓名：@ViewBag.username</div>
+                        </div>
+                        <div class="row">
+                            <div>地址：中国石油新疆油田分公司（重油公司）</div>
+                        </div> 
+                        <div class="row" style="margin-right: 5px; margin-top: 5px;">
+                            <button type="button" class="btn  btn-sm btn-block  btn btn-info" style="width: 75px; float: right;" onclick="showChangePassword()">
+                                修改密码
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="row" style="margin-left: 5px; margin-top: 5px;">
+                            <div class="ibox-content no-padding border-left-right">
+                                <a href="~/Local/Tools/JoGIS组件安装包1.40.0000.exe">JoGIS组件安装包</a>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-left: 5px; margin-top: 5px;">
+                            <div class="ibox-content no-padding border-left-right"> 
+                                <a href="~/Local/Tools/IE11-For-Win7-x64.exe">Win7-64位IE11安装包</a>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-left: 5px; margin-top: 5px;">
+                            <div class="ibox-content no-padding border-left-right" style="padding-top: 5px;"> 
+                                <a href="~/Local/Tools/AdbeRdr930_zh_CN.exe">PDF安装包</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--左侧导航开始-->
+        <div id="wrapper" style="margin-top: 0px; height: calc(100% - 173px); height: -moz-calc(100% - 173px); height: -webkit-calc(100% - 173px);">
+            <nav class="navbar-default navbar-static-side" role="navigation" style="height: 100%;">
+                <div class="sidebar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <a href="javascript:siwtchtab(1)">
+                                <i class="fa fa-desktop"></i>
+                                <span class="nav-label" style="font-size: 14px;">最近浏览</span>
+                            </a>
+                        </li>
+                        <li style="clear: both;" class="FavCataList">
+                            <a href="javascript:siwtchtab(2)">
+                                <i class="fa fa-heart"></i>
+                                <span class="nav-label" style="font-size: 14px;">我的收藏</span>
+                                <span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-second-level" data-bind="foreach:FavoriteCatalog">
+                                <li style="clear: both; display: block; margin-left: 20px;" data-bind="click: $parent.loadCatalogList">
+                                    <a class="J_menuItem" data-bind="html:FavName" style="float: left;"></a>
+                                    <span class="icon-minus" data-bind="click: $parent.removeCatalog" style="float: left; padding-top: 25px;" data-toggle="tooltip" title="删除文件夹"></span>
+                                    <span class="icon-edit" data-bind="click: $parent.editCatalog" style="float: left; padding-top: 25px; padding-left: 20px;" data-toggle="tooltip" title="修改文件夹"></span>
+                                    <span class="icon-plus" data-bind="click:$parent.addFavoriteCatalog" style="float: left; padding-top: 25px; padding-left: 20px;" data-toggle="tooltip" title="增加文件夹"></span>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript:siwtchtab(3)">
+                                <i class="fa fa-download"></i>
+                                <span class="nav-label" style="font-size: 14px;">我的下载</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <!--左侧导航结束-->
+    </div>
+    <div id="userContent" class="split split-horizontal">
+        <!--最近浏览-->
+        <div id="tb1" tbindex=1 class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>最近浏览列表</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="panel-body">
+                    <div class="row m-b-sm m-t-sm">
+                        <div class="col-md-11">
+                            <div class="input-group">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <span style="float:left;font-size:14px;font-family:'微软雅黑'">请输入搜索关键字：</span>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="recentSkimList" placeholder="" class="input-sm form-control" style="float:left;width:600px;padding-bottom:10px;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-list">
+                        <table id="table_list1" data-filter="#recentSkimList" class="footable table table-stripped toggle-arrow-tiny" data-page-size="10" style="margin-bottom:10px;">
+                            <thead>
+                                <tr>
+                                    <th>编号</th>
+                                    <th>名称</th>
+                                    <th>作者</th>
+                                    <th>索引日期</th>
+                                    <th>浏览</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach:myRenSkimList">
+                                <tr>
+                                    <td data-bind="text:$index() + 1"></td>
+                                    <td data-bind="text: DC_Title_Text"></td>
+                                    <td data-bind="text: DC_Author"></td>
+                                    <td data-bind="text: IndexedDate"></td>
+                                    <td data-bind="text: CountLook"></td>
+                                    <td>
+                                        <button class="btn btn-info btn-circle" data-bind="click: $parent.openDetailPage" type="button" data-toggle="tooltip" data-placement="left" title="浏览">
+                                            <i class="fa fa-sticky-note-o"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-circle btn-outline" data-bind="click: $parent.collectFavoriteList" type="button" data-toggle="tooltip" data-placement="left" title="收藏">
+                                            <i class="fa fa-heart"></i>
+                                        </button>
+                                        <button class="btn btn-success btn-circle" type="button" data-bind="click: $parent.downloadAchieve" data-toggle="tooltip" data-placement="left" title="下载">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5">
+                                        <ul class="pagination pull-right"></ul>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--我的收藏-->
+        <div id="tb2" tbindex=2 class="ibox float-e-margins" style="display:none">
+            <div class="ibox-title">
+                <h5>我的收藏列表</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="panel-body">
+                    <div class="row m-b-sm m-t-sm">
+                        <div class="col-md-11">
+                            <div class="input-group">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <span style="float:left;font-size:14px;font-family:'微软雅黑'">请输入搜索关键字：</span>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="myFavoriteList" placeholder="" class="input-sm form-control" style="float:left;width:600px;padding-bottom:10px;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-list">
+                        <table id="table_list2" data-filter="#myFavoriteList" class="footable table table-stripped toggle-arrow-tiny" data-page-size="10" style="margin-bottom:10px;">
+                            <thead>
+                                <tr>
+                                    <th>编号</th>
+                                    <th>名称</th>
+                                    <th>作者</th>
+                                    <th>索引日期</th>
+                                    <th>浏览</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach:myFavList">
+                                <tr>
+                                    <td data-bind="text:$index() + 1"></td>
+                                    <td data-bind="text: DC_Title_Text"></td>
+                                    <td data-bind="text: DC_Author"></td>
+                                    <td data-bind="text: IndexedDate"></td>
+                                    <td data-bind="text: CountLook"></td>
+                                    <td>
+                                        <button class="btn btn-info btn-circle" data-bind="click: $parent.openDetailPage" type="button" data-toggle="tooltip" data-placement="left" title="浏览">
+                                            <i class="fa fa-sticky-note-o"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-circle btn-outline" data-bind="click: $parent.collectFavoriteList" type="button" data-toggle="tooltip" data-placement="left" title="收藏">
+                                            <i class="fa fa-heart"></i>
+                                        </button>
+                                        <button class="btn btn-success btn-circle" type="button" data-bind="click: $parent.downloadAchieve" data-toggle="tooltip" data-placement="left" title="下载">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5">
+                                        <ul class="pagination pull-right"></ul>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--我的下载-->
+        <div id="tb3" tbindex=3 class="ibox float-e-margins" style="display:none">
+            <div class="ibox-title">
+                <h5>我的下载列表</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="panel-body">
+                    <div class="row m-b-sm m-t-sm">
+                        <div class="col-md-11">
+                            <div class="input-group">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <span style="float:left;font-size:14px;font-family:'微软雅黑'">请输入搜索关键字：</span>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="myDownloadList" placeholder="" class="input-sm form-control" style="float:left;width:600px;padding-bottom:10px;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-list">
+                        <table id="table_list3" data-filter="#myDownloadList" class="footable table table-stripped toggle-arrow-tiny" data-page-size="10" style="margin-bottom:10px;">
+                            <thead>
+                                <tr>
+                                    <th>编号</th>
+                                    <th>名称</th>
+                                    <th>作者</th>
+                                    <th>索引日期</th>
+                                    <th>下载次数</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach:myDowList">
+                                <tr>
+                                    <td data-bind="text:$index() + 1"></td>
+                                    <td data-bind="text: DC_Title_Text"></td>
+                                    <td data-bind="text: DC_Author"></td>
+                                    <td data-bind="text: IndexedDate"></td>
+                                    <td data-bind="text: CountDownload"></td>
+                                    <td>
+                                        <button class="btn btn-info btn-circle" data-bind="click: $parent.openDetailPage" type="button" data-toggle="tooltip" data-placement="left" title="浏览">
+                                            <i class="fa fa-sticky-note-o"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-circle btn-outline" data-bind="click: $parent.collectFavoriteList" type="button" data-toggle="tooltip" data-placement="left" title="收藏">
+                                            <i class="fa fa-heart"></i>
+                                        </button>
+                                        <button class="btn btn-success btn-circle" type="button" data-bind="click: $parent.downloadAchieve" data-toggle="tooltip" data-placement="left" title="下载">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5">
+                                        <ul class="pagination pull-right"></ul>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--收藏文件夹-->
+        <div id="tb6" tbindex=6 class="ibox float-e-margins" style="display:none">
+            <div class="ibox-title">
+                <h5 id="myFavoriteCatalogTitle"></h5>
+            </div>
+            <div class="ibox-content">
+                <div class="panel-body">
+                    <div class="row m-b-sm m-t-sm">
+                        <div class="col-md-11">
+                            <div class="input-group">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <span style="float:left;font-size:14px;font-family:'微软雅黑'">请输入搜索关键字：</span>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="myCatalogList" placeholder="" class="input-sm form-control" style="float:left;width:600px;padding-bottom:10px;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-list">
+                        <table id="table_list6" data-filter="#myCatalogList" class="footable table table-stripped toggle-arrow-tiny" data-page-size="10" style="margin-bottom:10px;">
+                            <thead>
+                                <tr>
+                                    <th>编号</th>
+                                    <th>名称</th>
+                                    <th>作者</th>
+                                    <th>索引日期</th>
+                                    <th>浏览</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach:myFavCatList">
+                                <tr>
+                                    <td data-bind="text:$index() + 1"></td>
+                                    <td data-bind="text: DC_Title_Text"></td>
+                                    <td data-bind="text: DC_Author"></td>
+                                    <td data-bind="text: IndexedDate"></td>
+                                    <td data-bind="text: CountLook"></td>
+                                    <td>
+                                        <button class="btn btn-info btn-circle" data-bind="click: $parent.openDetailPage" type="button" data-toggle="tooltip" data-placement="left" title="浏览">
+                                            <i class="fa fa-sticky-note-o"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-circle btn-outline" data-bind="click: $parent.collectFavoriteList" type="button" data-toggle="tooltip" data-placement="left" title="收藏">
+                                            <i class="fa fa-heart"></i>
+                                        </button>
+                                        <button class="btn btn-success btn-circle" type="button" data-bind="click: $parent.downloadAchieve" data-toggle="tooltip" data-placement="left" title="下载">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5">
+                                        <ul class="pagination pull-right"></ul>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/content/RECP/js/jquery.slimscroll.min.js"></script>
+    <script src="~/content/RECP/js/plugins/chosen/chosen.jquery.js"></script>
+    <script src="~/content/RECP/js/plugins/footable/footable.all.min.js"></script>
+    <script src="~/content/RECP/js/plugins/knockout/knockout.js"></script>
+    <script src="~/content/RECP/js/plugins/miniui/miniui.js"></script>
+    <script src="~/content/RECP/js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="~/content/RECP/js/plugins/toastr/toastr.min.js"></script>
+    <script src="~/content/RECP/js/hplus.js"></script>
+    <script src="~/content/RECP/js/contabs.js"></script>
+    <script src="~/content/RECP/js/jsTools.js"></script>
+    <script src="~/content/RECP/js/global.js"></script>
+    <script src="~/Content/RECP/js/User/FormCheck.js"></script>
+    <script src="~/Content/RECP/js/common/AchieveDown.js"></script>
+<script src="~/Content/RECP/js/plugins/split/split.min.js"></script>
+    <script>
+        //修改密码表单验证
+        mini.parse();
+        var formChangePass = new mini.Form("#form1");
+        function showChangePassword() {
+            $("#validGroup1").html("");
+            formChangePass.clear();
+            $('#myModal').modal('show');
+        }
+        function onPwdOldValidation(e) {
+            var _oldPwd = e.value;
+            $.ajax({
+                url: "/User/GetPassword",
+                type: "post",
+                data: { oldPwd: _oldPwd },
+                success: function (result) {
+                    if (result == "fail") {
+                        addError(e.sender, "旧密码验证失败", "validGroup1");
+                    } else if (result == "success") {
+                        removeError(e.sender);
+                    }
+                },
+                error: function (result) {
+                    console.log(result);
+                }
+            });
+        }
+        function onPwdNewValidation(e) {
+            updateError(e, "validGroup1");
+        }
+        function onPwdConfirmValidation(e) {
+            var data = formChangePass.getData();
+            if (data.pwdConfirm != data.pwdNew) {
+                addError(e.sender, "两次输入的密码不一样", "validGroup1");
+            } else {
+                removeError(e.sender);
+            }
+        }
+        function submitChangePass() {
+            formChangePass.validate();
+            if (formChangePass.isValid() == false) return;
+            var data = mini.encode(formChangePass.getData());
+            $.ajax({
+                url: "/User/checkPass",
+                type: "post",
+                data: { json: data },
+                success: function (result) {
+                    if (result == "Success") {
+                        formChangePass.clear();
+                        $('#myModal').modal('hide');
+                        toastr.success('修改密码成功!', '成功提示');
+                    } else {
+                        formChangePass.clear();
+                        toastr.warning('修改密码失败！', '失败提示');
+                    }
+                },
+                error: function (result) {
+                    console.log(result);
+                }
+            });
+        }
+        //添加收藏文件夹模态框
+        function onCatalogNameValidation(e) {
+            updateError(e, "validGroup2");
+        }
+        var $parent;
+        var labCurTargetName = $("#labCurTargetName");
+        var global_cur_target;
+        var global_cur_catalog;
+        //var UserBehaviorData;   //所有的数据
+        var UserBehavoirSearchData;   //根据Title搜索拿到的数据
+        var FavoriteMessByCatalogIdData;  //根据收藏文件夹Id拿到所有的收藏列表
+        function getUserBehaviorMess(_type) {
+            var data = null;
+            $.ajax({
+                url: "/User/GetOptionMessByUserId",
+                type: "post",
+                data: { type: _type },
+                async: false,
+                success: function (result) {
+                    //UserBehaviorData = result;
+                    data = result;
+
+                },
+                error: function (result) {
+                    console.log(result);
+                }
+            });
+            return data;
+        }
+        //通过title搜索拿到用户的行为信息
+        function getUserBehaviorMessBySearchMess(_type, _title) {
+            $.ajax({
+                url: "/User/GetOptionMessByTitle",
+                type: "post",
+                data: { type: _type, title: _title },
+                async: false,
+                success: function (json) {
+                    UserBehavoirSearchData = json;
+                },
+                error: function (result) {
+                    console.log(result);
+                }
+            });
+        }
+        //拿到所有收藏文件夹的信息
+        function getFavoriteCatalogMess() {
+            var data;
+            $.ajax({
+                url: "/User/GetFavoriteCatalogMess",
+                type: "post",
+                async: false,
+                success: function (json) {
+                    data = json;
+                },
+                error: function (result) {
+                    console.log(result);
+                }
+            })
+            return data;
+        }
+
+        //根据收藏文件夹的Id和type拿到所有相关联的收藏列表的信息
+        function getFavoriteMessByCatalogId(_id, _type) {
+            var data;
+            $.ajax({
+                url: "/User/GetFavoriteMessByCatalogId",
+                type: "post",
+                data: { id: _id, type: _type },
+                async: false,
+                success: function (json) {
+                    FavoriteMessByCatalogIdData = json;
+                    data = json
+                },
+                error: function (result) {
+                    console.log(result);
+                }
+            })
+            return data;
+        }
+
+        //根据收藏文件夹的Id移除某一条的收藏文件夹
+        function removeFavoriteCatalog(_id, _type) {
+            var result;
+            $.ajax({
+                url: "/User/RemoveFavoriteCatalog",
+                type: "post",
+                data: { id: _id, type: _type },
+                async: false,
+                success: function (json) {
+                    result = json;
+                },
+                error: function (result) {
+                    console.log(result);
+                }
+            });
+            return result;
+        }
+        // 表格高度
+        var fix_height = function () {
+            var heightWithoutNavbar = $("body").height() - 40;
+            $("#table_list").css("height", heightWithoutNavbar);
+        }
+        // 正文高度
+        var fixSplitterHeight = function () {
+            var heightWithoutNavbar = $("body").height();
+            $("#splitter").css("height", heightWithoutNavbar - 85);
+        };
+        var loadDocument = function () {
+            //渲染浏览记录
+            $("#table_list1").footable();
+            $("#table_list2").footable();
+            $("#table_list3").footable();
+
+            
+        }
+        var currentModifyId;
+        //文档加载
+        var currentViewModel;
+        $(document).ready(function () {
+            //分割线
+            Split(['#userInfo', '#userContent'], {
+                gutterSize: 8,
+                sizes: [25, 75]
+            });
+            fixSplitterHeight();
+
+            $parent = $(window.parent.document);
+            var ViewModel = function () {
+                var self = this;
+                //收藏文件夹
+                var FavCatData = getFavoriteCatalogMess();
+                self.FavoriteCatalog = ko.observableArray(FavCatData);
+                //最近浏览列表
+                var lookData = getUserBehaviorMess("look");
+                for (var i = 0; i < lookData.length; i++) {
+                    lookData[i].DC_Date_Created = eval('new ' + eval(lookData[i].DC_Date_Created).source).toLocaleDateString();
+                    lookData[i].IndexedDate = eval('new ' + eval(lookData[i].IndexedDate).source).toLocaleDateString();
+                }
+                self.myRenSkimList = ko.observableArray(lookData);
+                //$("#table_list1").footable();
+                //收藏列表
+                self.myFavList = ko.observableArray([]);
+                //下载记录
+                self.myDowList = ko.observableArray([]);
+                //收藏文件夹
+                var FavData = [];
+                self.myFavCatList = ko.observableArray(FavData);
+                self.myFavorite = function () {
+                    siwtchtab(2);
+                };
+                //增加收藏文件夹（文件夹操作）
+                self.addFavoriteCatalog = function () {
+                    $('#myModal2').modal('show');
+                };
+                //删除收藏文件夹（文件夹操作）
+                self.removeCatalog = function ($parent) {
+                    var _self = this;
+                    var Id = $parent.FavCatalogId;
+                    var data = getFavoriteMessByCatalogId(Id, "favorite");
+                    if (data.length == 0) {
+                        if (confirm("您的文件夹为空，确认删除？")) {
+                            removeFavoriteCatalog(Id)
+                            self.FavoriteCatalog.remove(_self);
+                        }
+                    }
+                    else {
+                        toastr.warning('文件夹不为空，不能删除！！请先删除文件夹中内容')
+                    }
+                };
+                //修改收藏文件夹（文件夹操作）
+                self.editCatalog = function ($parent) {
+                    currentModifyId = "";
+                    $("#modifyFileName").val($parent.FavName.trim());
+                    currentModifyId = $parent.FavCatalogId;
+                    $('#myModal3').modal('show');
+                };
+                self.loadCatalogList = function ($parent) {
+                    $("#myCatalogList").val("");
+                    self.myFavCatList.removeAll();
+                    var FavCatalogId = $parent.FavCatalogId;
+                    $("#myFavoriteCatalogTitle").text($parent.FavName +"收藏文件夹");
+                    getFavoriteMessByCatalogId(FavCatalogId, "favorite");
+                    siwtchtab(6);
+                    for (var i = 0; i < FavoriteMessByCatalogIdData.length; i++) {
+                        self.myFavCatList.push({
+                            "iiid": FavoriteMessByCatalogIdData[i].iiid,
+                            "RecNo":FavoriteMessByCatalogIdData[i].RecNo,
+                            "DC_Title_Text": FavoriteMessByCatalogIdData[i].DC_Title_Text,
+                            "DC_Author": FavoriteMessByCatalogIdData[i].DC_Author,
+                            "EP_ProductType": FavoriteMessByCatalogIdData[i].EP_ProductType,
+                            "DC_Description": FavoriteMessByCatalogIdData[i].DC_Description,
+                            "DC_Date_Created": eval('new ' + eval(FavoriteMessByCatalogIdData[i].DC_Date_Created).source).toLocaleDateString(),
+                            "CreatedBy": FavoriteMessByCatalogIdData[i].CreatedBy,
+                            "IndexedDate": eval('new ' + eval(FavoriteMessByCatalogIdData[i].IndexedDate).source).toLocaleDateString(),
+                            "CountLook": FavoriteMessByCatalogIdData[i].CountLook
+                        })
+                    }
+                    $('#table_list6').footable();
+                    $('#table_list6').trigger('footable_redraw');
+                    FavoriteMessByCatalogIdData = [];
+                }
+                //点击浏览按钮时打开详情展示页面（成果列表）
+                self.openDetailPage = function ($parent) {
+                    var _iiid = $parent.iiid;
+                    var _name = $parent.DC_Title_Text;
+                    var _author = $parent.DC_Author;
+                    var _producttype = $parent.EP_ProductType;
+                    var _indexDate = $parent.IndexedDate;
+                    var _createdDate = $parent.DC_Date_Created;
+                    window.open("/Render/PTDetail?iiid=" + _iiid);
+                    //当前用户成果浏览次数加1
+                    $.ajax({
+                        url: "/User/OpenDetailPage",
+                        type: "post",
+                        //async:false,
+                        data: { "iiid": _iiid, name: _name, author: _author, producttype: _producttype },
+                        success: function (result) {
+                            console.log(result);
+                        },
+                        error: function (result) {
+                            console.log(result);
+                        }
+                    });
+                };
+                //打开收藏按钮时打开收藏文件夹（成果列表）
+                self.collectFavoriteList = function ($parent) {
+                    idPrepareToCollect = $parent.RecNo;
+                    //$("#myFavoriteCatalogTitle").text($parent.FavName + "收藏文件夹");
+                    var result;
+                    $.ajax({
+                        url: "/User/GetOptionMessByRecNo",
+                        type: "post",
+                        data: { RecNo: idPrepareToCollect },
+                        //async: false,
+                        success: function (json) {
+                            result = json;
+                            if (result[0].FlagFavorite == 0) {
+                                $("#chooseFavCatalogTip").text("这条记录还未被收藏");
+                            } else if (result[0].FlagFavorite == 1 && result[0].FavCatalogId == null) {
+                                $("#chooseFavCatalogTip").text("这条记录被收藏了，但没指定具体的收藏夹");
+                            } else if (result[0].FlagFavorite == 1 && result[0].FavCatalogId != null) {
+                                var result2;
+                                $.ajax({
+                                    url: "/User/GetFavoriteCatalogMessByFavCatalogId",
+                                    type: "post",
+                                    data: { FavCatalogId: result[0].FavCatalogId },
+                                    async: false,
+                                    success: function (json) {
+                                        result2 = json;
+                                    },
+                                    error: function (result) {
+                                        console.log(result);
+                                    }
+                                });
+                                $("#chooseFavCatalogTip").text("这条记录已经被收藏到：" + result2[0].FavName);
+                            } else {
+                                $("#chooseFavCatalogTip").text("出现错误");
+                            }
+
+                            $('#myModal4').modal('show');
+                        },
+                        error: function (result) {
+                            console.log(result);
+                        }
+                    });
+                };
+                self.downloadAchieve = function ($parent) {
+                    var iiid = $parent.iiid;
+                    $.ajax({
+                        url: "/RECP/GetMateData",
+                        type: "get",
+                        data: { iiid: iiid },
+                        async: false,
+                        success: function (result) {
+                            var data = JSON.parse(result);
+                            var urlStr = data.source.url;
+                            var id = iiid;
+                            var _apiPath = "@ViewBag._apiPath";
+                            var _achieveDown = "@ViewBag._achieveDown";
+                            Retrieve(id, urlStr, _apiPath, _achieveDown);
+                        }
+                    });
+                    // 下载记录收集到表
+                    downloadRecords($parent);
+                }
+            }
+            currentViewModel = new ViewModel();
+            ko.applyBindings(currentViewModel);
+            initDropdown();
+            //设置收藏列的展开和收起事件
+            //FavCataList
+            $(".FavCataList a").next("ul").hide();
+            $(".FavCataList a").click(function () {
+                $(this).next("ul").toggle();
+            });
+            loadDocument();
+        });
+
+        // 下载记录收集到表
+        function downloadRecords(parent) {
+            
+            var _iiid = parent.iiid;
+            var _name = parent.name;
+            var _author = parent.author;
+            var _producttype = parent.producttype;
+            //当前的下载次数+1
+            $.ajax({
+                url: "/User/DownLoadRecords",
+                type: "post",
+                data: { "iiid": _iiid, name: _name, author: _author, producttype: _producttype },
+                success: function (result) {
+                    console.log(result);
+                },
+                error: function (result) {
+                    console.log(result);
+                }
+            });
+        }
+
+        function initDropdown() {
+            $(".chosen-select").each(function () {
+                $(this).chosen({
+                    allow_single_deselect: true,
+                    disable_search_threshold: 10,
+                    no_results_text: '未找到此选项!',
+                    width: '100%'
+                });
+                $(this).bind('chosen:showing_dropdown', targetSelectDataBind);
+            });
+        }
+        //绑定下拉选择框的事件
+        function targetSelectDataBind(event) {
+            var target = event.currentTarget;
+            $(target).empty();
+            //我需要拿到所有收藏夹的名字
+            var queryresult = getFavoriteCatalogMess();
+            $(target).append($("<option value=\"\">选择收藏夹...</option>"));
+            for (var i = 0 ; i < queryresult.length; i++) {
+                $(target).append($("<option value=\"" + queryresult[i].FavCatalogId + "\" hassubinfo=\"true\">" + queryresult[i].FavName + "</option>"));
+            }
+            $(target).trigger("chosen:updated");
+        }
+
+        //点击收藏按钮后
+        var idPrepareToCollect   //点击的那条收藏记录的流水号
+        //点击收藏按钮--选择收藏文件夹--保存后
+        function saveFavoriteCatalogName() {
+            //拿到了需要收藏文件夹的Id idPrepareToCollect--那条记录的流水号
+            var _favCatalogId = $("#choose_FavoriteCatalog").val();
+            var _recNo = idPrepareToCollect;
+            var result;
+            //用户收藏
+            $.ajax({
+                url: "/User/Collect",
+                type: "post",
+                data: { RecNo: _recNo, FavCatalogId: _favCatalogId },
+                async: false,
+                success: function (result) {
+                    if (result == "CollectSuccess") {
+                        toastr.success('收藏成功！', '成功提示');
+                        $('#myModal4').modal('hide');
+                    }
+                    else {
+                        toastr.warning('收藏失败！', '失败提示');
+                    }
+                },
+                error: function (result) {
+                    console.log(result);
+                }
+            });
+        }
+        //增加文件夹
+        function submitAddFavoriteCatalog() {
+            var form = new mini.Form("#form2");
+            form.validate();
+            if (form.isValid() == false) return;
+            var data = mini.encode(form.getData());
+            $.ajax({
+                url: "/User/AddFavoriteCatalog",
+                type: "post",
+                data: { json: data },
+                async: false,
+                success: function () {
+                    $('#myModal2').modal('hide');
+                    //重新拿到所有文件夾的信息刷新
+                    var FavCatData2 = getFavoriteCatalogMess();
+                    currentViewModel.FavoriteCatalog.removeAll();
+                    for (var i = 0; i < FavCatData2.length; i++) {
+                        currentViewModel.FavoriteCatalog.push({
+                            "FavName": FavCatData2[i].FavName,
+                            "FavCatalogId": FavCatData2[i].FavCatalogId
+                        })
+                    }
+                },
+                error: function (result) {
+                    console.log(result);
+                }
+            });
+        }
+        //修改文件夹
+        function submitModifyFavoriteCatalog() {
+            var currentModifyValue = "";
+            currentModifyValue = $("#modifyFileName").val();
+            var data = { "CatalogName": currentModifyValue };
+            var json = mini.encode(data);
+            $.ajax({
+                url: "/User/ModifyFavoriteCatalog",
+                type: "post",
+                data: { json: json, CatalogId: currentModifyId },
+                //async: false,
+                success: function (result) {
+                    //重新拿到所有文件夾的信息刷新
+                    var FavCatData2 = getFavoriteCatalogMess();
+                    currentViewModel.FavoriteCatalog.removeAll();
+                    for (var i = 0; i < FavCatData2.length; i++) {
+                        currentViewModel.FavoriteCatalog.push({
+                            "FavName": FavCatData2[i].FavName,
+                            "FavCatalogId": FavCatData2[i].FavCatalogId
+                        })
+                    }
+                    $('#myModal3').modal('hide');
+                },
+                error: function (result) {
+                    console.log(result);
+                }
+            });
+        }
+        //左边树点击切换事件
+        function siwtchtab(curIndex) {
+            var dis;
+            if (curIndex == 1) {
+                $('#recentSkimList').value="";
+                //最近浏览列表
+                var lookData=getUserBehaviorMess("look");
+                for (var i = 0; i < lookData.length; i++) {
+                    lookData[i].DC_Date_Created = eval('new ' + eval(lookData[i].DC_Date_Created).source).toLocaleDateString();
+                    lookData[i].IndexedDate = eval('new ' + eval(lookData[i].IndexedDate).source).toLocaleDateString();
+                }
+                currentViewModel.myRenSkimList.removeAll();
+                for (var i = 0; i < lookData.length; i++) {
+                    currentViewModel.myRenSkimList.push({
+                        "RecNo": lookData[i].RecNo,
+                        "iiid": lookData[i].iiid,
+                        "DC_Title_Text": lookData[i].DC_Title_Text,
+                        "DC_Author": lookData[i].DC_Author,
+                        "CountLook": lookData[i].CountLook,
+                        "EP_ProductType": lookData[i].EP_ProductType,
+                        "DC_Date_Created": lookData[i].DC_Date_Created,
+                        "IndexedDate": lookData[i].IndexedDate
+                    })
+                }
+                $('#table_list1').trigger('footable_redraw');
+                //$("#table_list1").footable();
+            }
+            else if (curIndex == 2) {
+                $('#myFavoriteList').value="";
+                //收藏列表
+                var favoriteData = getUserBehaviorMess("favorite");
+                for (var i = 0; i < favoriteData.length; i++) {
+                    favoriteData[i].DC_Date_Created = eval('new ' + eval(favoriteData[i].DC_Date_Created).source).toLocaleDateString();
+                    favoriteData[i].IndexedDate = eval('new ' + eval(favoriteData[i].IndexedDate).source).toLocaleDateString();
+                }
+                currentViewModel.myFavList.removeAll();
+                for (var i = 0; i < favoriteData.length; i++) {
+                    currentViewModel.myFavList.push({
+                        "RecNo": favoriteData[i].RecNo,
+                        "iiid": favoriteData[i].iiid,
+                        "DC_Title_Text": favoriteData[i].DC_Title_Text,
+                        "DC_Author": favoriteData[i].DC_Author,
+                        "CountLook": favoriteData[i].CountLook,
+                        "EP_ProductType": favoriteData[i].EP_ProductType,
+                        "DC_Date_Created": favoriteData[i].DC_Date_Created,
+                        "IndexedDate": favoriteData[i].IndexedDate
+                    })
+                }
+                //$("#table_list2").footable();
+                $('#table_list2').trigger('footable_redraw');
+            }
+            else if (curIndex == 3) {
+                $('#myDownloadList').value="";
+                //收藏列表
+                var downloadData = getUserBehaviorMess("download");
+                for (var i = 0; i < downloadData.length; i++) {
+                    downloadData[i].DC_Date_Created = eval('new ' + eval(downloadData[i].DC_Date_Created).source).toLocaleDateString();
+                    downloadData[i].IndexedDate = eval('new ' + eval(downloadData[i].IndexedDate).source).toLocaleDateString();
+                }
+                currentViewModel.myDowList.removeAll();
+                for (var i = 0; i < downloadData.length; i++) {
+                    currentViewModel.myDowList.push({
+                        "RecNo": downloadData[i].RecNo,
+                        "iiid": downloadData[i].iiid,
+                        "DC_Title_Text": downloadData[i].DC_Title_Text,
+                        "DC_Author": downloadData[i].DC_Author,
+                        "CountDownload": downloadData[i].CountDownload,
+                        "EP_ProductType": downloadData[i].EP_ProductType,
+                        "DC_Date_Created": downloadData[i].DC_Date_Created,
+                        "IndexedDate": downloadData[i].IndexedDate
+                    })
+                }
+                //$("#table_list3").footable();
+                $('#table_list3').trigger('footable_redraw');
+            }
+
+            $("#userContent").find(".ibox").each(function () {
+                dis = ($(this).attr("tbindex") != curIndex) ? 'none' : 'block';
+                $(this).attr("style", "display:" + dis);
+            });
+        }
+    </script>
+}
+

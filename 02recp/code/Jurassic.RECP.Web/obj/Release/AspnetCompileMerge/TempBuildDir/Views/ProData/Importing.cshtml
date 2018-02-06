@@ -1,0 +1,128 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/content/RECP/css/plugins/toastr/toastr.min.css" rel="stylesheet" />
+<style>
+    .tdleft {
+        text-align: right;
+        height: 35px;
+    }
+
+    .tdright {
+        text-align: left;
+    }
+</style>
+
+<form method="post" enctype="multipart/form-data" id="formImport">
+    <table width="100%" cellpadding="5px" id="diaTable">
+	<tr>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+        <tr>
+		<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td colspan="3" style="text-align:center;padding-top:10px;;width: 60px;">
+                <input type="file" name="Fdata" id="Fdata" style="width:350px;" />
+            </td>
+		<td>&nbsp;</td>
+        </tr>
+	
+	<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+	<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+	<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+	<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr>
+            	<td></td>
+		<td></td>
+		
+		<td>
+		<a href="javascript:submitImport()" class="mini-button" id="btnOK" style="margin-left:260px">确定</a>
+		</td>
+            	<td>
+		
+                <a class="mini-button" onclick="onCancel" >取消</a>
+            	</td>
+		<td></td>
+        </tr>
+    </table>
+</form>
+
+<script src="~/Content/RECP/js/jquery.min.js"></script>
+<script src="~/Content/RECP/js/jquery.form.js"></script>
+<script src="~/content/RECP/js/plugins/toastr/toastr.min.js"></script>
+
+<script type="text/javascript">
+    function submitImport() {
+        var flag = checkFormImport();
+        if (!flag) return;
+        var metaEntity = '@ViewBag.metaEntity';
+        var start = '@ViewBag.start';
+        var operSN = '@ViewBag.operSN';
+        $("#formImport").ajaxSubmit({
+            url: "/ProData/GetImportingResult",
+            type: "post",
+            data: { metaEntity: metaEntity, start: start, operSN: operSN },
+            success: function (result) {
+                if (result == "null") {
+                    toastr.warning('文件上传失败，请重新上传！', '警告提示');
+                }
+                else {
+                    toastr.success('文件上传成功！', '成功提示');
+                    CloseWindow("Ok");
+                }
+            },
+            error: function (msg) {
+                alert("文件上传失败");
+            }
+        });
+    }
+
+    function showTip(alertStr) {
+        toastr.warning(alertStr, '警告提示');
+    }
+
+    function CloseWindow(action) {
+        if (window.CloseOwnerWindow) {
+            return window.CloseOwnerWindow(action);
+        }
+        else window.close();
+    }
+
+    function onCancel(e) {
+        CloseWindow("cancel");
+    }
+
+    function checkFormImport() {
+        var ckeck = true;
+        var value = $('#Fdata').val();
+        if (value.trim() == "") {
+            showTip('请选择需要上传的 Excel 文件！');
+            ckeck = false;
+            return;
+        }
+        var type = value.substring(value.lastIndexOf('.'));
+        if (type != ".xls") {
+            showTip('请选择 *.xls 文件！');
+            ckeck = false;
+            return;
+        }
+        var name = value.substring(value.lastIndexOf('\\') + 1, value.indexOf('.xls'));
+        if (name.trim() != '@ViewBag.metaEntityCN') {
+            showTip('请选择对应类型的Excel文件！文件名需与对应类型名称一致！');
+            ckeck = false;
+            return;
+        }
+        return ckeck;
+    }
+</script>

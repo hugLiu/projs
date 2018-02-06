@@ -1,0 +1,284 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>重油开发公司油藏评价与储量评估协同平台</title>
+    <link href="~/content/RECP/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/content/assets/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/content/assets/css/font-awesome-ie7.min.css" rel="stylesheet" />
+    <link href="~/content/RECP/css/style.css" rel="stylesheet" />
+    <link href="~/content/assets/css/jquery.gritter.css" rel="stylesheet" />
+ 
+    @* free jqgrid css*@
+    <link href="~/Content/RECP/css/plugins/jqGrid-master/ui.jqgrid.min.css" rel="stylesheet" />
+    <link href="~/Content/RECP/css/jstree/jstree.min.css" rel="stylesheet" />
+    @* GTUI引用css *@
+    <link rel="stylesheet" href="~/Content/recp/gtui/elementui.styles.css">
+    <link href="~/Content/recp/gtui/gtui.styles.css" rel="stylesheet" />
+    @RenderSection("css", required: false)
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="~/content/RECP/js/jquery.min.js"></script>
+    <script src="~/content/RECP/js/bootstrap.min.js"></script>
+    @* free jqgrid js*@
+    <script src="~/Content/RECP/js/plugins/jqGrid-master/i18n/grid.locale-cn.js"></script>
+    <script src="~/Content/RECP/js/plugins/jqGrid-master/jquery.jqgrid.min.js"></script> 
+     
+    @*<script src="@Url.Content("~/scripts/GeoTopic/gtUI.js")" type="text/javascript"></script>*@
+    <script src="~/Content/RECP/js/plugins/jsTree/jstree.min.js"></script>
+    @*<script src="/scripts/GeoTopic/gtUI.js"></script>*@
+    @* GTUI引用js *@
+    <script type="text/javascript" src="~/content/recp/gtui/manifest.js"></script>
+    <script type="text/javascript" src="~/content/recp/gtui/vuedll.js"></script>
+    <script type="text/javascript" src="~/content/recp/gtui/elementui.js"></script>
+    <script type="text/javascript" src="~/content/recp/gtui/gtui.js"></script>
+
+    <script src="~/content/RECP/js/joGis/jogis-frame.js" type="text/javascript"></script>
+
+    <script src="~/Content/RECP/js/plugins/metisMenu/pace.min.js"></script>
+    @*<script src="@Url.Content("~/content/RECP/js/tree/tree.min.js")" type="text/javascript"></script>*@
+    <script src="~/RECP/TransResourceDefaultUrl" type="text/javascript"></script>
+
+    <style type="text/css">
+        .gohome {
+            display: none;
+        }
+    </style>
+</head>
+<body class="pace-done">
+    <!--修改密码弹出的模态框-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="z-index:99999">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">修改密码</h4>
+                </div>
+                <div class="modal-body" id="form1">
+                    <ul id="validGroup1" class="validGroup"></ul>
+                    <table>
+                        <tr>
+                            <td style="width:80px;">
+                                <label for="pwdOld$text">旧密码：</label>
+                            </td>
+                            <td>
+                                <input id="pwdOld" name="pwdOld" errorMode="none" onvalidation="onPwdOldValidation" class="mini-password" vtype="minLength:5"
+                                       required="true" placeholder="请输入您的旧密码" minLengthErrorText="旧密码验证失败" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:80px;">
+                                <label for="pwdNew$text">新密码：</label>
+                            </td>
+                            <td>
+                                <input id="pwdNew" name="pwdNew" errorMode="none" onvalidation="onPwdNewValidation" placeholder="请输入您的新密码"
+                                       class="mini-password" required="true" vtype="minLength:5" minLengthErrorText="新密码不能少于5个字符" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:80px;">
+                                <label for="pwdConfirm$text">确认密码：</label>
+                            </td>
+                            <td>
+                                <input id="pwdConfirm" name="pwdConfirm" errorMode="none" onvalidation="onPwdConfirmValidation" placeholder="请确认您的密码"
+                                       class="mini-password" required="true" vtype="minLength:5" minLengthErrorText="两次输入的密码不一样" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <div style="float:right;"><button type="button" class="btn btn-default" data-dismiss="modal">关闭</button></div>
+                    <div id="changePassSave" onclick="submitChangePass()" style="float:right;margin-left:10px;margin-right:10px;">
+                        <button type="button" class="btn btn-primary ">保存密码</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--增加收藏文件夹弹出的模态框-->
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">增加文件夹</h4>
+                </div>
+                <div class="modal-body" id="form2">
+                    <ul id="validGroup2" class="validGroup"></ul>
+                    <table>
+                        <tr>
+                            <td>
+                                <label for="catalogName$text">文件夹名称：</label>
+                            </td>
+                            <td>
+                                <input id="catalogName" name="catalogName" errorMode="none" onvalidation="onCatalogNameValidation"
+                                       class="mini-textbox" required="true" requiredErrorText="文件夹名字不能为空"
+                                       placeholder="请输入文件夹的名称" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <div style="float:right;"><button type="button" class="btn btn-default" data-dismiss="modal">关闭</button></div>
+                    <div id="changePassSave" onclick="submitAddFavoriteCatalog()" style="float:right;margin-left:10px;margin-right:10px;"><button type="button" class="btn btn-primary ">保存</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--修改收藏文件夹弹出的模态框-->
+    <div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">修改文件夹</h4>
+                </div>
+                <div class="modal-body" id="form3">
+                    <form class="form-inline">
+                        <label class="control-label" for="inputPassword" style="float:left;">修改文件夹：</label>
+                        <input type="text" name="modifyFileName" id="modifyFileName" class="input-small" placeholder="">
+                        <span></span>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div style="float:right;"><button type="button" class="btn btn-default" data-dismiss="modal">关闭</button></div>
+                    <div id="changePassSave" onclick="submitModifyFavoriteCatalog()" style="float:right;margin-left:10px;margin-right:10px;"><button type="button" class="btn btn-primary ">保存</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--设置收藏文件夹-->
+    <div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">请选择收藏文件夹</h4>
+                </div>
+                <div class="modal-body" id="form4">
+                    <table>
+                        <tr id="chooseFavCatalogTip"></tr>
+                        <tr>
+                            <td>
+                                <label for="username$text">请选择收藏夹：</label>
+                            </td>
+                            <td>
+                                <div class="input-group" style="width:275px;">
+                                    <select class="chosen-select" id="choose_FavoriteCatalog" style="width:275px;" tabindex="1"
+                                            typename="收藏夹" level=1 parentsel="#"></select>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <div style="float:right;"><button type="button" class="btn btn-default" data-dismiss="modal">关闭</button></div>
+                    <div id="changePassSave" onclick="saveFavoriteCatalogName()" style="float:right;margin-left:10px;margin-right:10px;"><button type="button" class="btn btn-primary ">保存</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="gray-bg top-navigation pace-done">
+        <div id="wrapper" class="wrapper wrapper-content animated fadeInRight gray-bg" style="padding: 0px 0px;">
+            <div id="page-wrapper" class="gray-bg">
+                <div class="row border-bottom white-bg">
+                    <nav class="navbar navbar-static-top" role="navigation" style="background: #f3f3f4;">
+                        <div class="navbar-header" style="width:30%;">
+                            <img src="~/content/RECP/images/logo-small.png" class="navbar-brand" style="padding: 10px 5px; background-color:#f3f3f4" />
+                            <h5>重油开发公司</h5>
+                            <h3 style="color:#003366">油藏评价与储量评估协同平台</h3>
+                        </div>
+                        <div class="navbar-collapse collapse" id="navbar">
+                            <ul class="nav navbar-nav">
+                                <li class="dropdown active" id="homepage">
+                                    <a aria-expanded="false" role="button" class="homepage" href="/RECP/index">首页</a>
+                                </li>
+                                <li class="dropdown">
+                                    <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 基础信息 <span class="caret"></span></a>
+                                    <ul role="menu" class="dropdown-menu">
+                                        <li>
+                                            <a href="/BaseInfo/ScopeDistrbution">辖区范围分布</a><iframe frameborder=0 scrolling=no style='background-color:transparent; position: absolute; z-index: -1; width: 100%; height: 100%; top: 0;left:0;'></iframe>
+                                        </li>
+                                        <li>
+                                            <a href="/BaseInfo/ThreeDSeismicDistrbution">三维地震分布</a>
+                                        </li>
+                                        <li>
+                                            <a href="/BaseInfo/ThreeLevReserveDistrbution">三级储量分布</a>
+                                        </li>
+                                        <li>
+                                            <a href="/BaseInfo/RemainDistrbution">剩余出油气井点分布</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <a aria-expanded="false" role="button" href="/GeoNav/Index" class="dropdown-toggle"> 成果导航 </a>
+                                </li>
+                                <li class="dropdown">
+                                    <a aria-expanded="false" role="button" href="/GeoSearch/Index" class="dropdown-toggle"> 成果检索 </a>
+                                </li>
+                                <li class="dropdown">
+                                    <a aria-expanded="false" role="button" href="/GeoNav/Standard" class="dropdown-toggle"> 规范标准 </a>
+                                </li>
+                                <li class="dropdown">
+                                    <a aria-expanded="false" role="button" href="/GeoNav/Research" class="dropdown-toggle"> 科研成果 </a>
+                                </li>
+                                <li class="dropdown">
+                                    <a aria-expanded="false" role="button" href="/User/Index" class="dropdown-toggle"> 个人中心 </a>
+                                </li>
+                                <li class="dropdown" style="display:block;margin-right:0px;" id="systemMenu">
+                                    <a aria-expanded="false" role="button" href="/Home/Index?app=admin" class="dropdown-toggle"> 管理端 </a>
+                                </li>
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="dropdown">
+                                    <a href="/Account/Logout">
+                                        <i class="fa fa-sign-out"></i> 退出
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+                @RenderBody()
+                @*<div class="footer">
+                        <div style="text-align: center">
+                            Copyright &copy; 2016 Jurassic, all rights reserved
+                        </div>
+                    </div>*@
+            </div>
+        </div>
+    </div> 
+    <script>
+        $(document).ready(function () { 
+            $('.navbar-nav li a')
+                .each(function () {
+                    if ($($(this))[0].href == String(window.location)) {
+                        $("#homepage").removeClass('active');
+                        $(this).parent().addClass('active');
+                    }
+                });
+            $.jgrid.defaults.responsive = true;
+            $.jgrid.defaults.styleUI = 'Bootstrap';
+
+            $.ajax({
+                url: "/User/GetRoleName",
+                type: "get",
+                success: function (result) {
+                    if (result) {
+                        if (result == "normal") { //普通用户看不到此菜单
+                            $("#systemMenu").css("display", "none");
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+

@@ -1,0 +1,333 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/content/RECP/css/plugins/toastr/toastr.min.css" rel="stylesheet" />
+<style>
+    #loadTemp:hover {
+        cursor: pointer;
+    }
+</style>
+
+<div class="mini-splitter" style="width: 100%; height: 100%;">
+    <div size="25%" showCollapseButton="true" style="padding: 5px 5px 0 5px;">
+        <div style="background-color: #f5f5f5; height: 5%;">
+            <div style="padding-right: 8px;">
+                <h5>专业数据分类</h5>
+            </div>
+        </div>
+        <div class="mini-fit" style="width: 100%; padding-left: 25px; height: 95%">
+            <div style="padding-top: 10px;">
+                <ul id="pro-tree" class="mini-tree"
+                    showtreeicon="true"
+                    textfield="text" valuefield="value" idfield="id" parentfield="pId"
+                    resultastree="false" expandonload="1"></ul>
+            </div>
+        </div>
+    </div>
+    <div showCollapseButton="true">
+        <div class="mini-toolbar" style="background-color: #f5f5f5; padding-top: 5px; padding-left: 2px; height: 8%">
+            <a onclick="loadTemp()" id="loadTemp">模板下载</a><span style="padding-left: 5px;">|</span>
+            <a class="mini-button frame-submit mini-button-plain" onclick="selectResource">
+                <span class="mini-button-text  mini-button-icon icon-new-movedown">选择数据源</span>
+            </a>
+            <a class="mini-button frame-submit mini-button-plain" onclick="imported">
+                <span class="mini-button-text  mini-button-icon icon-new-moveup">确认导入</span>
+            </a>
+        </div>
+        <div style="float: left;width:100%;height: 92%;overflow-x:auto;overflow-y:auto;">
+            <div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%;" showpager="true"
+                 allowresize="true" allowcellselect="true" pageSize="50" url="@Url.Action("GetTempImportProData", "ProData")">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/content/RECP/js/plugins/toastr/toastr.min.js"></script>
+<script>
+    mini.parse();
+    var tree = mini.get("pro-tree");
+    var datagrid1 = mini.get("datagrid1");
+    var currentTreeName = "";
+    var metaEntity = "";
+    var start = 0;
+    var colspan = 0;
+    var tempFields = [];
+    var operSN = "",
+        rootId = "",
+        bot = "",
+        boc = "";
+
+
+    $.newGET('@Url.Action("GetProTreeData", "ProData")', setData);
+
+    function setData(result) {
+        var data = JSON.parse(result);
+        var obj = eval("(" + data + ")");
+        tree.loadList(obj);
+    }
+
+    //树节点选择事件
+    tree.on("nodeselect", function (e) {
+        if (e) {
+            var id = e._records[0].id;
+            var text = e._records[0].text;
+            var value = e._records[0].value;
+            currentTreeName = text;
+            metaEntity = value;
+            start = e.node.start;
+            bot = e.node.bot;
+            boc = e.node.boc;
+            rootId = e.node.rootId;
+
+            if (id) {
+                loadMetaData(text, value, start);
+            }
+        }
+    });
+
+    function loadMetaData(text, value, start) {
+        var _headerLength = 0;
+        $.ajax({
+            url: "/ProData/LoadTableInfo",
+            type: "get",
+            data: { fileName: text, metaEntity: value },
+            success: function (result) {
+                tempFields = [];
+                if (start == 2)
+                    _headerLength = 1;
+                else if (start == 3)
+                    _headerLength = 2;
+
+                var columnData = []; //传给miniui的表头数据
+                var _bodyData = []; //传给miniui的表的数据
+                var colCount = result.colCount; //列数
+                colspan = result.colCount;
+                var rowCount = result.rowCount; //行数
+                var bodyData = eval("(" + result.bodyData + ")"); //表的数据
+                var headerData = eval("(" + result.headerData + ")"); //表头数据
+                var countData = 0; //计算一共有多少条数据
+                if (colCount > 0) {
+                    countData = bodyData.length / colCount;
+                }
+                var bodyDataArray = []; //将所有的数据分为一列一列进行存储起来,存储形式为[[],[],[]]
+                for (var i = 0; i < countData; i++) {
+                    bodyDataArray[i] = bodyData.slice(i * colCount, i * colCount + colCount);
+                }
+                if (_headerLength == 1) { //如果只有一行的表头
+                    for (var i = 0; i < headerData.length; i++) {
+                        columnData.push({
+                            "header": headerData[i],
+                            //"field": headerData[i],
+                            "field": getFieldCode(i),
+                            "width": 50,
+                            "headerAlign": "center"
+                        });
+                    }
+
+                    for (var j = 0; j < bodyDataArray.length; j++) {
+                        var temp = {};
+                        for (var i = 0; i < headerData.length; i++) {
+                            temp[headerData[i]] = bodyDataArray[j][i];
+                        }
+                        _bodyData.push(temp);
+                    }
+                } else if (_headerLength == 2) { //如果有两行的表头
+                    var data1_1 = headerData.slice(0, colCount); //表头的第一行
+                    var data1_2 = headerData.slice(colCount); //表头的第二行
+                    for (var i = 0; i < data1_1.length; i++) { //把表头数据变为列中包含列的形式
+                        if (i <= data1_1.length - 1 && data1_1[i] != data1_1[i + 1]) {
+                            columnData.push({
+                                "header": data1_1[i],
+                                //"field": data1_1[i],
+                                "field": getFieldCode(i),
+                                "width": 120,
+                                "headerAlign": "center"
+                            });
+                        } else if (i <= data1_1.length - 1 && data1_1[i] == data1_1[i + 1]) {
+                            var currentI = i;
+                            var countNull = 0;
+                            var columnMulti = [];
+                            columnData.push({
+                                "header": data1_1[i],
+                                //"field": data1_1[i],
+                                "field": getFieldCode(i),
+                                "columns": columnMulti
+                            });
+                            for (var j = currentI + 1; j < data1_1.length; j++) {
+                                if (data1_1[j] == data1_1[currentI]) {
+                                    countNull++;
+                                } else {
+                                    break;
+                                }
+                            }
+                            for (var k = currentI; k <= currentI + countNull; k++) {
+                                columnMulti.push({
+                                    "header": data1_2[k],
+                                    //"field": data1_2[k],
+                                    "field": getFieldCode(k),
+                                    "width": 120,
+                                    "headerAlign": "center"
+                                });
+                            }
+                            i = currentI + countNull;
+                        }
+                    }
+
+                    for (var i = 0; i < data1_2.length; i++) { //变成了空格被下一行数据取代的形式
+                        if (data1_2[i] != null && data1_2[i] != "") {
+                            data1_1[i] = data1_2[i];
+                        }
+                    }
+                    for (var j = 0; j < bodyDataArray.length; j++) {
+                        var temp = {};
+                        for (var i = 0; i < data1_1.length; i++) {
+                            temp[data1_1[i]] = bodyDataArray[j][i];
+                        }
+                        _bodyData.push(temp);
+                    }
+                }
+                tempFields = columnData;
+
+                var obj1 = {
+                    "header": "操作状态",
+                    "field": "ExecStateTxt",
+                    "width": 60,
+                    "headerAlign": "center"
+                }
+                var obj2 = {
+                    "header": "数据状态",
+                    "field": "BOAction",
+                    "width": 60,
+                    "headerAlign": "center"
+                }
+                columnData.unshift(obj2);
+                columnData.unshift(obj1);
+                loadMiniGrid(_bodyData, columnData);
+            }
+        }); 
+    } 
+
+    function loadTemp() {
+        if (currentTreeName != "" && currentTreeName != null) {
+            window.location.href = "/ProData/DownLoadTempExcel?fileName=" + currentTreeName;
+        }
+        else {
+            toastr.warning('请选择目标对象！', '警告提示');
+        }
+    }
+
+    function loadMiniGrid(bodyData, columnData) {
+        datagrid1.set({
+            data: bodyData,
+            columns: columnData
+        });
+    } 
+
+    function getFieldCode(i) {
+        var str = "";
+        var n = parseInt(i / 26);
+        if (n < 1) {
+            str = String.fromCharCode(65 + i);
+        } else {
+            str = String.fromCharCode(n - 1 + 65) + String.fromCharCode(i - 26 * n + 65);
+        }  
+        return str;
+    } 
+
+    function selectResource() {
+        operSN = getGuid();
+        if (currentTreeName == "" || currentTreeName == null) {
+            toastr.warning('请选择目标对象！', '警告提示');
+            return;
+        }
+        mini.open({
+            url: "/ProData/Importing?metaEntityCN=" + currentTreeName + "&metaEntity=" + metaEntity + "&start=" + start + "&operSN=" + operSN,
+            title: currentTreeName + " Excel文件导入",
+            allowResize: false, //允许尺寸调节
+            allowDrag: false, //允许拖拽位置
+            width: 425,
+            height: 250,
+            showModal: true,
+            onload: function () {
+            },
+            ondestroy: function (action) {
+                console.log(action)
+                if (action == "Ok") {
+                    setTimeout(function () {
+                        if (operSN != "") {
+                            datagrid1.load({ metaEntity: encodeURIComponent(metaEntity), operSN: encodeURIComponent(operSN) }, function () {
+                                var totalCount = datagrid1.totalCount;
+                                if (totalCount < 1) {
+                                    toastr.warning('文件上传失败，请重新上传！', '警告提示');
+                                }
+                            }); 
+                        }
+                    }, 1000);
+                }
+            }
+        });
+    }
+
+    var ugrid;
+    function imported() {
+        if (metaEntity == "" || rootId == "") {
+            toastr.warning('请选择目标对象！', '警告提示');
+            return;
+        }
+        if (operSN == "") {
+            toastr.warning('请先上传文件！', '警告提示');
+            return;
+        }
+        $.ajax({
+            url: "/ProData/SaveExcelTmpToBO",
+            data: {
+                operSN: encodeURIComponent(operSN), metaEntity: encodeURIComponent(metaEntity), rootId: encodeURIComponent(rootId),
+                bot: encodeURIComponent(bot), boc: encodeURIComponent(boc)
+            },
+            type: "post",
+            success: function (text) {
+                toastr.success('上传成功！', '成功提示');
+                setTimeout(function () {
+                    deleteTempData();
+                }, 1000 * 10);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR.responseText);
+            }
+        });
+        ugrid=setInterval(updateGrid, 2000);
+    }
+
+    function deleteTempData() {
+        window.clearInterval(ugrid); 
+        $.ajax({
+            url: "/ProData/DeleteTempData",
+            data: {
+                operSN: encodeURIComponent(operSN)
+            },
+            type: "post",
+            success: function (text) {
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR.responseText);
+            }
+        });
+    }
+
+    function updateGrid() {
+        datagrid1.load({ operSN: encodeURIComponent(operSN), metaEntity: encodeURIComponent(metaEntity) });
+    } 
+     
+    function getGuid() {
+        var guid = "";
+        for (var i = 1; i <= 32; i++) {
+            var n = Math.floor(Math.random() * 16.0).toString(16);
+            guid += n;
+            if ((i == 8) || (i == 12) || (i == 16) || (i == 20))
+                guid += "-";
+        }
+        return guid;
+    }
+</script>

@@ -1,0 +1,682 @@
+﻿@{
+    Layout = "~/Views/shared/_RECPLayout.cshtml";
+}
+
+@section css{ 
+    <link rel="stylesheet" href="/scripts/GeoTopic/bootstrap-3.3.5-dist/css/font-awesome.css">
+    <link href="~/content/RECP/css/jquery.gritter.css" rel="stylesheet" />
+    <link href="~/content/RECP/css/morris-0.4.3.min.css" rel="stylesheet" />
+    <link href="~/content/RECP/css/style.css" rel="stylesheet" />
+    <link href="~/content/RECP/css/plugins/toastr/toastr.min.css" rel="stylesheet" />  
+    <link href="~/Content/RECP/css/plugins/split/css/style.css" rel="stylesheet" /> 
+}
+
+<form id="formDown" method="post" style="display:inline-block;">
+    <input type="hidden" name="id" id="id" />
+    <input type="hidden" name="title" id="title" />
+    <input type="hidden" name="url" id="url" />
+    <input type="hidden" name="ticket" id="ticket" />
+    <input type="hidden" name="format" id="format" />
+    <input type="hidden" name="name" id="name" />
+</form>
+
+<div class="row" style="margin-top:5px">
+    <div id="splitter">
+        <div id="leftPane" class="split split-horizontal">
+            <div id="topTree" class="split content">
+                <div class="ibox float-e-margins" style="margin-bottom: 0; height: calc(100% - 2px); height: -moz-calc(100% - 2px); height: -webkit-calc(100% - 2px);">
+                    <div class="ibox-title" style="box-sizing: border-box;">
+                        <h5>研究对象</h5>
+                    </div>
+                    <div class="ibox-content" id="ibox-content-tree1" style="height: calc(100% - 50px); height: -moz-calc(100% - 50px); height: -webkit-calc(100% - 50px); overflow-x: auto; overflow-y: auto; margin-left: 10px;">
+                        <div id="bo-tree"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="bottomTree" class="split content">
+                <div class="ibox float-e-margins" style="margin-bottom: 0;height: calc(100% - 2px); height: -moz-calc(100% - 2px); height: -webkit-calc(100% - 2px);">
+                    <div class="ibox-title" style="box-sizing: border-box;">
+                        <h5>资料分类 <small>相关成果分类</small></h5>
+                    </div>
+                    <div class="ibox-content" id="ibox-content-tree2" style="height: calc(100% - 50px); height: -moz-calc(100% - 50px); height: -webkit-calc(100% - 50px); overflow-x: auto; overflow-y: auto; margin-left: 10px;">
+                        <gt:ktree :id="tree2" :topicIndex="topicIndex" :topicCode="topicCode" :filter="treeFilters" :onClick="nodeClick"></gt:ktree>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="rightPane" class="split split-horizontal">
+            <div class="tabs-container" style="height: 100%;"> 
+                <div class="tab-content"> 
+                    <div id="" class="">
+                        <div class="panel-body">
+                            <div class="row m-b-sm m-t-sm">
+                                <div class="col-md-1">
+                                    <button type="button" id="loading-example-btn" class="btn btn-white btn-sm"><i class="fa fa-refresh"></i> 刷新</button>
+                                </div>
+                                <div class="col-md-11">
+                                    <div class="input-group" style="width:90%;">
+                                        <input type="text" placeholder="请输入成果名称" class="input-sm form-control" id="searchInput">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-sm btn-primary" id="searchAchievList"> 搜索</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="project-list" id="myAchieveList">
+                                <table id="table_list" class="table table-hover no-margins">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:45px">编号</th>
+                                            <th style="width:140px;">名称</th>
+                                            <th style="width:65px">作者</th> 
+                                            <th style="width:50px">浏览次数</th>
+                                            <th style="width:50px">成果类型</th>
+                                            <th style="width:70px">成果来源</th>
+                                            <th style="width:65px;">操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-bind="foreach:myAchieveListData">
+                                        <tr>
+                                            <td data-bind="text:$index() + 1"></td>
+                                            <td data-bind="text:name"></td>
+                                            <td data-bind="text:author"></td>
+                                            <td data-bind="text:skimCount"></td>
+                                            <td data-bind="text:producttype"></td>
+                                            <td data-bind="text:source"></td>
+                                            <td>
+                                                <button class="btn btn-info btn-circle" data-bind="click: $parent.openDetailPage" type="button" data-toggle="tooltip" data-placement="left" title="浏览">
+                                                    <i class="fa fa-sticky-note-o"></i>
+                                                </button>
+                                                <span data-bind="click: $parent.collectAchieveList">
+                                                    <button data-bind="css:(flagFav ==1 ?  'btn btn-danger btn-circle btn-outline hasCollected' : 'btn btn-default btn-circle btn-outline hasNotCollected'),attr:{title:(flagFav ==1 ?'已收藏':'未收藏')}" type="button" data-toggle="tooltip" data-placement="left" title="">
+                                                        <i class="fa fa-heart"></i>
+                                                    </button>
+                                                </span>
+                                                <button class="btn btn-success btn-circle" type="button" data-bind="click: $parent.downloadAchieve" data-toggle="tooltip" data-placement="left" title="下载">
+                                                    <i class="fa fa-download"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="container">
+                                    <div class="col-md-8 col-md-offset-3">
+                                        <div id="app">
+                                            <div id="_id">
+                                                <nav class="boot-nav" v-if="show">
+                                                    <ul class="pagination boot-item pagination-lg">
+                                                        <li v-if="_showFirstPrev">
+                                                            <a href="##" @@click="onPrev">
+                                                                <span aria-hidden="true">上一页</span>
+                                                            </a>
+                                                        </li>
+                                                        <li v-for="item in _items" class="activeItem === item ? 'active' : ''">
+                                                            <a href="##" v-text="item" @@click="onCurrent(item)"></a>
+                                                        </li>
+                                                        <li v-if="_showNextLast">
+                                                            <a href="##" @@click="onNext">
+                                                                <span aria-hidden="true">下一页</span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+</div>
+
+
+@section scripts{
+    <script src="~/content/RECP/js/content.js"></script>
+    <script src="~/content/RECP/js/jquery.slimscroll.min.js"></script>
+    <script src="~/content/RECP/js/plugins/knockout/knockout.js"></script>
+    <script src="~/content/RECP/js/plugins/toastr/toastr.min.js"></script>
+    <script src="~/Content/RECP/js/vue.js"></script>
+    <script src="~/Content/RECP/js/common/AchieveDown.js"></script>
+    <script src="~/Content/RECP/js/plugins/split/split.min.js"></script>
+    @*<script language="javascript" src="~/Content/RECP/js/plugins/kendo/2017.1.223/js/kendo.all.min.js"></script>*@
+    <script type="text/javascript">
+        var clientHeight = document.body.clientHeight;
+        var fixHeight = clientHeight - 680;
+        var iboxContentHeight = clientHeight - 480;
+        //document.getElementById("ibox-content-tree1").style.height = fixHeight + "px";
+        //document.getElementById("ibox-content-tree2").style.height = iboxContentHeight + "px";
+
+        var topicIndex = {
+            "AppDomain": "成果导航"
+        };
+        var refresh = false;
+        var topicCode = [];
+        var treeFilters = {
+        };
+        //新增井区下层位关系
+        var cardFilters = {
+            "FilterType": "GDBType", //图件过滤作用
+            "WellBlock": "",
+            "Stratum": ""
+        };
+        //分页组件参数
+        var _pagesize = 10;
+        var _count = 0;
+        var _items = 10;
+
+        var achieveListData = [];
+        var topicId = null;
+        var currentBo = null;  //目标数下的子对象
+        var currentTopicId = null;
+        var currentProductType = [];
+        var currentPageIndex = 0;
+        //调用search方法接口
+        var _param = {
+            "filter": {
+                "$and": [
+                    {
+                        "dc.title.text": {
+                            "$regex": ""
+                        }
+                    },
+                    {
+                        "ep.bo.value": {
+                            "$eq": ""
+                        }
+                    },
+                    {
+                        "$or": []
+                    }
+                ]
+            },
+            "pager": {
+                "From": 0,
+                "Size": 10
+            }
+        }
+        var initBOTree = function (jsondata) {
+            $("#bo-tree").jstree({
+                'plugins': ['types', 'dnd'],
+                'types': {
+                    'default': {
+                        'icon': 'fa fa-folder'
+                    },
+                    'html': {
+                        'icon': 'fa fa-file-code-o'
+                    },
+                    'svg': {
+                        'icon': 'fa fa-file-picture-o'
+                    },
+                    'css': {
+                        'icon': 'fa fa-file-code-o'
+                    },
+                    'img': {
+                        'icon': 'fa fa-file-image-o'
+                    },
+                    'js': {
+                        'icon': 'fa fa-file-text-o'
+                    }
+                },
+                'core': {
+                    //"multiple" : true,//多选
+                    "animation": true, //动画
+                    "data": jsondata
+                }
+            });
+        }
+        function initTree() {
+            $.ajax({
+                url: "/BaseInfo/GetBOBaseInfo",
+                type: "post",
+                data: { boc: "成果导航" },
+                dataType: "json",
+                success: function (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        var node = result[i];
+                        if (node.PID == null || node.PID == "") {
+                            result[i].PID = "#";
+                            currentBo = result[i].Name;
+                            break;
+                        }
+                    }
+                    var arr = [];
+                    result.forEach(function (value) {
+                        //console.log(value);
+                        arr.push({
+                            "id": value.ID,
+                            "parent": value.PID == null ? "#" : value.PID,
+                            "text": value.Name,
+                            "state": {
+                                "opened": value.PID == null,
+                                "selected": value.PID == "#"
+                            },
+                            "objectparam": value.ObjectParam
+                        });
+                    });
+                    initBOTree(arr);
+                },
+                error: function (result) {
+                    console.log(result);
+                }
+            });
+        }
+        //点击研究对象树节点
+        $("#bo-tree").on('changed.jstree', function (e, data) {
+            var id = "";
+            if (data.action == "model") {  //初始加载
+                id = data.selected[0];
+            }
+            else if (data.action == "select_node") {
+                id = data.node.id;
+                var boText = data.node.text;
+                var pid = data.node.parent;
+                currentBo = boText;
+                if (pid == "#") {
+                    var _pid = id;
+                    updateTopicByPId(_pid, boText)
+                } else {
+                    var _id = pid;
+                    updateTopicById(_id, boText)
+                }
+                //loadGtCard(currentTopicId);
+                //loadGtList(currentTopicId);
+            }
+        });
+
+        function updateTopicById(id, boText) {
+            $.ajax({
+                url: "/BaseInfo/GetBOBaseInfoById",
+                type: "post",
+                data: { id: id },
+                success: function (result) {
+                    // 找出parent
+                    var name = result[0].Name;
+                    cardFilters.WellBlock = name;
+                    cardFilters.Stratum = boText;
+                    console.log(cardFilters)
+                    updateTopic();
+                },
+                error: function (result) {
+                    console.log(result);
+                }
+            })
+        }
+
+        function updateTopicByPId(pid, boText) {
+            $.ajax({
+                url: "/BaseInfo/GetBOBaseInfoByPId",
+                type: "post",
+                data: { pid: pid },
+                success: function (result) {
+                    // 找出所有child
+                    var arr = [];
+                    for (var i = 0; i < result.length; i++) {
+                        arr.push(result[i].Name);
+                    }
+                    cardFilters.WellBlock = boText;
+                    cardFilters.Stratum = arr.join(',');
+                    console.log(cardFilters)
+                    updateTopic();
+                },
+                error: function (result) {
+                    console.log(result);
+                }
+            })
+        }
+
+        function updateTopic() {
+            refresh = !refresh;
+            if (currentTopicId) {
+                //gtUI.setDataById("card1", "refresh", refresh);
+                loadGtList(currentTopicId);
+            }
+        }
+
+        //点击相关成果分类树节点搜索成果列表
+        function nodeClick(tId) {
+            currentTopicId = tId;
+            //loadGtCard(tId);
+            loadGtList(tId);
+        }
+        //成果组合展示
+        function loadGtCard(tId) {
+            //cardFilters.WellBlock = currentBo;
+            $('#loading').show();
+            gtUI.setDataById("card1", "topicId", tId);
+        }
+        //成果列表
+        function loadGtList(tId) {
+            $('#searchInput').val("");  //清空搜索列表
+            var search = "";
+            var index = 0;
+            $.ajax({
+                url: "/GeoNav/GetProductTypeByTopicId",
+                type: "post",
+                data: { topicId: tId },
+                success: function (result) {
+                    var data = result.pt;
+                    var producttype = [];
+                    for (var i = 0; i < data.length; i++) {
+                        var definition = JSON.parse(data[i]);
+                        //var param = definition.cells[0].param ? definition.cells[0].param : "";
+                        var param = definition.cells ? definition.cells : "";
+                        for (var m = 0; m < param.length; m++) {
+                            var andArray = JSON.parse(param[m].param).filter["$and"];
+                            for (var j = 0; j < andArray.length; j++) {
+                                for (var k in andArray[j]) {
+                                    if (k == "ProductType") {
+                                        //拿到了某一个producttype
+                                        producttype.push(andArray[j][k]);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    currentProductType = producttype;
+                    loadAchieveList(currentBo, producttype, search, index);    //成果列表
+                },
+                error: function (result) {
+                    console.log(result);
+                }
+            })
+        }
+        //点击刷新按钮重新拿到数据
+        $("#loading-example-btn").on('click', function () {
+            $('#searchInput').val("");  //清空搜索列表
+            var search = "";
+            var index = 0;
+            loadAchieveList(currentBo, currentProductType, search, index);
+        });
+        //通过关键字搜索
+        $("#searchAchievList").on('click', function () {
+            var searchText = $("#searchInput").val().replace(/^\s+|\s+$/g, "");
+            var index = 0;
+            //加载成果列表通过搜索关键字  还需要拿到当前点击研究对象节点数据和相关成果分类节点信息
+            loadAchieveList(currentBo, currentProductType, searchText, index);
+        });
+
+        document.onkeydown = function (event) {
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+            if (e && e.keyCode == 13) { // enter 键
+                if (currentBo != null && currentProductType != []) {
+                    var searchText = $("#searchInput").val().replace(/^\s+|\s+$/g, "");
+                    var index = 0;
+                    //加载成果列表通过搜索关键字  还需要拿到当前点击研究对象节点数据和相关成果分类节点信息
+                    loadAchieveList(currentBo, currentProductType, searchText, index);
+                }
+            }
+        };
+        // 正文高度
+        var fix_height = function () {
+            var heightWithoutNavbar = $("body").height();
+            $("#splitter").css("height", heightWithoutNavbar - 65);
+        }
+        //ready方法
+        $(document).ready(function () {
+            fix_height();
+            //修复JoGis展示区
+            $(window).bind("load resize click scroll", function () {
+                if (!$("body").hasClass('body-small')) {
+                    fix_height();
+                }
+            });
+
+            $('.navbar-nav li a')
+                .each(function () {
+                    if ($($(this))[0].href == String(window.location)) {
+                        $("#homepage").removeClass('active');
+                        $(this).parent().addClass('active');
+                    }
+                });
+
+            Split(['#leftPane', '#rightPane'], {
+                gutterSize: 8,
+                sizes: [20, 80]
+            });
+            Split(['#topTree', '#bottomTree'], {
+                direction: 'vertical',
+                gutterSize: 8,
+                sizes: [40, 60]
+            });
+            initTree();
+            var ViewModel = function () {
+                var self = this;
+                self.myAchieveListData = ko.observableArray(achieveListData);
+
+                //加载成果列表
+                loadAchieveList = function (currentBo, currentProductType, search, index) {
+                    //_param.sentence = search;
+                    _param.filter["$and"][0]["dc.title.text"]["$regex"] = search;
+                    _param.filter["$and"][1]["ep.bo.value"]["$eq"] = currentBo;
+                    _param.pager.From = index;
+                    _param.filter["$and"][2]["$or"] = [];
+                    for (var j = 0; j < currentProductType.length; j++) {
+                        _param.filter["$and"][2]["$or"].push({
+                            "ep.producttype": {
+                                "$eq": currentProductType[j]
+                            }
+                        });
+                    }
+                    var paramJson = JSON.stringify(_param);
+                    $.ajax({
+                        url: "/Document/GetMatchData",
+                        type: "post",
+                        data: { param: paramJson },
+                        success: function (resultMetaData) {
+                            var _resultMetaData = JSON.parse(resultMetaData);
+                            pager_demo.count = _resultMetaData.count;
+                            if (_resultMetaData.count <= _pagesize) {
+                                pager_demo.show = false;
+                            }
+                            if (_resultMetaData.count > _pagesize) {
+                                pager_demo.show = true;
+                            }
+                            self.myAchieveListData.removeAll();
+                            if (_resultMetaData.count > 0) {
+                                for (var k = 0; k < _resultMetaData.metadatas.length; k++) {
+                                    //针对某条成果-->通过iiid拿到所有人浏览次数和以及当前用户这条成果是否收藏
+                                    var _iiid = _resultMetaData.metadatas[k].iiid;
+                                    var result1 = _resultMetaData.metadatas[k];
+                                    $.ajax({
+                                        url: "/GeoNav/GetSkimCountByiiid",
+                                        type: "post",
+                                        async: false,
+                                        data: { iiid: _iiid },
+                                        success: function (result2) {
+                                            var name = result1.dc ? result1.dc.title ? result1.dc.title[0].text : '' : '';
+                                            var author = result1.dc ? result1.dc.contributor ? result1.dc.contributor[0].name : '' : '';
+                                            var source = result1.ep ? result1.ep.scope ? result1.ep.scope : '' : '';
+                                            self.myAchieveListData.push({
+                                                "iiid": result1.iiid,
+                                                "name": name,
+                                                "author": author,
+                                                "skimCount": result2.countLook,
+                                                "source": source,
+                                                "flagFav": result2.flagFav,
+                                                "producttype": result1.ep.producttype ? result1.ep.producttype : '',
+                                                "indexDate": result1.indexeddate ? result1.indexeddate.slice(0, 10) : "",
+                                                "createdDate": new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate(),
+                                                //"bovalue": result1.ep ? (result1.ep.bo ? (result1.ep.bo[0].value) : '') : '',
+                                            });
+                                        }
+                                    });
+                                }
+                            }
+                        },
+                        error: function (result) {
+                            console.log(result);
+                        }
+                    });
+                },
+                //浏览
+                self.openDetailPage = function ($parent) {
+                    var _iiid = $parent.iiid;
+                    var _name = $parent.name;
+                    var _author = $parent.author;
+                    var _producttype = $parent.producttype;
+                    window.open("/Render/PTDetail?iiid=" + _iiid);
+                    //当前用户成果浏览次数加1
+                    $.ajax({
+                        url: "/User/OpenDetailPage",
+                        type: "post",
+                        //async:false,
+                        data: { "iiid": _iiid, name: _name, author: _author, producttype: _producttype },
+                        success: function (result) {
+                            console.log(result);
+                        },
+                        error: function (result) {
+                            console.log(result);
+                        }
+                    });
+                };
+                //收藏成果列表
+                self.collectAchieveList = function ($parent, $index) {
+                    var data = $parent;
+                    $.ajax({
+                        url: "/GeoNav/Collect",
+                        type: "post",
+                        data: { iiid: data.iiid, name: data.name, author: data.author, producttype: data.producttype, indexDate: data.indexDate, createdDate: data.createdDate },
+                        success: function (result) {
+                            if (result == "CollectSuccess") {
+                                toastr.success('收藏成功！', '成功提示');
+                                var searchText = "";
+                                var index = 0;
+                                loadAchieveList(currentBo, currentProductType, searchText, currentPageIndex);
+
+                            } else if (result == "CollectCancel") {
+                                toastr.warning('取消收藏！', '成功提示');
+                                var searchText = "";
+                                var index = 0;
+                                loadAchieveList(currentBo, currentProductType, searchText, currentPageIndex);
+                            }
+                        },
+                        error: function (result) {
+                            console.log(result);
+                        }
+                    });
+                },
+                self.downloadAchieve = function ($parent) {
+                    var iiid = $parent.iiid;
+                    $.ajax({
+                        url: "/RECP/GetMateData",
+                        type: "post",
+                        data: { iiid: iiid },
+                        async: false,
+                        success: function (result) {
+                            var data = JSON.parse(result);
+                            var urlStr = data.source.url;
+                            var id = iiid;
+                            var _apiPath = "@ViewBag._apiPath";
+                            var _achieveDown = "@ViewBag._achieveDown";
+                            Retrieve(id, urlStr, _apiPath, _achieveDown);
+                        }
+                    });
+                    // 下载记录收集到表
+                    downloadRecords($parent);
+                }
+            };
+            var currentViewModel = new ViewModel();
+            ko.applyBindings(currentViewModel);
+        })
+
+        // 下载记录收集到表
+        function downloadRecords(parent) {
+
+            var _iiid = parent.iiid;
+            var _name = parent.name;
+            var _author = parent.author;
+            var _producttype = parent.producttype;
+            //当前的下载次数+1
+            $.ajax({
+                url: "/User/DownLoadRecords",
+                type: "post",
+                data: { "iiid": _iiid, name: _name, author: _author, producttype: _producttype },
+                success: function (result) {
+                    console.log(result);
+                },
+                error: function (result) {
+                    console.log(result);
+                }
+            });
+        }
+
+        //分页组件相关的js代码
+        var pager_demo = new Vue({
+            el: '#app',
+            data: function () {
+                return {
+                    id: "_id1",
+                    activeItem: 1,
+                    pagesize: _pagesize,
+                    count: _count,
+                    items: _items,
+                    show: true
+                }
+            },
+            computed: {
+                _showFirstPrev: function () {
+                    return this.activeItem > 1;
+                },
+                _showNextLast: function () {
+                    return this.activeItem < Math.ceil(this.count / this.pagesize);
+                },
+                _items: function () {
+                    var temp = [],
+		    		maxItem = Math.ceil(this.count / this.pagesize),
+		    		len = maxItem > this.items ? this.items : maxItem,
+		    		midIndex = this.items % 2 == 0 ? Math.ceil((this.items + 1) / 2) : Math.ceil(this.items / 2);
+                    for (var i = 1; i <= len; i++) {
+                        temp.push(i);
+                    }
+                    if (this.activeItem > midIndex) {
+                        var span = this.activeItem - midIndex;
+                        for (var i = 0; i < span && temp[temp.length - 1] < maxItem; i++) {
+                            temp.shift(temp[i]);
+                            temp.push(len + 1 + i);
+                        }
+                    }
+                    return temp;
+                }
+            },
+            watch: {
+                activeItem: function () {
+                    this.selectItem()
+                }
+            },
+            methods: {
+                onPrev: function () {
+                    this.activeItem = this.activeItem - 1;
+                },
+                onCurrent: function (item) {
+                    this.activeItem = item;
+                },
+                onNext: function () {
+                    this.activeItem = this.activeItem + 1;
+                },
+                selectItem: function () {
+                    var page = this.activeItem;
+                    //var index = (page - 1) * 10;
+                    currentPageIndex = (page - 1) * 10;
+
+                    var searchText = $("#searchInput").val().replace(/^\s+|\s+$/g, "");
+                    loadAchieveList(currentBo, currentProductType, searchText, currentPageIndex);
+                }
+            }
+        });
+        function setLoad() {
+            $('#loading').hide();
+        }
+        //研究对象树节点点击事件
+        function nodeSelected_object() { }
+        //研究对象树加载事件
+        function loaded_object() { }
+        //相关成果分类节点点击事件
+        function nodeSelected_topic() { }
+        //相关成果分类加载事件
+        function loaded_topic() { }
+    </script>
+}

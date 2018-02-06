@@ -1,0 +1,76 @@
+﻿[
+  {
+    "Theme": "blue",
+    "ShowTab": false,
+    "GridLineStyle": 1,
+    "LoginToLastPage": false,
+    "UserStartPageConfig": {
+      "UserId": "2",
+      "PanelWidth": "100",
+      "PanelHeight": "100",
+      "PanelIncision": "50",
+      "Widgets": []
+    },
+    "Email": "156060158@qq.com",
+    "Id": "2",
+    "Name": "pmis",
+    "RoleNames": "",
+    "IsDefaultRole": true,
+    "IsOnline": true,
+    "LastOpTime": "2016-11-08 17:26:02",
+    "RoleIds": [
+      "4"
+    ],
+    "FunctionIds": []
+  },
+  {
+    "Theme": "blue",
+    "ShowTab": false,
+    "GridLineStyle": 0,
+    "LoginToLastPage": false,
+    "UserStartPageConfig": {
+      "UserId": "12",
+      "PanelWidth": "100",
+      "PanelHeight": "100",
+      "PanelIncision": "50",
+      "Widgets": []
+    },
+    "Email": "112@mm.com",
+    "PhoneNumber": "12345678900",
+    "Id": "12",
+    "Name": "Test",
+    "RoleNames": ", ",
+    "IsDefaultRole": true,
+    "IsOnline": true,
+    "LastOpTime": "2016-11-15 16:22:52",
+    "RoleIds": [
+      "4",
+      "5"
+    ],
+    "FunctionIds": []
+  },
+  {
+    "Theme": "blue",
+    "ShowTab": false,
+    "GridLineStyle": 1,
+    "LoginToLastPage": false,
+    "UserStartPageConfig": {
+      "UserId": "1",
+      "PanelWidth": "100",
+      "PanelHeight": "100",
+      "PanelIncision": "50",
+      "Widgets": []
+    },
+    "Email": "zhangjl@jurassic.com.cn",
+    "Id": "1",
+    "Name": "zhangjl",
+    "RoleNames": "Administrator",
+    "IsDefaultRole": true,
+    "IsOnline": true,
+    "LastOpTime": "2017-01-09 10:36:10",
+    "RoleIds": [
+      "1"
+    ],
+    "FunctionIds": []
+  }
+]

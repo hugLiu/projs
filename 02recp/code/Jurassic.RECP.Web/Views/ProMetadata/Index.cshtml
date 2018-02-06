@@ -1,0 +1,635 @@
+﻿@{
+    ViewBag.Title = "ProMetadata";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/content/RECP/css/plugins/codemirror/codemirror.css" rel="stylesheet" />
+<link href="~/content/RECP/css/plugins/codemirror/ambiance.css" rel="stylesheet" />
+
+<script src="~/content/RECP/js/plugins/codemirror/codemirror.js"></script>
+<script src="~/content/RECP/js/plugins/codemirror/xml.js"></script>
+<script src="~/content/RECP/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<body>
+    <div class="" style="padding:5px;width:100%;height:100%; clear:both;">
+        <div style="width:18%;float:left;height:100%;border-right:solid 1px #D3D3D3;">
+            <h5>专业数据分类</h5>
+            <div class="mini-fit" style="width: 100%; height: 48%;">
+                <div style="padding-top: 10px; height: 50%">
+                    <ul id="tree_target" class="mini-tree"
+                        showtreeicon="true"
+                        textfield="text" valuefield="Code" idfield="id" parentfield="parentId"
+                        resultastree="false" expandonload="1"
+                        onnodedblclick="onEdit"></ul>
+                </div>
+            </div>
+        </div>
+        <div style="height:100%;float:right;width:80%;">
+            <div class="" style="width:100%;height:100%;">
+                <div style="width:100%;height:55%;margin-bottom:10px;">
+                    <div class="" style="width:100%;height:100%;">
+                        <div style="width:100%;height:12%;">
+                            <h5>专业数据结构定义 <small>编辑XML节点</small></h5>
+                        </div>
+                        <div style="width:100%;height:88%;">
+                            <div class="" style="width:100%;height:100%;clear:both;">
+                                <div style="width:40%;height:100%;float:left;">
+                                    <div class="mini-toolbar" style="padding-top: 3px; padding-left: 5px; height: 15%;margin-right:25px;">
+                                        <a class="mini-button frame-submit mini-button-plain btWidth" tooltip="新增平级节点" onclick="onMetaTreeAdd">
+                                            <span class="mini-button-text  mini-button-icon icon-new-addpeers">&nbsp;</span>
+                                        </a>
+                                        <a class="mini-button frame-submit mini-button-plain btWidth" tooltip="新增子节点" onclick="onMetaTreeAddChild">
+                                            <span class="mini-button-text  mini-button-icon icon-new-addchild">&nbsp;</span>
+                                        </a>
+                                        <a class="mini-button frame-submit mini-button-plain btWidth" tooltip="编辑节点" onclick="onMetaTreeEdit">
+                                            <span class="mini-button-text  mini-button-icon icon-new-edit">&nbsp;</span>
+                                        </a>
+                                        <a class="mini-button frame-submit mini-button-plain btWidth" tooltip="删除节点" onclick="onMetaTreeRemove">
+                                            <span class="mini-button-text  mini-button-icon icon-new-delete">&nbsp;</span>
+                                        </a>
+                                    </div>
+                                    <div class="mini-fit">
+                                        <div style="padding-top: 10px; height: 50%">
+                                            <ul id="tree_meta" class="mini-tree"
+                                                showtreeicon="true"
+                                                textfield="text" idfield="id" parentfield="parentId"
+                                                resultastree="false" expandonload="2"
+                                                onnodedblclick="onEdit"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="width:60%;height:100%;float:right;">
+                                    <div class="mini-toolbar" style="padding: 2px; width: 100%; height: 14%;">
+                                        <a class="mini-button frame-submit mini-button-plain" onclick="addRow()">
+                                            <span class="mini-button-text  mini-button-icon icon-new-add">新增行</span>
+                                        </a>
+                                        <a class="mini-button frame-submit mini-button-plain" onclick="removeRow()">
+                                            <span class="mini-button-text  mini-button-icon icon-new-delete">删除所选行</span>
+                                        </a>
+                                        <a class="mini-button frame-submit mini-button-plain" onclick="saveGridData()">
+                                            <span class="mini-button-text  mini-button-icon icon-new-save">保存</span>
+                                        </a>
+                                    </div>
+                                    <div id="table_metaAttribute" class="mini-datagrid" style="width: 100%; height: 93%;" allowresize="false"
+                                         idfield="Id" multiselect="true" showpager="false" url="@Url.Action("GetProMetaAttributeByFieldNo", "ProMetadata")"
+                                         allowcellselect="true" allowcelledit="true" editNextOnEnterKey="true">
+                                        <div property="columns">
+                                            <div type="checkcolumn" headeralign="center" align="center" width="20"></div>
+                                            <div name="AttrCode" field="AttrCode" headeralign="center" align="center">
+                                                属性编码
+                                                <input property="editor" class="mini-textbox" style="width: 100%;" />
+                                            </div>
+                                            <div name="AttrCaption" field="AttrCaption" headeralign="center" align="center">
+                                                属性名称
+                                                <input property="editor" class="mini-textbox" style="width: 100%;" />
+                                            </div>
+                                            <div name="AttrValue" field="AttrValue" headeralign="center" align="center">
+                                                属性值
+                                                <input property="editor" class="mini-textbox" style="width: 100%;" />
+                                            </div>
+                                            <div name="AttrIndex" field="AttrIndex" headeralign="center" align="center">
+                                                顺序
+                                                <input property="editor" class="mini-textbox" style="width: 100%;" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="Panel_Meta" style="width:100%;height:42%;">
+                    <div>
+                        <h4>数据结构预览</h4>
+                    </div>
+                    <div id="div_objectparams">
+                        <textarea id="objectparams" name="" placeholder="请输入文本" style="width:100%;height:200px;border:solid 1px #D3D3D3;"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript">
+    mini.parse();
+
+    //tooltip
+    var tip = new mini.ToolTip();
+    tip.set({
+        target: document,
+        selector: '#tree_meta .mini-tree-nodetext',
+        placement: 'right',
+        onbeforeopen: function (e) {
+            e.cancel = false;
+        },
+        onopen: function (e) {            
+            var _fieldCode = e.element.innerHTML;
+            $.ajax({
+                url: "/ProMetadata/GetFieldCaption",
+                type: "get",
+                data:{metaEntity:currentMetaEntity,fieldCode:_fieldCode},
+                success: function (result) {
+                    var _fieldCaption = result[0].FieldCaption;
+                    tip.setContent(_fieldCaption);
+                },
+                error:function(){
+                    //toastr.warning('删除成功！', '成功提示');
+                }
+            })
+        }
+    });
+
+    //专业元数据实体分类
+    var tree_target = mini.get("tree_target");
+    //专业元数据结构定义
+    var tree_meta = mini.get("tree_meta");
+    //专业元数据属性table表
+    var table_metaAttribute = mini.get("table_metaAttribute");
+    var currentTree_MetaFieldNo;
+    var currentMetaEntity = "";
+    var currentTargetTreeId;  //专业元数据实体 当前选中节点的ID
+
+    $.newGET('@Url.Action("GetMetaDataEntity", "ProMetadata")', function (metaDataEntity) {
+        var data = JSON.parse(metaDataEntity);
+        var targetTreeData = [];
+        for (var i = 0; i < data.length; i++) {
+            targetTreeData.push({
+                "id": data[i].value,
+                "text": data[i].text,
+                "parentId": data[i].pId == null ? "#" : data[i].pId,
+                "state": data[i].state
+            })
+        }
+        tree_target.loadList(targetTreeData, "id");
+        tree_target.cascadeChild(tree_target.getRootNode(), function (node) {
+            if (node.state) {
+                if (node.state.selected == true) tree_target.selectNode(node);
+            }
+        });
+    });
+
+    var XMLData;
+    //专业元数据实体分类 点击事件
+    tree_target.on("nodeselect", function (e) {
+        metaDataPreview = "";
+        if (e) {
+            var _fieldNo;
+            var _metaEntity = e._records[0].id;
+            currentMetaEntity = e._records[0].id;
+            var metaData = getdata_meta(_metaEntity);
+            //点击专业元数据实体分类树 加载专业元数据结构树
+            if (metaData.length > 0) {
+                metaData[0].state = { "selected": true };
+                tree_meta.loadList(metaData, "id");
+                tree_meta.cascadeChild(tree_meta.getRootNode(), function (node) {
+                    if (node.state) {
+                        if (node.state.selected == true) tree_meta.selectNode(node);
+                    }
+                });
+            } else {
+                tree_meta.loadList([], "id");
+                table_metaAttribute.clearRows();
+                $("#objectparams").val("");
+            }
+
+            var count = 0;
+            if (metaData.length > 0) {
+                _fieldNo = metaData[0].id;
+                table_metaAttribute.load({ fieldNo: _fieldNo });
+            }
+            currentTree_MetaFieldNo = _fieldNo;
+            XMLData = metaData;
+
+            //点击树加载元数据预览
+            var _id;
+            for (var i = 0; i < metaData.length; i++) {
+                if (metaData[i].text == "ProData") {
+                    _id = metaData[i].id;
+                    currentTargetTreeId = metaData[i].id;
+                }
+            }
+            getChildren(_id, 0); 
+            $("#objectparams").val(metaDataPreview);
+        }
+    });
+    //循环ObjectParam生成对应的XML文件
+    var children = [];
+    var metaDataPreview = "";
+    var count = 0;
+    var getChildren = function (id,level) {
+        var text;
+        for (var i = 0; i < XMLData.length; i++) {
+            if (XMLData[i].id == id) {
+                text = XMLData[i].text;
+            }
+        }
+        var result = getMetaAttribute(id);
+        if (level > 0) {
+            for (var i = 0; i <level; i++) {
+                metaDataPreview += "      ";
+            }
+        }
+        metaDataPreview += "<" + text + "";
+        if(result!=null){
+            for (var i = 0; i < result.length; i++) {
+                if (result[i].AttrValue == null) {
+                    result[i].AttrValue = "";
+                }
+                metaDataPreview += "  " + result[i].AttrCode + "=" + '"' + result[i].AttrValue + '"' + "";
+            }
+        }
+        metaDataPreview += ">";
+        var flag;
+        for (var i = 0; i < XMLData.length; i++) {
+            if (XMLData[i]["parentId"] == id) {
+                childLevel = level + 1;
+                metaDataPreview += "\r\n";
+                getChildren(XMLData[i]["id"], childLevel);
+                children.push(XMLData[i]);
+            }
+        }
+        if (hasChildren(id, XMLData)) {
+            metaDataPreview += "\r\n";
+            if (level > 0) {
+                for (var i = 0; i < level; i++) {
+                    metaDataPreview += "      ";
+                }
+            }
+            metaDataPreview += "</" + text + ">";
+        }else{
+               metaDataPreview += "</" + text + ">" ;
+        }
+        return children;
+    };
+
+    function hasChildren(id, XMLData) {
+        var flag=false;
+        for (var i = 0; i < XMLData.length; i++) {
+            if (XMLData[i]["parentId"] == id) {
+                flag = true;
+            }
+        }
+        if (flag == true) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    function getMetaAttribute(_fieldNo) {
+        var data;
+        $.ajax({
+            url: "/ProMetadata/GetProMetaAttributeByFieldNo",
+            type: "get",
+            data: { fieldNo: _fieldNo },
+            async: false,
+            success: function (result) {
+                data = result;
+            }
+        });
+        return data;
+    }
+
+    //获取专业元数据定义tree数据
+    function getdata_meta(id) {
+        var XMLData;
+        var metaTreeData = [];
+        $.ajax({
+            url: "/ProMetadata/GetProMetaDefineByMetaEntity",
+            type: "get",
+            data: { metaEntity: id },
+            async: false,
+            success: function (result) {
+                XMLData = result;
+                var count = 0;
+                for (var i = 0; i < result.length; i++) {
+                    metaTreeData.push({
+                        "id": result[i].FieldNo,
+                        "text": result[i].FieldCode,
+                        "parentId": result[i].ParentNo == null ? "#" : result[i].ParentNo,
+                        "fieldIndex":result[i].FieldIndex
+                    });
+                }
+            }
+        });
+        return metaTreeData;
+    }
+    //增加同级节点
+    function onAdd() {
+        var node = tree_target.getSelectedNode();
+        if (node != null) {
+            expandNodeFunc(node);
+        }
+        var newNode = { text: "新建专业对象", parentId:"#"};
+        tree_target.addNode(newNode, "after", node);
+        tree_target.beginEdit(newNode);
+    }
+
+    //编辑节点
+    function onEdit() {
+        var node = tree_target.getSelectedNode();
+        tree_target.beginEdit(node);
+    }
+    //删除节点数据
+    function onRemove() {
+        var node = tree_target.getSelectedNode();
+        if (node) {
+            if (!tree_target.isLeaf(node)) {
+                alert("该专业对象还存在下级节点，无法直接删除，请先删除下级节点");
+                return;
+            }
+            if (confirm("确定删除选中专业对象节点?")) {
+                //清除主题联动知识卡信息   清除索引信息列表
+                tree_target.removeNode(node);
+            }
+        }
+    }
+    //保存树节点信息
+    function SaveData() {
+        tree_target.commitEdit();
+        //var selectedNode = tree_target.getSelectedNode();
+        var data = tree_target.getChanges();
+        if (data.length == 0) {
+            toastr.success('保存成功！', '成功提示');
+        } else if (data.length > 0) {
+            var msgid = mini.loading("数据保存中，请稍后......", "保存数据");
+            for (var i = 0; i < data.length; i++) {
+                if (data[i]._state == "added") {
+                    var result = GetCurrentMetaDataEntity();
+                    result.push({
+                        id: Date.now() - 0,
+                        text: data[i].text,
+                        parentId: data[i].parentId
+                    });
+                    var changedData = JSON.stringify(result);
+                    WriteMetaDataEntity(changedData, "add", msgid);
+                } else if (data[i]._state == "removed") {
+                    var ProMetadataId = data[i].id;
+                    var result = GetCurrentMetaDataEntity(); //读json
+                    for (var i = 0; i < result.length; i++) { //操作json
+                        if (result[i].id == ProMetadataId) {
+                            result.splice(i, 1);
+                        }
+                    }
+                    var changedData = JSON.stringify(result);
+                    WriteMetaDataEntity(changedData, "delete", msgid); //写入json
+                }
+                else if (data[i]._state == "modified") {
+                    var id = data[i].id;
+                    var text = data[i].text;
+                    var result = GetCurrentMetaDataEntity();
+                    for (var i = 0; i < result.length; i++) {
+                        if (result[i].id == id) {
+                            result[i].text = text;
+                        }
+                    }
+                    var changedData = JSON.stringify(result);
+                    WriteMetaDataEntity(changedData, "update", msgid);
+                }
+                else {
+                    return false;
+                }
+            }
+        }
+    }
+    //读取json文件
+    function GetCurrentMetaDataEntity() {
+        var data;
+        $.ajax({
+            url: "/ProMetadata/GetMetaDataEntity",
+            type: "get",
+            async: false,
+            success: function (result) {
+                data = JSON.parse(result);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseText);
+            }
+        });
+        return data;
+    }
+    //写入json文件
+    function WriteMetaDataEntity(changedData, state, msgid) {
+        $.ajax({
+            url: "/ProMetadata/DeleteMetaDataEntity",
+            type: "get",
+            data: { json: changedData },
+            async: false,
+            success: function () {
+                if (state == "delete") {
+                    mini.hideMessageBox(msgid);
+                    toastr.success('删除成功！', '成功提示');
+                    //location.reload();
+                } else if (state == "add") {
+                    mini.hideMessageBox(msgid);
+                    toastr.success('添加成功！', '成功提示');
+                    //location.reload();
+                } else if (state == "update") {
+                    mini.hideMessageBox(msgid);
+                    toastr.success('更新成功！', '成功提示');
+                    //location.reload();
+
+                } else {
+                    return;
+                }
+                //location.reload();
+            },
+            error: function () {
+                if (state == "delete") {
+                    toastr.warning('删除失败！', '失败提示');
+                } else if (state == "add") {
+                    toastr.warning('添加失败！', '失败提示');
+                } else if (state == "update") {
+                    toastr.warning('更新失败！', '失败提示');
+                } else {
+                    return;
+                }
+            }
+        });
+    }
+    tree_meta.on("nodeselect", function (e) {
+        if (e) {
+            var _fieldNo = e.node.id;
+            currentTree_MetaFieldNo = _fieldNo;
+            table_metaAttribute.load({ fieldNo: _fieldNo });  //点击树加载表格
+        }
+    });
+
+    function expandNodeFunc(node) {
+        var parentNode = tree_meta.getParentNode(node);
+        if (parentNode != null) {
+            if (!tree_meta.isExpandedNode(parentNode)) {
+                tree_meta.expandNode(parentNode);
+            }
+            expandNodeFunc(parentNode);
+        }
+    }
+    //元数据结构定义 新增平级节点
+    function onMetaTreeAdd() {
+        var node = tree_meta.getSelectedNode();
+        if (node != null) {
+            expandNodeFunc(node);
+        }
+        var newNode = { text: "新建主题",id:""};
+        tree_meta.addNode(newNode, "after", node);
+        var data = tree_meta.getChanges();
+        var _state = data[0]._state;
+        var _parentId = data[0].parentId;
+        var _text = data[0].text;
+        var _fileNo = data[0].id;
+        onMetaTreeSave(_state, _parentId, _text, _fileNo);
+
+    }
+    //元数据结构定义 新增子节点
+    function onMetaTreeAddChild() {
+        var node = tree_meta.getSelectedNode();
+        if (node != null) {
+            expandNodeFunc(node);
+            if (!tree_meta.isExpandedNode(node)) {
+                tree_meta.expandNode(node);
+            }
+        }
+        var newNode = { text: "新建主题", id: "" };
+        tree_meta.addNode(newNode, "add", node);
+        var data = tree_meta.getChanges();
+        var _state = data[0]._state;
+        var _parentId = data[0].parentId;
+        var _text = data[0].text;
+        var _fileNo = data[0].id;
+        onMetaTreeSave(_state, _parentId, _text, _fileNo);
+    }
+    //元数据结构定义
+    function onMetaTreeEdit(e) {
+        var node = tree_meta.getSelectedNode();
+        var filedNo = node.id;
+        var fieldIndex = node.fieldIndex;
+        if (fieldIndex != 0) {
+            mini.open({
+                url: "/ProMetadata/MetaTreeEdit?fieldNo=" + filedNo,
+                title: "数据定义节点编辑",
+                allowResize: false, //允许尺寸调节
+                allowDrag: true, //允许拖拽位置
+                width: 425,
+                height: 320,
+                showModal: true,
+                onload: function () {
+                },
+                ondestroy: function (action) {
+                }
+            });
+        } else {
+            toastr.warning('该节点无法编辑！', '警告提示');
+        }
+        
+    }
+    //元数据结构定义 删除节点
+    function onMetaTreeRemove() {
+        var node = tree_meta.getSelectedNode();
+        if (node) {
+            if (!tree_meta.isLeaf(node)) {
+                alert("该主题还存在下级主题节点，无法直接删除，请先删除下级主题节点");
+                return;
+            }
+            if (confirm("确定删除选中主题节点?")) {
+                //清除主题联动知识卡信息   清除索引信息列表
+                tree_meta.removeNode(node);
+            }
+        }
+        var data = tree_meta.getChanges();
+        console.log(data);
+        var _state = data[0]._state;
+        var _parentId = data[0].parentId;
+        var _text = data[0].text;
+        var _fileNo = data[0].id;
+        onMetaTreeSave(_state, _parentId, _text, _fileNo);
+    }
+    //元数据结构定义 保存修改
+    function onMetaTreeSave(_state, _parentId, _text, _fileNo) {
+        if (_fileNo == null || _fileNo == "")
+            _fileNo = "00000000-0000-0000-0000-000000000000";
+        $.ajax({
+            url: "/ProMetadata/SaveMetaDataTree",
+            type: "get",
+            data: { state: _state, parentId: _parentId, text: _text,fieldNo:_fileNo, metaEntity: currentMetaEntity },
+            success: function (result) {
+                if (result == "") {
+                    var metaData = getdata_meta(currentMetaEntity);
+                    if (metaData.length > 0) {
+                        metaData[0].state = { "selected": true };
+                        tree_meta.loadList(metaData, "id");
+                        tree_meta.cascadeChild(tree_meta.getRootNode(), function (node) {
+                            if (node.state) {
+                                if (node.state.selected == true) tree_meta.selectNode(node);
+                            }
+                        });
+                    }
+                    toastr.success('保存成功！', '成功提示');
+                }
+                else if(result=="attIsNotNull")
+                    toastr.warning('请先删除属性！', '警告提示');
+            }, error: function (jqXHR, textStatus, errorThrown) {
+                toastr.warning('保存失败！', '失败提示');
+            }
+        });
+    }
+
+    //增加表格行
+    function addRow() {
+        var newRow = { Param: "New Row", Value: "New Row" };
+        table_metaAttribute.addRow(newRow, 0);
+        table_metaAttribute.beginEditRow(newRow);
+    }
+    //删除表格行
+    function removeRow() {
+        var rows = table_metaAttribute.getSelecteds();
+        if (rows.length > 0) {
+            if (confirm("确定删除选中专业对象节点?")) {
+                table_metaAttribute.removeRows(rows, true);
+            }
+        }
+    }
+    //保存操作
+    function saveGridData() {
+        table_metaAttribute.commitEdit();
+        var data = table_metaAttribute.getChanges();
+        //验证字段格式是否正确 是否为必填项
+        for (var i = 0; i < data.length;i++){  //AttrCode AttrCaption AttrValue AttrIndex
+            if ((data[i].AttrCode == null || data[i].AttrCode.trim() == null)
+                && (data[i].AttrCaption == null || data[i].AttrCaption.trim() == null)
+                && (data[i].AttrValue == null || data[i].AttrValue.trim() == null)
+                && (data[i].AttrIndex == null || data[i].AttrIndex.trim() == null)) {
+                data.splice(i, 1);
+                i--;
+            } else if (data[i].AttrCode == null || data[i].AttrCode.trim() == null) {
+                toastr["error"]("@Html.Str("属性编码为必填项!")");
+                return;
+            } else if (data[i].AttrCaption == null || data[i].AttrCaption.trim() == null) {
+                toastr["error"]("@Html.Str("属性名称为必填项!")");
+                return;
+            } else if ((data[i].AttrCaption == null || data[i].AttrCaption.trim() == null) && !isNaN(data[i].AttrIndex)) {
+                toastr["error"]("@Html.Str("顺序为必填项并且得为整数!")");
+                return;
+            }
+        }
+        var nodeParams = mini.encode(data);
+        var msgid = mini.loading("数据保存中，请稍后......", "保存数据");
+        $.ajax({
+            url: "/ProMetadata/SaveMetadata",
+            data: { fieldNo: currentTree_MetaFieldNo, nodeParams: nodeParams },
+            type: "get",
+            success: function(text) {
+                toastr["success"]("@Html.Str("保存成功!")");
+                mini.hideMessageBox(msgid);
+                table_metaAttribute.reload();
+                //点击表格的保存按钮之后就需要重新刷新元数据结构预览部分
+                metaDataPreview = "";
+                getChildren(currentTargetTreeId, 0);
+                $("#objectparams").val(metaDataPreview);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseText);
+            }
+        });
+    }
+</script>
+

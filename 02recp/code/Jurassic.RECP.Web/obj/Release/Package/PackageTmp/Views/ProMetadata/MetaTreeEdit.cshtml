@@ -1,0 +1,70 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="mini-fit">
+    <div id="formImport" style="padding:15px 15px 0px 15px;">
+        <table>
+            <tr>
+                <td class="tdleft">
+                    编码：
+                </td>
+                <td class="tdright">
+                    <input id="fieldCode" name="fieldCaption" class="" width="200" emptyText="请输入编码..." value="@ViewBag.fieldCode"/>
+                </td>
+            </tr>
+            <tr>
+                <td class="tdleft">
+                    名称：
+                </td>
+                <td class="tdright">
+                    <input id="fieldCaption" name="fieldCaption" class="" width="200" emptyText="请输入名称..." value="@ViewBag.fieldCaption"/>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="mini-toolbar" style="text-align: center;">
+    <a class="mini-button" onclick="onOk" style="width: 60px; margin-right: 20px;">确定</a>
+    <a class="mini-button" onclick="onCancel" style="width: 60px;">取消</a>
+</div>
+
+
+
+<script>
+    var _metaTreeFieldNo = "@ViewBag.fieldNo";
+    //元数据定义编辑弹出面板确定按钮
+    function onOk() {
+        var _fieldCode = $("#fieldCode").val();
+        var _fieldCaption = $("#fieldCaption").val();
+        if (_fieldCode == "" || _fieldCode == null) {
+            alert("编码为必填字段");
+            return;
+        }
+        if (_fieldCaption == "" || _fieldCaption == null) {
+            alert("名称为必填字段");
+            return;
+        }
+        $.ajax({
+            url: "/ProMetadata/UpdateMetaTree",
+            type: "get",
+            data: { fieldNo: _metaTreeFieldNo, fieldCode: _fieldCode, fieldCaption: _fieldCaption },
+            success: function () {
+                CloseWindow("Ok");
+            }, error: function () {
+                alert("修改失败");
+            }
+        })
+    }
+    //元数据定义编辑面板取消按钮
+    function onCancel() {
+        CloseWindow("cancel");
+    }
+
+    function CloseWindow(action) {
+        if (window.CloseOwnerWindow) {
+            return window.CloseOwnerWindow(action);
+        }
+        else window.close();
+    }
+
+</script>

@@ -1,0 +1,32 @@
+﻿.validGroup
+{
+    padding:5px;
+    margin:0;   
+    color: Red;     
+    font-size:12px;
+    margin-left:15px;
+}
+.validGroup li
+{
+    padding-top:4px;
+}
+.validGroup li a{
+    color: #FF0000;
+    font-family: Tahoma;
+    font-size: 9pt; 
+    padding-bottom:2px;
+    border-bottom: 1px dashed #FF7700;
+    text-decoration: none;       
+}
+.validGroup li a:hover
+{
+    color:#ff7700;
+}
+ul.validGroup
+{
+    list-style: disc;
+}
+ol.validGroup
+{
+    list-style: decimal;
+}

@@ -1,0 +1,46 @@
+[
+    {
+        "id": "01",
+        "text": "三维地震工区",
+        "value": "ThreeDSeismics",
+        "bot": "三维地震",
+        "boc": "三维地震",
+        "rootId": "0CE2F557-7B36-4F0D-8B32-AB2C26B2A740",
+        "start": 2,
+        "pId": null,
+        "state": { "selected": true }
+    },
+    {
+        "id": "02",
+        "text": "三级储量",
+        "value": "ThreeLevelReserve",
+        "bot": "计算单元",
+        "boc": "三级储量计算单元",
+        "rootId": "0CE2F557-7B36-4F0D-8B32-AB2C26B2A756",
+        "start": 3,
+        "pId": null,
+        "state": { "selected": false }
+    },
+    {
+        "id": "03",
+        "text": "井点井位",
+        "value": "WellPoint",
+        "bot": "井点分布",
+        "boc": "剩余出油气井点分布",
+        "rootId": "0CE2F557-7B36-4F0D-8B32-AB2C26B2A848",
+        "start": 2,
+        "pId": null,
+        "state": { "selected": false }
+    },
+    {
+        "id": "04",
+        "text": "井点试油成果",
+        "value": "WellTest",
+        "bot": "井点分布",
+        "boc": "剩余出油气井点分布",
+        "rootId": "0CE2F557-7B36-4F0D-8B32-AB2C26B2A848",
+        "start": 3,
+        "pId": null,
+        "state": { "selected": false }
+    }
+]

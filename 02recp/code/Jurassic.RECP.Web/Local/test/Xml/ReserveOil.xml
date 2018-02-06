@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<ProData>
+	<Reserve Class="Oil" Name="白7井区基质">
+		<A caption="计算单元" cell="A">白7井区基质</A>
+		<ReserveParams caption="储量参数">
+			<B caption="A" units="km&lt;sup&gt;2&lt;/sup&gt;" translate="含油（气）面积" cell="B">4.7</B>
+			<C caption="h" units="m" translate="有效厚度" cell="C">15.1</C>
+			<D caption="Φ" units="f" translate="有效孔隙度" cell="D">0.092</D>
+			<E caption="S&lt;sub&gt;0&lt;sub&gt;" units="f" translate="含油饱和度" cell="E">0.583</E>
+			<F caption="ρ&lt;sub&gt;0&lt;sub&gt;" units="t/m&lt;sup&gt;3&lt;/sup&gt;" translate="原油密度" cell="F">0.88</F>
+			<G caption="B&lt;sub&gt;0i&lt;sub&gt;" units="无因次" translate="原油原始体积系数" cell="G">1.092</G>
+		</ReserveParams>
+		<GeologicReserve caption="地质储量">
+			<H caption="N" units="10&lt;sup&gt;4&lt;/sup&gt;m&lt;sup&gt;3&lt;/sup&gt;" translate="按体积计算" cell="H">348.58</H>
+			<I caption="N'" units="10&lt;sup&gt;4&lt;/sup&gt;t" translate="按重量计算" cell="I">306.75</I>
+		</GeologicReserve>
+		<GasInSolutionGeoRes caption="溶解气地质储量">
+			<J caption="G&lt;sub&gt;s&lt;sub&gt;" units="10&lt;sup&gt;8&lt;/sup&gt;m&lt;sup&gt;3&lt;/sup&gt;" translate="溶解气地质储量" cell="J">1.25</J>
+		</GasInSolutionGeoRes>
+		<ExtractionRat caption="采收率">
+			<K caption="E&lt;sub&gt;r&lt;sub&gt;" units="f" translate="采收率" cell="K">1.25</K>
+		</ExtractionRat>
+		<AvailableReserve caption="可采储量">
+			<L caption="N&lt;sub&gt;R&lt;sub&gt;" units="10&lt;sup&gt;4&lt;/sup&gt;m&lt;sup&gt;3&lt;/sup&gt;" translate="按体积计算" cell="L">45.32</L>
+			<M caption="N&lt;sub&gt;R&lt;sub&gt;'" units="10&lt;sup&gt;4&lt;/sup&gt;t" translate="按重量计算" cell="M">39.88</M>
+		</AvailableReserve>
+		<GasInSolutionAvaRes caption="溶解气可采储量">
+			<N caption="" units="10&lt;sup&gt;8&lt;/sup&gt;m&lt;sup&gt;3&lt;/sup&gt;" translate="溶解气可采储量" cell="N">0.16</N>
+		</GasInSolutionAvaRes>
+	</Reserve>
+<Reserve Class="Oil" Name="白8井区裂缝">
+		<A caption="计算单元" cell="A">白8井区裂缝</A>
+		<ReserveParams caption="储量参数">
+			<B caption="A" units="km&lt;sup&gt;2&lt;/sup&gt;" translate="含油（气）面积" cell="B">4.7</B>
+			<C caption="h" units="m" translate="有效厚度" cell="C">15.1</C>
+			<D caption="Φ" units="f" translate="有效孔隙度" cell="D">0.092</D>
+			<E caption="S&lt;sub&gt;0&lt;sub&gt;" units="f" translate="含油饱和度" cell="E">0.583</E>
+			<F caption="ρ&lt;sub&gt;0&lt;sub&gt;" units="t/m&lt;sup&gt;3&lt;/sup&gt;" translate="原油密度" cell="F">0.88</F>
+			<G caption="B&lt;sub&gt;0i&lt;sub&gt;" units="无因次" translate="原油原始体积系数" cell="G">1.092</G>
+		</ReserveParams>
+		<GeologicReserve caption="地质储量">
+			<H caption="N" units="10&lt;sup&gt;4&lt;/sup&gt;m&lt;sup&gt;3&lt;/sup&gt;" translate="按体积计算" cell="H">348.58</H>
+			<I caption="N'" units="10&lt;sup&gt;4&lt;/sup&gt;t" translate="按重量计算" cell="I">306.75</I>
+		</GeologicReserve>
+		<GasInSolutionGeoRes caption="溶解气地质储量">
+			<J caption="G&lt;sub&gt;s&lt;sub&gt;" units="10&lt;sup&gt;8&lt;/sup&gt;m&lt;sup&gt;3&lt;/sup&gt;" translate="溶解气地质储量" cell="J">1.25</J>
+		</GasInSolutionGeoRes>
+		<ExtractionRat caption="采收率">
+			<K caption="E&lt;sub&gt;r&lt;sub&gt;" units="f" translate="采收率" cell="K">1.25</K>
+		</ExtractionRat>
+		<AvailableReserve caption="可采储量">
+			<L caption="N&lt;sub&gt;R&lt;sub&gt;" units="10&lt;sup&gt;4&lt;/sup&gt;m&lt;sup&gt;3&lt;/sup&gt;" translate="按体积计算" cell="L">45.32</L>
+			<M caption="N&lt;sub&gt;R&lt;sub&gt;'" units="10&lt;sup&gt;4&lt;/sup&gt;t" translate="按重量计算" cell="M">39.88</M>
+		</AvailableReserve>
+		<GasInSolutionAvaRes caption="溶解气可采储量">
+			<N caption="" units="10&lt;sup&gt;8&lt;/sup&gt;m&lt;sup&gt;3&lt;/sup&gt;" translate="溶解气可采储量" cell="N">0.16</N>
+		</GasInSolutionAvaRes>
+	</Reserve>
+</ProData> 

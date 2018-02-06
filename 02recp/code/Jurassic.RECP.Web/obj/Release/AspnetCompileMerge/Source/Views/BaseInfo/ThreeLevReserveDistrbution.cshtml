@@ -1,0 +1,1946 @@
+﻿@{
+    Layout = "~/Views/shared/_RECPLayout.cshtml";
+}
+
+@section css{
+    <link rel="stylesheet" href="/scripts/GeoTopic/bootstrap-3.3.5-dist/css/font-awesome.css">
+    <link href="~/content/RECP/css/animate.css" rel="stylesheet" />
+    <link href="~/content/RECP/css/jquery.gritter.css" rel="stylesheet" />
+    <link href="~/content/RECP/css/morris-0.4.3.min.css" rel="stylesheet" />
+    <link href="~/content/RECP/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet" />
+    <link href="~/content/RECP/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet" />
+    <link href="~/content/RECP/css/chosen.css" rel="stylesheet" />
+    <link href="~/content/RECP/css/style.css" rel="stylesheet" />
+    <link href="~/content/RECP/css/plugins/toastr/toastr.min.css" rel="stylesheet" />
+    <link href="~/Content/RECP/css/plugins/split/css/style.css" rel="stylesheet" />
+    <style type="text/css">
+        .panel-body-height {
+            height: 350px;
+        }
+
+        .ibox-title {
+            padding: 5px 15px 0;
+            min-height: 30px;
+        }
+
+        #tablist_unit {
+            overflow: hidden;
+        }
+
+        /*#gbox_table_list_unit_result {
+            width: 2168px !important;
+        }
+
+        #gview_table_list_unit_result {
+            width: 2168px !important;
+        }*/
+
+        /*.ui-jqgrid-hdiv {
+            width: 2168px !important;
+        }
+
+        .ui-jqgrid-bdiv {
+            width: 2168px !important;
+        }*/
+    </style>
+
+}
+
+<form id="formDown" method="post" style="display:inline-block;">
+    <input type="hidden" name="id" id="id" />
+    <input type="hidden" name="title" id="title" />
+    <input type="hidden" name="url" id="url" />
+    <input type="hidden" name="ticket" id="ticket" />
+    <input type="hidden" name="format" id="format" />
+    <input type="hidden" name="name" id="name" />
+</form>
+<div style="margin-top:5px" id="splitter">
+    <div id="leftPane" class="split split-horizontal">
+        <div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="tabs_panels.html#collapseOne">按计算单元查看分布</a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in">
+                    <div class="panel-body panel-body-height">
+                        <div id="calculate-unit-tree"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="tabs_panels.html#collapseTwo">按储量类别查看分布</a>
+                    </h5>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse">
+                    <div class="panel-body panel-body-height">
+                        <div id="reserve-category-tree"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="tabs_panels.html#collapseThree">按层系查看分布</a>
+                    </h4>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse">
+                    <div class="panel-body panel-body-height">
+                        <div id="layer-type-tree"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="tabs_panels.html#collapseFour">综合查询储量分布</a>
+                    </h4>
+                </div>
+                <div id="collapseFour" class="panel-collapse  collapse">
+                    <div class="panel-body" style="height: 435px;">
+                        <div class="form-group">
+                            <label>上报年度</label>
+                            <input type="text" id="ionrange_1" name="ionrange_1" value="" />
+                        </div>
+                        <div class="form-group">
+                            <label>储量类别</label>
+                            <div class="input-group" style="width: 100%;">
+                                <select data-placeholder="选择储量类别..." class="chosen-select" id="resCategory" name="resCategory" style="width: 100%;"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>地质年代</label>
+                            <div class="input-group" style="width: 100%;">
+                                <select data-placeholder="选择系..." class="chosen-select" id="series" name="series" style="width: 100%;"></select>
+                            </div>
+                            <div class="input-group" style="width: 100%;">
+                                <select data-placeholder="选择组..." class="chosen-select" id="formation" name="formation" style="width: 100%;"></select>
+                            </div>
+                            <div class="input-group" style="width: 100%;">
+                                <select data-placeholder="选择层..." class="chosen-select" id="layer" name="layer" style="width: 100%;"></select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>井区</label>
+                            <div class="input-group" style="width: 100%;">
+                                <select data-placeholder="选择井区..." class="chosen-select" id="blockGuan" name="blockGuan" style="width: 100%;"></select>
+                            </div>
+                        </div>
+                        <div class="user-button">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <button id="btnsearch-unit" class="btn btn-primary btn-block" type="button"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="tabs_panels.html#collapseFive">储量成果报告</a>
+                    </h4>
+                </div>
+                <div id="collapseFive" class="panel-collapse collapse">
+                    <div class="panel-body panel-body-height">
+                        <div class="form-group">
+                            <label>成果名称</label>
+                            <input type="text" placeholder="请输入成果名称" class="form-control" id="reserve-geo-list">
+                        </div>
+                        <div class="form-group" id="data_1">
+                            <label>范围选择</label>
+                            <div class="input-daterange input-group" id="datepicker">
+                                <input type="text" class="input-sm form-control" name="start" value="2000-01-01" id="reserve-geo-start-date" />
+                                <span class="input-group-addon">至</span>
+                                <input type="text" class="input-sm form-control" name="end" value="2020-10-28" id="reserve-geo-end-date" />
+                            </div>
+                        </div>
+                        <div class="user-button">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <button id="btnselgdb" class="btn btn-primary btn-block" type="button"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="rightPane" class="split split-horizontal">
+        <ul id="right_tabs" class="nav nav-tabs" style="margin-left:0;width:5%;float:right;height:100%;">
+            <li class="active">
+                <a data-toggle="tab" href="#tab-1" aria-expanded="true">储量信息</a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" href="#tab-2" aria-expanded="false">相关成果</a>
+            </li>
+        </ul>
+        <div class="tab-content" style="height: 100%;">
+            <div id="tab-1" class="tab-pane active" style="height: 100%;">
+                <div id="joGIS_map" class="split content">
+                    <div class="ibox float-e-margins" style="margin-bottom: 0px;">
+                        <div class="ibox-content" style="padding: 5px 5px 0px 5px;">
+                            <object id="joGIS1" classid="clsid:D2546426-13FD-4018-85F1-F5BD61147C8F" codebase="JoGIS4.ocx#version=1,0,0,1" style="width:100%; height: 100%;" wmode="Opaque"
+                                    viewastext>
+                                <param name="_Version" value="65536">
+                                <param name="_ExtentX" value="20000">
+                                <param name="_ExtentY" value="15000">
+                                <param name="_StockProps" value="0">
+                                <param name="WMODE" value="transparent">
+                            </object>
+                        </div>
+                    </div>
+                </div>
+                <div id="tablist_unit" class="split content">
+                    <div class="ibox float-e-margins" style="margin-bottom: 0px;">
+                        <div class="ibox-title">
+                            <h5>储量计算单元结果列表</h5>
+                        </div>
+                        <div class="ibox-content" style="padding: 5px 5px 0px 5px;">
+                            <div class="jqGrid_wrapper" style="overflow-x:auto">
+                                <table id="table_list_unit_result"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="geologic_age" class="split content" style="display:none;overflow: hidden;">
+                    <div class="ibox float-e-margins" style="margin-bottom: 0px;">
+                        <div class="ibox-title">
+                            <h5>地质年代层系结果列表</h5>
+                        </div>
+                        <div class="ibox-content" style="padding: 5px 5px 0 5px;">
+                            <div class="jqGrid_wrapper" style="overflow-x:auto">
+                                <table id="table_age_result"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="tablist_search" class="split content" style="display:none;overflow: hidden;">
+                    <div class="ibox float-e-margins" style="margin-bottom: 0px;">
+                        <div class="ibox-title">
+                            <h5>查询搜索结果列表</h5>
+                        </div>
+                        <div class="ibox-content" style="padding: 5px 5px 0px 5px;">
+                            <div class="jqGrid_wrapper" style="overflow-x:auto">
+                                <table id="table_search_result"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="targetReps" style="display:none;overflow: hidden;">
+                    <div class="ibox float-e-margins" style="margin-bottom: 0px;">
+                        <div class="ibox-title">
+                            <h5>储量成果报告列表</h5>
+                        </div>
+                        <div class="ibox-content" style="padding: 5px 5px 0px 5px;">
+                            <div class="project-list" id="myAchieveList">
+                                <table id="table_list" class="table table-hover no-margins">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:45px">编号</th>
+                                            <th style="width:140px;">名称</th>
+                                            <th style="width:65px">作者</th>
+                                            <th style="width:50px">浏览次数</th>
+                                            <th style="width:50px">成果类型</th>
+                                            <th style="width:70px">成果来源</th>
+                                            <th style="width:65px;">操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-bind="foreach:myAchieveListData">
+                                        <tr>
+                                            <td data-bind="text:$index() + 1"></td>
+                                            <td data-bind="text:name"></td>
+                                            <td data-bind="text:author"></td>
+                                            <td data-bind="text:skimCount"></td>
+                                            <td data-bind="text:producttype"></td>
+                                            <td data-bind="text:source"></td>
+                                            <td>
+                                                <button class="btn btn-info btn-circle" data-bind="click: $parent.openDetailPage" type="button" data-toggle="tooltip" data-placement="left" title="浏览">
+                                                    <i class="fa fa-sticky-note-o"></i>
+                                                </button>
+                                                <span data-bind="click: $parent.collectAchieveList">
+                                                    <button data-bind="css:(flagFav ==1 ?  'btn btn-danger btn-circle btn-outline hasCollected' : 'btn  btn-default btn-circle btn-outline hasNotCollected'),attr:{title:(flagFav ==1 ?'已收藏':'未收藏')}" type="button" data-toggle="tooltip" data-placement="left" title="">
+                                                        <i class="fa fa-heart"></i>
+                                                    </button>
+                                                </span>
+                                                <button class="btn btn-success btn-circle" type="button" data-bind="click: $parent.downloadAchieve" data-toggle="tooltip" data-placement="left" title="下载">
+                                                    <i class="fa fa-download"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="container">
+                                    <div class="col-md-8 col-md-offset-3">
+                                        <div id="app">
+                                            <div id="_id">
+                                                <nav class="boot-nav" v-if="show">
+                                                    <ul class="pagination boot-item pagination-lg">
+                                                        <li v-if="_showFirstPrev">
+                                                            <a href="##" @@click="onPrev">
+                                                                <span aria-hidden="true">上一页</span>
+                                                            </a>
+                                                        </li>
+                                                        <li v-for="item in _items" class="activeItem === item ? 'active' : ''">
+                                                            <a href="##" v-text="item" @@click="onCurrent(item)"></a>
+                                                        </li>
+                                                        <li v-if="_showNextLast">
+                                                            <a href="##" @@click="onNext">
+                                                                <span aria-hidden="true">下一页</span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="tab-2" class="tab-pane" style="height: 100%;">
+                <div id="unitGeo" style="overflow: hidden;">
+                    <div class="ibox float-e-margins" style="margin-bottom: 0px;">
+                        <div class="ibox-content" style="padding: 5px 5px 0px 5px;">
+                            <div class="project-list" id="myAchieveList2">
+                                <table id="table_list2" class="table table-hover no-margins">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:45px">编号</th>
+                                            <th style="width:140px;">名称</th>
+                                            <th style="width:65px">作者</th>
+                                            <th style="width:50px">浏览次数</th>
+                                            <th style="width:50px">成果类型</th>
+                                            <th style="width:70px">成果来源</th>
+                                            <th style="width:65px;">操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-bind="foreach:myAchieveListData2">
+                                        <tr>
+                                            <td data-bind="text:$index() + 1"></td>
+                                            <td data-bind="text:name"></td>
+                                            <td data-bind="text:author"></td>
+                                            <td data-bind="text:skimCount"></td>
+                                            <td data-bind="text:producttype"></td>
+                                            <td data-bind="text:source"></td>
+                                            <td>
+                                                <button class="btn btn-info btn-circle" data-bind="click: $parent.openDetailPage2" type="button" data-toggle="tooltip" data-placement="left" title="浏览">
+                                                    <i class="fa fa-sticky-note-o"></i>
+                                                </button>
+                                                <span data-bind="click: $parent.collectAchieveList2">
+                                                    <button data-bind="css:(flagFav ==1 ?  'btn btn-danger btn-circle btn-outline hasCollected' : 'btn btn-circle btn-outline hasNotCollected'),attr:{title:(flagFav ==1 ?'已收藏':'未收藏')}" type="button" data-toggle="tooltip" data-placement="left" title="">
+                                                        <i class="fa fa-heart"></i>
+                                                    </button>
+                                                </span>
+                                                <button class="btn btn-success btn-circle" type="button" data-bind="click: $parent.downloadAchieve2" data-toggle="tooltip" data-placement="left" title="下载">
+                                                    <i class="fa fa-download"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="container">
+                                    <div class="col-md-8 col-md-offset-3">
+                                        <div id="app2">
+                                            <div id="_id2">
+                                                <nav class="boot-nav" v-if="show2">
+                                                    <ul class="pagination boot-item pagination-lg">
+                                                        <li v-if="_showFirstPrev2">
+                                                            <a href="##" @@click="onPrev2">
+                                                                <span aria-hidden="true">上一页</span>
+                                                            </a>
+                                                        </li>
+                                                        <li v-for="item in _items2" class="activeItem2 === item ? 'active' : ''">
+                                                            <a href="##" v-text="item" @@click="onCurrent2(item)"></a>
+                                                        </li>
+                                                        <li v-if="_showNextLast2">
+                                                            <a href="##" @@click="onNext2">
+                                                                <span aria-hidden="true">下一页</span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/content/RECP/js/content.js"></script>
+    <script src="~/content/RECP/js/jquery.slimscroll.min.js"></script>
+    <script src="~/content/RECP/js/jquery.easypiechart.js"></script>
+    <script src="~/content/RECP/js/jquery.peity.min.js"></script>
+    <script src="~/content/RECP/js/jquery.sparkline.min.js"></script>
+    <script src="~/content/RECP/js/linq.min.js"></script>
+    <script src="~/content/RECP/js/plugins/chosen/chosen.jquery.js"></script>
+    <script src="~/content/RECP/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+    <script src="~/content/RECP/js/plugins/knockout/knockout.js"></script>
+    <script src="~/content/RECP/js/plugins/toastr/toastr.min.js"></script>
+    <script src="~/Content/RECP/js/vue.js"></script>
+    <script src="~/content/RECP/js/plugins/knockout/knockout.js"></script>
+    <script src="~/Content/RECP/js/common/AchieveDown.js"></script>
+    <script src="~/Content/RECP/js/plugins/split/split.js"></script>
+    <script type="text/javascript">
+        // 正文高度
+        var fixSplitterHeight = function () {
+            var heightWithoutNavbar = $("body").height();
+            $("#splitter").css("height", heightWithoutNavbar - 85);
+        };
+        //修复JoGis展示区
+        var fixJoGISHeight = function () {
+            var height = $("#joGIS_map").height();
+            $("#joGIS1").css("height", height - 20);
+        };
+        //修复joGIS_map高度
+        var fixJoGISMapHeight = function () {
+            var height = $("#leftPane").height();
+            $("#joGIS_map").css("height", height - 10);
+        }
+
+        //改變tab激活狀態flag,0:顯示tab，1:不顯示tab標籤
+        var changeTabStatus = function (flag) {
+            if (!flag) {
+                var hasClass = $("#tab-1").hasClass("active");
+                if (!hasClass) {
+                    $("#tab-1").addClass("active");
+                    $("#tab-2").removeClass("active");
+                }
+            } else {
+                var index = $("#right_tabs li[class='active']").index();
+                if (index == 1) {
+                    $("#tab-1").removeClass("active");
+                    $("#tab-2").addClass("active");
+                }
+            }
+
+
+        }
+        $(document).ready(function () {
+            fixSplitterHeight();
+            //修复JoGis展示区
+            $(window).bind("load resize click scroll",
+                function () {
+                    if (!$("body").hasClass('body-small')) {
+                        fixSplitterHeight();
+                        fixJoGISHeight();
+                    }
+                });
+
+            $('.navbar-nav li a').each(function () {
+                if ($($(this))[0].href == String(window.location)) {
+                    $("#homepage").removeClass('active');
+                    $(this).parent().parent().parent().addClass('active');
+                }
+            });
+            Split(['#leftPane', '#rightPane'], {
+                gutterSize: 8,
+                sizes: [20, 80]
+            });
+            rightSplit = Split(['#joGIS_map', '#tablist_unit'], {
+                gutterSize: 8,
+                sizes: [65, 35],
+                direction: 'vertical',
+                onDrag: fixJoGISHeight
+            });
+
+            initTree();
+            initEvent();
+            loadDocument();
+        });
+
+        //公共变量
+        var rightSplit = null;
+
+        var gdb_url = "";
+        var xishanyao_gdb_url = "";
+        var qigu_gdb_url = "";
+        var carboniferous_gdb_url = "";
+        var cur_selfun = "tab1";
+        var tempBaseInfo;
+        var currentStart;
+        var currentEnd;
+        var JoGis4 = null;
+        var jogis4_options = {
+            Style: { border: "solid 1px #666", width: "100%" },
+            ShowEagleEye: true
+        };
+
+        var reserveTreeData;
+        var reservesQueryResultData;
+
+        //计算单元
+        var initUnitTree = function (jsondata) {
+            $("#calculate-unit-tree")
+                .jstree({
+                    'plugins': ['types', 'dnd'],
+                    'types': {
+                        'default': {
+                            'icon': 'fa fa-folder'
+                        },
+                        'html': {
+                            'icon': 'fa fa-file-code-o'
+                        },
+                        'svg': {
+                            'icon': 'fa fa-file-picture-o'
+                        },
+                        'css': {
+                            'icon': 'fa fa-file-code-o'
+                        },
+                        'img': {
+                            'icon': 'fa fa-file-image-o'
+                        },
+                        'js': {
+                            'icon': 'fa fa-file-text-o'
+                        }
+                    },
+                    'core': {
+                        //"multiple" : true,//多选
+                        "animation": true, //动画
+                        "data": jsondata
+                    }
+                });
+        }
+
+        //储量类别
+        var initReserveTree = function (jsondata) {
+            $("#reserve-category-tree").jstree({
+                'plugins': ['types', 'dnd'],
+                'types': {
+                    'default': {
+                        'icon': 'fa fa-folder'
+                    },
+                    'html': {
+                        'icon': 'fa fa-file-code-o'
+                    },
+                    'svg': {
+                        'icon': 'fa fa-file-picture-o'
+                    },
+                    'css': {
+                        'icon': 'fa fa-file-code-o'
+                    },
+                    'img': {
+                        'icon': 'fa fa-file-image-o'
+                    },
+                    'js': {
+                        'icon': 'fa fa-file-text-o'
+                    }
+                },
+                'core': {
+                    "multiple": true,//多选
+                    "animation": true, //动画
+                    "data": jsondata
+                }
+            });
+        }
+
+        //层系
+        var initLayerTree = function (jsondata) {
+            $("#layer-type-tree").jstree({
+                'plugins': ['types', 'dnd'],
+                'types': {
+                    'default': {
+                        'icon': 'fa fa-folder'
+                    },
+                    'html': {
+                        'icon': 'fa fa-file-code-o'
+                    },
+                    'svg': {
+                        'icon': 'fa fa-file-picture-o'
+                    },
+                    'css': {
+                        'icon': 'fa fa-file-code-o'
+                    },
+                    'img': {
+                        'icon': 'fa fa-file-image-o'
+                    },
+                    'js': {
+                        'icon': 'fa fa-file-text-o'
+                    }
+                },
+                'core': {
+                    "multiple": true,//多选
+                    "animation": true, //动画
+                    "data": jsondata
+                }
+            });
+        }
+
+        function initTree() {
+            $.ajax({
+                url: "/BaseInfo/GetBOBaseInfo",
+                type: "post",
+                data: { boc: "三级储量计算单元" },
+                dataType: "json",
+                success: function (result) {
+                    var arr = [];
+                    result.forEach(function (value) {
+                        arr.push({
+                            "id": value.ID,
+                            "parent": value.PID == null ? "#" : value.PID,
+                            "text": value.Name,
+                            "state": {
+                                "opened": value.PID == null ? true : false,
+                                "selected": value.PID == null ? true : false
+                            }
+                        });
+                    });
+                    initUnitTree(arr);
+                }
+            });
+             
+            $.ajax({
+                url: "/BaseInfo/GetBOBaseInfo",
+                type: "post",
+                data: { boc: "储量类别" },
+                dataType: "json",
+                success: function (result) {
+                    tempBaseInfo = result;
+                    var arr = [];
+                    result.forEach(function (value) {
+                        arr.push({
+                            "id": value.ID,
+                            "parent": value.PID == null ? "#" : value.PID,
+                            "text": value.Name,
+                            "bot": value.BOT,
+                            "state": {
+                                "opened": value.PID == null ? true : false,
+                                "selected": value.PID == null ? true : false
+                            }
+                        });
+                    });
+                    initReserveTree(arr);
+                }
+            });
+
+            $.ajax({
+                url: "/BaseInfo/GetBOBaseInfo",
+                type: "post",
+                data: { boc: "地层年代" },
+                dataType: "json",
+                success: function (result) {
+                    tempBaseInfo = result;
+                    var arr = [];
+                    result.forEach(function (value) {
+                        arr.push({
+                            "id": value.ID,
+                            "parent": value.PID == null ? "#" : value.PID,
+                            "text": value.Name,
+                            "bot": value.BOT,
+                            "state": {
+                                "opened": value.PID == null ? true : false,
+                                "selected": value.PID == null ? true : false
+                            }
+                        });
+                    });
+                    initLayerTree(arr);
+                }
+            });
+        }
+
+        function initEvent() {
+            $("#calculate-unit-tree").on('changed.jstree', function (e, data) {
+                var id = "";
+                var boc = "三级储量计算单元";
+                var domId = "table_list_unit_result";
+                var treeId = "calculate-unit-tree";
+                if (data.action == "model") {
+                    id = data.selected[0];
+                    loadUnitGrid(domId, treeId);
+                }
+                else if (data.action == "select_node") {
+                    id = data.node.id;
+                    var pid = data.node.parent;
+                    if (pid == "#") {
+                        loadUnitGrid2(domId);
+                    } else {
+                        updateUnitGrid(id, domId);
+                    } 
+                    currentUnit = data.node.text; 
+                    loadAchieveList2(currentUnit, 0);
+                }
+                if (id != "") {
+                    loadGdb(boc, id);
+                }
+            });
+
+            $("#reserve-category-tree").on('changed.jstree', function (e, data) {
+                var entity = data.node;
+                if (entity) { 
+                    var id = "";
+                    var boc = "储量类别"; 
+                    if (data.action == "model") {
+                        id = data.selected[0]; 
+                    }
+                    else if (data.action == "select_node") {
+                        id = data.node.id; 
+                    }
+                    if (id != "") {
+                        loadGdb(boc, id);
+                    }
+                }
+            });
+
+            $("#layer-type-tree").on('changed.jstree', function (e, data) {
+                var id = "";
+                var boc = "地层年代";
+                var domId = "table_age_result";
+                var treeId = "layer-type-tree";
+                if (data.action == "model") { //init
+                    id = data.selected[0];
+                    loadUnitGrid(domId, treeId);
+                }
+                else if (data.action == "select_node") {
+                    id = data.node.id;
+                    var pid = data.node.parent;
+                    if (pid == "#") {
+                        loadUnitGrid2(domId);
+                    } else {
+                        var bot = data.node.original.bot;
+                        var name = data.node.text;
+                        updateLayerGrid(domId, bot, name);
+                    }
+                }
+                if (id != "") {
+                    loadGdb(boc, id);
+                }
+            });
+        }
+
+        function loadGdb(boc, id) {
+            $.ajax({
+                url: "/BaseInfo/GetBOBaseInfoUrl",
+                type: "get",
+                data: { boc: boc, id: id, feature: "Reserve" },
+                dataType: "json",
+                success: function (url) {
+                    if (url) {
+                        url = defaultUrl.ResourceDefaultUrl + "GDB/" + encodeURI(url);
+                        loadGdbFile(url);
+                    }
+                }
+            });
+        }
+
+        function loadUnitGrid(domId, treeId) {
+            getBaseInfoViewData(domId, treeId);
+        }
+
+        function loadUnitGrid2(domId) {
+            getBaseInfoViewData2(domId);
+        }
+
+        function updateUnitGrid(id, domId) {
+            getBaseInfoViewDataById(id, domId);
+        }
+
+        function updateLayerGrid(domId, bot, name) {
+            $.ajax({
+                url: "/BaseInfo/GetBaseInfoViewDataByBOT",
+                type: "post",
+                data: { bot: bot, name: name },
+                success: function (result) {
+                    if (!result) return;
+                    var d = result.split('#');
+                    var data1 = eval('(' + d[0] + ')');
+                    var arr = eval('(' + d[1] + ')');
+                    var temp = [];
+                    for (var i = 0; i < arr.length; i++) {
+                        if (arr[i] == "id") {
+                            temp.push({ "index": arr[i], "name": arr[i], hidden: true });
+                        } else {
+                            temp.push({ "index": arr[i], "name": arr[i], width: 90 });
+                        }
+                    }
+                    var data2 = temp;
+                    var data3 = eval('(' + d[2] + ')');
+                    var data4 = eval('(' + d[3] + ')');
+                    $("#" + domId).jqGrid("clearGridData");
+                    $("#" + domId).jqGrid("setGridParam", { data: data4 }).trigger("reloadGrid");
+                }
+            });
+        }
+
+        function getBaseInfoViewData(domId, treeId) {
+            $.ajax({
+                url: "/BaseInfo/GetBaseInfoViewData",
+                type: "post",
+                success: function (result) {
+                    if (!result) return;
+                    var d = result.split('#');
+                    var data1 = eval('(' + d[0] + ')');
+                    var arr = eval('(' + d[1] + ')');
+                    var temp = [];
+                    for (var i = 0; i < arr.length; i++) {
+                        if (arr[i] == "id") {
+                            temp.push({ "index": arr[i], "name": arr[i], hidden: true });
+                        } else {
+                            temp.push({ "index": arr[i], "name": arr[i], width: 90 });
+                        }
+                    }
+                    var data2 = temp;
+                    var data3 = eval('(' + d[2] + ')');
+                    var data4 = eval('(' + d[3] + ')');
+                    loadGrid(domId, treeId, data1, data2, data3, data4);
+                }
+            });
+        }
+
+        function getBaseInfoViewData2(domId) {
+            $.ajax({
+                url: "/BaseInfo/GetBaseInfoViewData",
+                type: "post",
+                success: function (result) {
+                    if (!result) return;
+                    var d = result.split('#');
+                    var data1 = eval('(' + d[0] + ')');
+                    var arr = eval('(' + d[1] + ')');
+                    var temp = [];
+                    for (var i = 0; i < arr.length; i++) {
+                        if (arr[i] == "id") {
+                            temp.push({ "index": arr[i], "name": arr[i], hidden: true });
+                        } else {
+                            temp.push({ "index": arr[i], "name": arr[i], width: 90 });
+                        }
+                    }
+                    var data2 = temp;
+                    var data3 = eval('(' + d[2] + ')');
+                    var data4 = eval('(' + d[3] + ')');
+                    $("#" + domId).jqGrid("clearGridData");
+                    $("#" + domId).jqGrid("setGridParam", { data: data4 }).trigger("reloadGrid");
+                }
+            });
+        }
+
+        function getBaseInfoViewDataById(id, domId) {
+            $.ajax({
+                url: "/BaseInfo/GetBaseInfoViewDataById",
+                type: "post",
+                data: { id: id },
+                success: function (result) {
+                    if (!result) return;
+                    var d = result.split('#');
+                    var data1 = eval('(' + d[0] + ')');
+                    var arr = eval('(' + d[1] + ')');
+                    var temp = [];
+                    for (var i = 0; i < arr.length; i++) {
+                        if (arr[i] == "id") {
+                            temp.push({ "index": arr[i], "name": arr[i], hidden: true });
+                        } else {
+                            temp.push({ "index": arr[i], "name": arr[i], width: 90 });
+                        }
+                    }
+                    var data2 = temp;
+                    var data3 = eval('(' + d[2] + ')');
+                    var data4 = eval('(' + d[3] + ')');
+                    $("#" + domId).jqGrid("clearGridData");
+                    $("#" + domId).jqGrid("setGridParam", { data: data4 }).trigger("reloadGrid");
+                }
+            });
+        }
+
+        function loadGrid(domId, treeId, data1, data2, data3, data4) {
+            $("#" + domId)
+                .jqGrid({
+                    data: data4,
+                    datatype: "local",
+                    height: 150,
+                    rowNum: data4.length + 1,
+                    colNames: data1,
+                    colModel: data2,
+                    cmTemplate: { autoResizable: true },
+                    autowidth: true,
+                    shrinkToFit: false,
+                    autoScroll: true,
+                    gridview: true,
+                    scrollrows: true,
+                    pgbuttons: false,
+                    pginput: false,
+                    viewrecords: true,
+                    add: false,
+                    edit: false,
+                    hidegrid: false,
+                    guiStyle: "bootstrap",
+                    iconSet: "fontAwesome",
+                    onSelectRow: function (id) {
+                        var thisId = $("#" + domId).getCell(id, "id");
+                        $('#' + treeId).jstree('select_node', thisId);
+                        if (domId == "table_age_result") {
+                            if (thisId != "") {
+                                loadGdb("三级储量计算单元", thisId);
+                            }
+                        }
+                    }
+                });
+            $("#" + domId).setGroupHeaders({
+                useColSpanStyle: true,
+                groupHeaders: data3
+            });
+        }
+
+        function loadSearchGrid(domId, data1, data2, data3, data4) {
+            $("#" + domId)
+                .jqGrid({
+                    data: data4,
+                    datatype: "local",
+                    height: 150,
+                    rowNum: data4.length + 1,
+                    colNames: data1,
+                    colModel: data2,
+                    autowidth: true,
+                    shrinkToFit: false,
+                    autoScroll: true,
+                    gridview: true,
+                    scrollrows: true,
+                    pgbuttons: false,
+                    pginput: false,
+                    viewrecords: true,
+                    add: false,
+                    edit: false,
+                    hidegrid: false,
+                    guiStyle: "bootstrap",
+                    iconSet: "fontAwesome",
+                    onSelectRow: function (id) {
+                        var thisId = $("#" + domId).getCell(id, "id");
+                        if (thisId != "") {
+                            loadGdb("三级储量计算单元", thisId);
+                        }
+                    }
+                });
+            $("#" + domId).setGroupHeaders({
+                useColSpanStyle: true,
+                groupHeaders: data3
+            });
+        }
+
+        function loadGdbFile(url) {
+            if (!JoGis4) {
+                configGeoMap();
+            }
+            try {
+                JoGis4.options.GDBPath = url;
+                JoGis4.loadGeoMapFile();
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+        var configGeoMap = function () {
+            JoGis4 = new JoGis(joGIS1, jogis4_options);
+            joGIS1.SelectMode = 0;
+            joGIS1.ShowToolTips(1);
+            df_ZoomScale = joGIS1.ZoomScale; //记录默认比例尺
+            //绑定右键菜单
+            createContextMenu();
+
+            //菜单事件
+            function joGIS1::CustomMenu(nID) {
+                var filedir = null;
+                switch (nID) {
+                    case 99: {//下载
+                        filedir = joGIS1.DoFileDialog(false, "GDBX", "Geomap图件");
+                        if (filedir == '') return;
+                        joGIS1.SaveMapFile(filedir);
+                        break;
+                    }
+                }
+            }
+        };
+
+        function createContextMenu() {
+            joGIS1.ResetTools();
+            // 定制右键菜单测试
+            joGIS1.AddTool(0); //选择
+            joGIS1.AddTool(13); //放大
+            joGIS1.AddTool(14); //缩小
+            joGIS1.AddTool(15); //移动/手势
+            joGIS1.AddTool(17); //复位
+            // 定制自定义菜单测试
+            joGIS1.AddCustomTool("下载", 99); //菜单开始
+        }
+
+        function setIonRage() {
+            $.ajax({
+                url: "/BaseInfo/GetBaseInfoViewDataForYear",
+                type: "get",
+                success: function (result) {
+                    var len = result.length;
+                    var start = parseInt(result[0].Year);//new Date(parseInt(result[0].Year.replace("/Date(", "").replace(")/", ""))).getFullYear();
+                    var end = parseInt(result[len - 1].Year);//new Date(parseInt(result[result.length - 1].Year.replace("/Date(", "").replace(")/", ""))).getFullYear();
+                    $("#ionrange_1").ionRangeSlider({
+                        min: start,
+                        max: end,
+                        type: 'double',
+                        postfix: "年",
+                        prettify: false,
+                        hasGrid: false,
+                        onChange: function (obj) { // function-callback, is called on every change
+                            var startY = obj.fromNumber;
+                            var endY = obj.toNumber;
+                            chosenEvent(startY, endY);
+                        },
+                        onFinish: function (obj) { // function-callback, is called once, after slider finished it's work
+                            console.log(obj);
+                        }
+                    });
+                }
+            });
+        }
+
+        function chosenEvent(startY, endY) {
+            $.ajax({
+                url: "/BaseInfo/GetBaseInfoViewDataForCategory",
+                data: { startYear: startY, endYear: endY },
+                type: "get",
+                success: function (result) {
+                    bindResCategory(result);
+                }
+            });
+        }
+
+        function bindResCategory(temp) {
+            $("#resCategory").empty();
+            $("#resCategory").append($("<option value=\"\">选择储量类别...</option>"));
+            $("#resCategory").trigger("chosen:updated");
+            $("#series").empty();
+            $("#series").append($("<option value=\"\">选择系...</option>"));
+            $("#series").trigger("chosen:updated");
+            $("#formation").empty();
+            $("#formation").append($("<option value=\"\">选择组...</option>"));
+            $("#formation").trigger("chosen:updated");
+            $("#layer").empty();
+            $("#layer").append($("<option value=\"\">选择层...</option>"));
+            $("#layer").trigger("chosen:updated");
+            $("#blockGuan").empty();
+            $("#blockGuan").append($("<option value=\"\">选择井区...</option>"));
+            $("#blockGuan").trigger("chosen:updated");
+            for (var i = 0; i < temp.length; i++) {
+                $("#resCategory").append($("<option value=\"" + temp[i] + "\" hassubinfo=\"true\">" + temp[i] + "</option>"));
+            }
+            $("#resCategory").trigger("chosen:updated");
+            $("#resCategory").unbind("change", selectSeries);
+            $("#resCategory").bind("change", selectSeries);
+        }
+
+        function selectSeries() {
+            $("#series").empty();
+            $("#series").append($("<option value=\"\">选择系...</option>"));
+            $("#series").trigger("chosen:updated");
+            $("#formation").empty();
+            $("#formation").append($("<option value=\"\">选择组...</option>"));
+            $("#formation").trigger("chosen:updated");
+            $("#layer").empty();
+            $("#layer").append($("<option value=\"\">选择层...</option>"));
+            $("#layer").trigger("chosen:updated");
+            $("#blockGuan").empty();
+            $("#blockGuan").append($("<option value=\"\">选择井区...</option>"));
+            $("#blockGuan").trigger("chosen:updated");
+            var strYear = $("#ionrange_1").val().split(';');
+            if ($("#resCategory").val()) {
+                $.ajax({
+                    url: "/BaseInfo/GetBaseInfoViewDataForSeries",
+                    type: "get",
+                    data: { startYear: strYear[0], endYear: strYear[1], category: $("#resCategory").val() },
+                    success: function (result) {
+                        $("#series").empty();
+                        $("#series").append($("<option value=\"\">选择系...</option>"));
+                        for (var i = 0; i < result.length; i++) {
+                            $("#series").append($("<option value=\"" + result[i] + "\" hassubinfo=\"true\">" + result[i] + "</option>"));
+                        }
+                        $("#series").trigger("chosen:updated");
+                        $("#series").unbind("change", selectFormation);
+                        $("#series").bind("change", selectFormation);
+                    }
+                });
+            } else {
+                //$("#series").empty();
+                //$("#series").append($("<option value=\"\">选择系...</option>"));
+                //$("#formation").empty();
+                //$("#formation").append($("<option value=\"\">选择组...</option>"));
+                //$("#layer").empty();
+                //$("#layer").append($("<option value=\"\">选择层...</option>"));
+                //$("#blockGuan").empty();
+                //$("#blockGuan").append($("<option value=\"\">选择井区...</option>"));
+                //$("#resCategory").trigger("chosen:updated");
+                //$("#series").trigger("chosen:updated");
+                //$("#formation").trigger("chosen:updated");
+                //$("#layer").trigger("chosen:updated");
+                //$("#blockGuan").trigger("chosen:updated");
+            }
+        }
+
+        function selectFormation() {
+            $("#formation").empty();
+            $("#formation").append($("<option value=\"\">选择组...</option>"));
+            $("#formation").trigger("chosen:updated");
+            $("#layer").empty();
+            $("#layer").append($("<option value=\"\">选择层...</option>"));
+            $("#layer").trigger("chosen:updated");
+            $("#blockGuan").empty();
+            $("#blockGuan").append($("<option value=\"\">选择井区...</option>"));
+            $("#blockGuan").trigger("chosen:updated");
+            var strYear = $("#ionrange_1").val().split(';');
+            if ($("#resCategory").val() && $("#series").val()) {
+                $.ajax({
+                    url: "/BaseInfo/GetBaseInfoViewDataForFormation",
+                    type: "get",
+                    data: { startYear: strYear[0], endYear: strYear[1], category: $("#resCategory").val(), series: $("#series").val() },
+                    success: function (result) {
+                        $("#formation").empty();
+                        $("#formation").append($("<option value=\"\">选择组...</option>"));
+                        for (var i = 0; i < result.length; i++) {
+                            $("#formation").append($("<option value=\"" + result[i] + "\" hassubinfo=\"true\">" + result[i] + "</option>"));
+                        }
+                        $("#formation").trigger("chosen:updated");
+                        $("#formation").unbind("change", selectLayer);
+                        $("#formation").bind("change", selectLayer);
+                    }
+                });
+            } else {
+                //$("#formation").empty();
+                //$("#formation").append($("<option value=\"\">选择组...</option>"));
+                //$("#layer").empty();
+                //$("#layer").append($("<option value=\"\">选择层...</option>"));
+                //$("#blockGuan").empty();
+                //$("#blockGuan").append($("<option value=\"\">选择井区...</option>"));
+                //$("#resCategory").trigger("chosen:updated");
+                //$("#series").trigger("chosen:updated");
+                //$("#formation").trigger("chosen:updated");
+                //$("#layer").trigger("chosen:updated");
+                //$("#blockGuan").trigger("chosen:updated");
+            }
+        }
+
+        function selectLayer() {
+            $("#layer").empty();
+            $("#layer").append($("<option value=\"\">选择层...</option>"));
+            $("#layer").trigger("chosen:updated");
+            $("#blockGuan").empty();
+            $("#blockGuan").append($("<option value=\"\">选择井区...</option>"));
+            $("#blockGuan").trigger("chosen:updated");
+            var strYear = $("#ionrange_1").val().split(';');
+            if ($("#resCategory").val() && $("#series").val() && $("#formation").val()) {
+                $.ajax({
+                    url: "/BaseInfo/GetBaseInfoViewDataForLayer",
+                    type: "get",
+                    data: { startYear: strYear[0], endYear: strYear[1], category: $("#resCategory").val(), series: $("#series").val(), formation: $("#formation").val() },
+                    success: function (result) {
+                        $("#layer").empty();
+                        $("#layer").append($("<option value=\"\">选择层...</option>"));
+                        for (var i = 0; i < result.length; i++) {
+                            $("#layer").append($("<option value=\"" + result[i] + "\" hassubinfo=\"true\">" +
+                                    result[i] + "</option>"));
+                        }
+                        $("#layer").trigger("chosen:updated");
+                        $("#layer").unbind("change", selectBlockGuan);
+                        $("#layer").bind("change", selectBlockGuan);
+                    }
+                });
+            } else {
+                //$("#layer").empty();
+                //$("#layer").append($("<option value=\"\">选择层...</option>"));
+                //$("#blockGuan").empty();
+                //$("#blockGuan").append($("<option value=\"\">选择井区...</option>"));
+                //$("#resCategory").trigger("chosen:updated");
+                //$("#series").trigger("chosen:updated");
+                //$("#formation").trigger("chosen:updated");
+                //$("#layer").trigger("chosen:updated");
+                //$("#blockGuan").trigger("chosen:updated");
+            }
+        }
+
+        function selectBlockGuan() {
+            $("#blockGuan").empty();
+            $("#blockGuan").append($("<option value=\"\">选择井区...</option>"));
+            $("#blockGuan").trigger("chosen:updated");
+            var strYear = $("#ionrange_1").val().split(';');
+            if ($("#resCategory").val() && $("#series").val() && $("#formation").val() && $("#layer").val()) {
+                $.ajax({
+                    url: "/BaseInfo/GetBaseInfoViewDataForBlockGuan",
+                    type: "get",
+                    data: { startYear: strYear[0], endYear: strYear[1], category: $("#resCategory").val(), series: $("#series").val(), formation: $("#formation").val(), layer: $("#layer").val() },
+                    success: function (result) {
+                        $("#blockGuan").empty();
+                        $("#blockGuan").append($("<option value=\"\">选择井区...</option>"));
+                        for (var i = 0; i < result.length; i++) {
+                            $("#blockGuan").append($("<option value=\"" + result[i] + "\" hassubinfo=\"true\">" +
+                                    result[i] + "</option>"));
+                        }
+                        $("#blockGuan").trigger("chosen:updated");
+                    }
+                });
+            } else {
+                //$("#blockGuan").empty();
+                //$("#blockGuan").append($("<option value=\"\">选择井区...</option>"));
+                //$("#resCategory").trigger("chosen:updated");
+                //$("#series").trigger("chosen:updated");
+                //$("#formation").trigger("chosen:updated");
+                //$("#layer").trigger("chosen:updated");
+                //$("#blockGuan").trigger("chosen:updated");
+            }
+        }
+
+        function fixCss() {
+            $("#calculate-unit-tree").slimScroll({
+                height: '100%',
+                railOpacity: 0.9 //,
+                //alwaysVisible: true
+            });
+            $("#layer-type-tree").slimScroll({
+                height: '100%',
+                railOpacity: 0.9 //,
+                //alwaysVisible: true
+            });
+            $("#reserve-category-tree").slimScroll({
+                height: '100%',
+                railOpacity: 0.9 //,
+                //alwaysVisible: true
+            });
+        }
+
+        function doDefaultEvent() {
+            //默认加载三级储量所有储量类别
+            $.ajax({
+                url: "/BaseInfo/GetBaseInfoViewDataForCategory",
+                type: "get",
+                success: function (result) {
+                    bindResCategory(result);
+                }
+            });
+
+            //默认加载三级储量 综合查询 列表信息
+            $.ajax({
+                url: "/BaseInfo/GetBaseInfoViewData",
+                type: "post",
+                success: function (result) {
+                    if (!result) return;
+                    var d = result.split('#');
+                    var data1 = eval('(' + d[0] + ')');
+                    var arr = eval('(' + d[1] + ')');
+                    var temp = [];
+                    for (var i = 0; i < arr.length; i++) {
+                        if (arr[i] == "id") {
+                            temp.push({ "index": arr[i], "name": arr[i], hidden: true });
+                        } else {
+                            temp.push({ "index": arr[i], "name": arr[i] });
+                        }
+                    }
+                    var data2 = temp;
+                    var data3 = eval('(' + d[2] + ')');
+                    var data4 = eval('(' + d[3] + ')');
+                    var domId = "table_search_result";
+                    loadSearchGrid(domId, data1, data2, data3, data4);
+                }
+            });
+        }
+
+        function loadDocument() {
+            //loadGdbFile(gdb_url);
+            ////加载gdburl
+            //getXishanyaoGdbUrl();
+            //getQiguGdbUrl();
+            //getCarboniferousGdbUrl();
+            ////加载查询储量分布结果json
+            //getQueryReservesDis();
+            //空间初始化
+            loadCollapse();
+            fixCss();
+            doDefaultEvent();
+        }
+
+        $(document).ready(function () {
+            //fixDefaultCss();
+
+        });
+
+        function loadCollapse() {
+            $(".chosen-select").each(function () {
+                $(this).chosen({
+                    allow_single_deselect: true,
+                    disable_search_threshold: 10,
+                    no_results_text: '未找到此选项!',
+                    width: '100%'
+                });
+            });
+            $("#resCategory").append($("<option value=\"\">选择储量类别...</option>"));
+            $("#series").append($("<option value=\"\">选择系...</option>"));
+            $("#formation").append($("<option value=\"\">选择组...</option>"));
+            $("#layer").append($("<option value=\"\">选择层...</option>"));
+            $("#blockGuan").append($("<option value=\"\">选择井区...</option>"));
+
+
+
+            $('#collapseOne').on('shown.bs.collapse', function () {
+                cur_selfun = "tab1";
+                if (rightSplit) {
+                    rightSplit.destroy();
+                    rightSplit = null;
+                }
+                $("#right_tabs").show();
+                changeTabStatus(1);
+                $("#joGIS_map").show();
+                $("#tablist_unit").show();
+
+                $("#geologic_age").hide();
+                $("#tablist_search").hide();
+                $("#targetReps").hide();
+                rightSplit = Split(['#joGIS_map', '#tablist_unit'], {
+                    sizes: [65, 35],
+                    gutterSize: 8,
+                    direction: 'vertical',
+                    onDrag: fixJoGISHeight
+                });
+                //fix_height();
+            });
+
+            $('#collapseTwo').on('shown.bs.collapse', function () {
+                cur_selfun = "tab2";
+                if (rightSplit != null) {
+                    rightSplit.destroy();
+                    rightSplit = null;
+                }
+                changeTabStatus(0);
+                $("#right_tabs").hide();
+
+                $("#joGIS_map").show();
+                fixJoGISMapHeight();
+                fixJoGISHeight();
+
+                $("#geologic_age").hide();
+                $("#tablist_unit").hide();
+                $("#tablist_search").hide();
+                $("#targetReps").hide();
+                //gdb_url = "demodata/gdb/base/sub3/准噶尔盆地2015年油气勘探部署图.GDBX";
+                //loadGdbFile(gdb_url);
+                //fix_height();
+            });
+
+            $('#collapseThree').on('shown.bs.collapse', function () {
+                cur_selfun = "tab3";
+                if (rightSplit) {
+                    rightSplit.destroy();
+                    rightSplit = null;
+                }
+                changeTabStatus(0);
+                fixJoGISMapHeight();
+                fixJoGISHeight();
+                $("#right_tabs").hide();
+                $("#joGIS_map").show();
+                $("#tablist_unit").hide();
+                $("#geologic_age").show();
+                $("#tablist_search").hide();
+                $("#targetReps").hide();
+                //gdb_url = "demodata/gdb/base/sub3/准噶尔盆地2015年油气勘探部署图.GDBX";
+                //loadGdbFile(gdb_url);
+                rightSplit = Split(['#joGIS_map', '#geologic_age'], {
+                    sizes: [65, 35],
+                    gutterSize: 8,
+                    direction: 'vertical',
+                    onDrag: fixJoGISHeight
+                });
+                //fix_height();
+            });
+
+            $('#collapseFour').on('shown.bs.collapse', function () {
+                cur_selfun = "tab4";
+                if (rightSplit) {
+                    rightSplit.destroy();
+                    rightSplit = null;
+                }
+                changeTabStatus(0);
+                $("#right_tabs").hide();
+                $("#joGIS_map").show();
+                $("#targetReps").hide();
+                $("#tablist_unit").hide();
+                $("#geologic_age").hide();
+                $("#tablist_search").show();
+                rightSplit = Split(['#joGIS_map', '#tablist_search'], {
+                    sizes: [65, 35],
+                    gutterSize: 8,
+                    direction: 'vertical',
+                    onDrag: fixJoGISHeight
+                });
+                var config = {
+                    '.chosen-select': {},
+                    '.chosen-select-deselect': {
+                        allow_single_deselect: true
+                    },
+                    '.chosen-select-no-single': {
+                        disable_search_threshold: 10
+                    },
+                    '.chosen-select-no-results': {
+                        no_results_text: 'Oops, nothing found!'
+                    },
+                    '.chosen-select-width': {
+                        width: "95%"
+                    }
+                }
+                for (var selector in config) {
+                    $(selector).chosen(config[selector]);
+                }
+
+                setIonRage();
+
+                $("#btnsearch-unit").on('click', function () {
+                    var strYear = $("#ionrange_1").val().split(';');
+                    $.ajax({
+                        url: "/BaseInfo/GetBaseInfoViewDataByQuery",
+                        type: "post",
+                        data: { startYear: strYear[0], endYear: strYear[1], category: $("#resCategory").val(), series: $("#series").val(), formation: $("#formation").val(), layer: $("#layer").val(), blockGuan: $("#blockGuan").val() },
+                        success: function (result) {
+                            if (!result) return;
+                            var d = result.split('#');
+                            var data1 = eval('(' + d[0] + ')');
+                            var arr = eval('(' + d[1] + ')');
+                            var temp = [];
+                            for (var i = 0; i < arr.length; i++) {
+                                if (arr[i] == "id") {
+                                    temp.push({ "index": arr[i], "name": arr[i], hidden: true });
+                                } else {
+                                    temp.push({ "index": arr[i], "name": arr[i], width: 90 });
+                                }
+                            }
+                            var data2 = temp;
+                            var data3 = eval('(' + d[2] + ')');
+                            var data4 = eval('(' + d[3] + ')');
+                            var domId = "table_search_result";
+                            $("#" + domId).jqGrid("clearGridData");
+                            $("#" + domId).jqGrid("setGridParam", { data: data4 }).trigger("reloadGrid");
+                        }
+                    });
+                });
+            });
+
+            $('#collapseFive').on('shown.bs.collapse', function () {
+                cur_selfun = "tab5";
+                if (rightSplit) {
+                    rightSplit.destroy();
+                    rightSplit = null;
+                }
+                changeTabStatus(0);
+                $("#right_tabs").hide();
+                $("#joGIS_map").hide();
+                $("#tablist_unit").hide();
+                $("#geologic_age").hide();
+                $("#tablist_search").hide();
+                $("#targetReps").show();
+            });
+        }
+
+        var fix_height = function () {
+            var heightWithoutNavbar;
+
+            switch (cur_selfun) {
+                case "tab2": {
+                    heightWithoutNavbar = $("body").height() - 100;
+                    break;
+                }
+                default: {
+                    heightWithoutNavbar = $("body").height() - 100 - (150 + 44);
+                }
+            }
+            $("#joGIS1").css("height", heightWithoutNavbar);
+            fixSplitterHeight();
+        }
+
+        function fixDefaultCss() {
+            var clientHeight = document.body.clientHeight;
+            var fixHeight = clientHeight / 2 + 150;
+            $(".panel-body-height").css("height", fixHeight);
+            $("#joGIS1").css("height", fixHeight - 100);
+        }
+
+
+
+        /**
+         * 储量成果报告*
+         */
+
+        var achieveListData = [];
+        var achieveListData2 = [];
+        //分页组件参数
+        var _pagesize = 10;
+        var _count = 0;
+        var _items = 10; 
+        currentTitle = ""; 
+        var currentUnit = "";
+        var _param = {
+            "filter": {
+                "$and": [
+                    {
+                        "ep.producttype": {
+                            "$eq": "储量报告"
+                        }
+                    },
+                    {
+                        "dc.title.text": {
+                            "$regex": ""
+                        }
+                    },
+                    {
+                        "indexeddate": { "$gte": "" }
+                    },
+                    {
+                        "indexeddate": { "$lte": "" }
+                    }
+                ]
+            },
+            "pager": {
+                "From": 0,
+                "Size": 10
+            }
+        } 
+        var _param2 = {
+            "filter": {
+                "$and": [
+                    {
+                        "ep.bo.value": {
+                            "$eq": ""
+                        }
+                    },
+                    {
+                        "ep.bo.type": {
+                            "$eq": "CalUnit"
+                        }
+                    }
+                ]
+            },
+            "pager": {
+                "From": 0,
+                "Size": 10
+            }
+        }
+        var ViewModel = function () {
+            var self = this;
+            self.myAchieveListData = ko.observableArray(achieveListData);
+            self.myAchieveListData2 = ko.observableArray(achieveListData2);
+
+            //加载成果列表
+            loadAchieveList = function (currentTitle, start, end, index) {
+                _param.filter["$and"][1]["dc.title.text"]["$regex"] = currentTitle;
+                _param.filter["$and"][2]["indexeddate"]["$gte"] = start;
+                _param.filter["$and"][3]["indexeddate"]["$lte"] = end;
+                _param.pager.From = index;
+                var paramJson = JSON.stringify(_param); 
+                $.ajax({
+                    url: "/Document/GetMatchData",
+                    type: "post",
+                    data: { param: paramJson },
+                    success: function (resultMetaData) {
+                        var _resultMetaData = JSON.parse(resultMetaData);
+                        pager_demo.count = _resultMetaData.count;
+                        if (_resultMetaData.count <= _pagesize) {
+                            pager_demo.show = false;
+                        }
+                        if (_resultMetaData.count > _pagesize) {
+                            pager_demo.show = true;
+                        }
+                        self.myAchieveListData.removeAll();
+                        if (_resultMetaData.count > 0) {
+                            for (var i = 0; i < _resultMetaData.metadatas.length; i++) {
+                                //针对某条成果-->通过iiid拿到所有人浏览次数和以及当前用户这条成果是否收藏
+                                var _iiid = _resultMetaData.metadatas[i].iiid;
+                                var result = _resultMetaData.metadatas[i];
+                                $.ajax({
+                                    url: "/GeoNav/GetSkimCountByiiid",
+                                    type: "post",
+                                    async: false,
+                                    data: { iiid: _iiid },
+                                    success: function (result2) {
+                                        var name = result.dc ? result.dc.title ? result.dc.title[0].text : '' : '';
+                                        var author = result.dc ? result.dc.contributor ? result.dc.contributor[0].name : '' : '';
+                                        var source = result.ep ? result.ep.scope ? result.ep.scope : '' : '';
+                                        self.myAchieveListData.push({
+                                            "iiid": result.iiid,
+                                            "name": name,
+                                            "author": author,
+                                            "skimCount": result2.countLook,
+                                            "flagFav": result2.flagFav,
+                                            "producttype": result.ep.producttype ? result.ep.producttype : '',
+                                            "source": source,
+                                            "indexDate": result.indexeddate ? result.indexeddate.slice(0, 10) : "",
+                                            "createdDate": new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate(),
+                                        });
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
+            },
+
+            //加载计算单元成果列表
+            loadAchieveList2 = function (currentUnit, index) {
+                _param2.filter["$and"][0]["ep.bo.value"]["$eq"] = currentUnit;
+                _param2.pager.From = index;
+                var paramJson = JSON.stringify(_param2); 
+                $.ajax({
+                    url: "/Document/GetMatchData",
+                    type: "post",
+                    data: { param: paramJson },
+                    success: function (resultMetaData) {
+                        var _resultMetaData = JSON.parse(resultMetaData);
+                        pager_demo2.count2 = _resultMetaData.count;
+                        if (_resultMetaData.count <= _pagesize) {
+                            pager_demo2.show2 = false;
+                        }
+                        if (_resultMetaData.count > _pagesize) {
+                            pager_demo2.show2 = true;
+                        }
+                        self.myAchieveListData2.removeAll();
+                        if (_resultMetaData.count > 0) {
+                            for (var i = 0; i < _resultMetaData.metadatas.length; i++) {
+                                //针对某条成果-->通过iiid拿到所有人浏览次数和以及当前用户这条成果是否收藏
+                                var _iiid = _resultMetaData.metadatas[i].iiid;
+                                var result = _resultMetaData.metadatas[i];
+                                $.ajax({
+                                    url: "/GeoNav/GetSkimCountByiiid",
+                                    type: "post",
+                                    async: false,
+                                    data: { iiid: _iiid },
+                                    success: function (result2) {
+                                        var name = result.dc ? result.dc.title ? result.dc.title[0].text : '' : '';
+                                        var author = result.dc ? result.dc.contributor ? result.dc.contributor[0].name : '' : '';
+                                        var source = result.ep ? result.ep.scope ? result.ep.scope : '' : '';
+                                        self.myAchieveListData2.push({
+                                            "iiid": result.iiid,
+                                            "name": name,
+                                            "author": author,
+                                            "skimCount": result2.countLook,
+                                            "flagFav": result2.flagFav,
+                                            "producttype": result.ep.producttype ? result.ep.producttype : '',
+                                            "source": source,
+                                            "indexDate": result.indexeddate ? result.indexeddate.slice(0, 10) : "",
+                                            "createdDate": new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate(),
+                                        });
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
+            },
+
+            //浏览
+            self.openDetailPage = function ($parent) {
+                var _iiid = $parent.iiid;
+                var _name = $parent.name;
+                var _author = $parent.author;
+                var _producttype = $parent.producttype;
+                window.open("/Render/PTDetail?iiid=" + _iiid);
+                //当前用户成果浏览次数加1
+                $.ajax({
+                    url: "/User/OpenDetailPage",
+                    type: "post",
+                    data: { "iiid": _iiid, name: _name, author: _author, producttype: _producttype },
+                    success: function (result) {
+                        console.log(result);
+                    },
+                    error: function (result) {
+                        console.log(result);
+                    }
+                });
+            },
+
+            //计算单元浏览
+            self.openDetailPage2 = function ($parent) {
+                var _iiid = $parent.iiid;
+                var _name = $parent.name;
+                var _author = $parent.author;
+                var _producttype = $parent.producttype;
+                window.open("/Render/PTDetail?iiid=" + _iiid);
+                //当前用户成果浏览次数加1
+                $.ajax({
+                    url: "/User/OpenDetailPage",
+                    type: "post",
+                    data: { "iiid": _iiid, name: _name, author: _author, producttype: _producttype },
+                    success: function (result) {
+                        console.log(result);
+                    },
+                    error: function (result) {
+                        console.log(result);
+                    }
+                });
+            },
+
+            //收藏成果列表
+            self.collectAchieveList = function ($parent, $index) {
+                var data = $parent;
+                $.ajax({
+                    url: "/GeoNav/Collect",
+                    type: "post",
+                    data: { iiid: data.iiid, name: data.name, author: data.author, producttype: data.producttype, indexDate: data.indexDate, createdDate: data.createdDate },
+                    success: function (result) {
+                        if (result == "CollectSuccess") {
+                            toastr.success('收藏成功！', '成功提示');
+                            var searchText = "";
+                            var index = 0;
+                            loadAchieveList(currentTitle, currentStart, currentEnd, index);
+
+                        } else if (result == "CollectCancel") {
+                            toastr.warning('取消收藏！', '成功提示');
+                            var searchText = "";
+                            var index = 0;
+                            loadAchieveList(currentTitle, currentStart, currentEnd, index);
+                        }
+                    }
+                });
+            }
+            self.downloadAchieve = function ($parent) {
+                var iiid = $parent.iiid;
+                $.ajax({
+                    url: "/RECP/GetMateData",
+                    type: "post",
+                    data: { iiid: iiid },
+                    async: false,
+                    success: function (result) {
+                        var data = JSON.parse(result);
+                        var id = iiid;
+                        var urlStr = data.source.url;
+                        var _apiPath = "@ViewBag._apiPath";
+                        var _achieveDown = "@ViewBag._achieveDown";
+                        Retrieve(id, urlStr, _apiPath, _achieveDown);
+                    }
+                });
+                // 下载记录收集到表
+                downloadRecords($parent);
+            },
+
+            //收藏计算单元成果列表
+            self.collectAchieveList2 = function ($parent, $index) {
+                var data = $parent;
+                $.ajax({
+                    url: "/GeoNav/Collect",
+                    type: "post",
+                    data: { iiid: data.iiid, name: data.name, author: data.author, producttype: data.producttype, indexDate: data.indexDate, createdDate: data.createdDate },
+                    success: function (result) {
+                        if (result == "CollectSuccess") {
+                            toastr.success('收藏成功！', '成功提示');
+                            var searchText = "";
+                            var index = 0;
+                            loadAchieveList2(currentUnit, index);
+
+                        } else if (result == "CollectCancel") {
+                            toastr.warning('取消收藏！', '成功提示');
+                            var searchText = "";
+                            var index = 0;
+                            loadAchieveList2(currentUnit, index);
+                        }
+                    }
+                });
+            },
+            //下载计算单元成果列表
+            self.downloadAchieve2 = function ($parent) {
+                var iiid = $parent.iiid;
+                $.ajax({
+                    url: "/RECP/GetMateData",
+                    type: "post",
+                    data: { iiid: iiid },
+                    async: false,
+                    success: function (result) {
+                        var data = JSON.parse(result);
+                        var id = iiid;
+                        var urlStr = data.source.url;
+                        var _apiPath = "@ViewBag._apiPath";
+                        var _achieveDown = "@ViewBag._achieveDown";
+                        Retrieve(id, urlStr, _apiPath, _achieveDown);
+                    }
+                });
+                // 下载记录收集到表
+                downloadRecords($parent);
+            }
+        };
+        var currentViewModel = new ViewModel();
+        ko.applyBindings(currentViewModel);
+        //分页组件相关的js代码
+        var pager_demo = new Vue({
+            el: '#app',
+            data: function () {
+                return {
+                    id: "_id1",
+                    activeItem: 1,
+                    pagesize: _pagesize,
+                    count: _count,
+                    items: _items,
+                    show: true
+                }
+            },
+            computed: {
+                _showFirstPrev: function () {
+                    return this.activeItem > 1;
+                },
+                _showNextLast: function () {
+                    return this.activeItem < Math.ceil(this.count / this.pagesize);
+                },
+                _items: function () {
+                    var temp = [],
+                        maxItem = Math.ceil(this.count / this.pagesize),
+                        len = maxItem > this.items ? this.items : maxItem,
+                        midIndex = this.items % 2 == 0 ? Math.ceil((this.items + 1) / 2) : Math.ceil(this.items / 2);
+                    for (var i = 1; i <= len; i++) {
+                        temp.push(i);
+                    }
+                    if (this.activeItem > midIndex) {
+                        var span = this.activeItem - midIndex;
+                        for (var i = 0; i < span && temp[temp.length - 1] < maxItem; i++) {
+                            temp.shift(temp[i]);
+                            temp.push(len + 1 + i);
+                        }
+                    }
+                    return temp;
+                }
+            },
+            watch: {
+                activeItem: function () {
+                    this.selectItem();
+                }
+            },
+            methods: {
+                onPrev: function () {
+                    this.activeItem = this.activeItem - 1;
+                },
+                onCurrent: function (item) {
+                    this.activeItem = item;
+                },
+                onNext: function () {
+                    this.activeItem = this.activeItem + 1;
+                },
+                selectItem: function () {
+                    var page = this.activeItem;
+                    var index = (page - 1) * 10;
+                    var searchText = $("#reserve-geo-list").val().replace(/^\s+|\s+$/g, "");
+                    var start = $("#reserve-geo-start-date").val();
+                    var end = $("#reserve-geo-end-date").val();
+                    loadAchieveList(currentTitle, currentStart, currentEnd, index);
+                }
+            }
+        });
+
+        //通过关键字搜索
+        $("#btnselgdb").on('click', function () {
+            var currentTitle = $("#reserve-geo-list").val().replace(/^\s+|\s+$/g, "");
+            var start;
+            var end;
+            try {
+                start = new Date($("#reserve-geo-start-date").val()).toISOString();
+            } catch (e) {
+                start = new Date($("#reserve-geo-start-date").val().slice(0, 4)).toISOString();
+                console.log(e);
+            }
+            try {
+                end = new Date($("#reserve-geo-end-date").val()).toISOString();
+            } catch (e) {
+                end = new Date($("#reserve-geo-end-date").val().slice(0, 4)).toISOString();
+                console.log(e);
+            }
+            currentStart = start;
+            currentEnd = end;
+            var index = 0;
+            //加载成果列表通过搜索关键字
+            loadAchieveList(currentTitle, start, end, index);
+        });
+
+        // 下载记录收集到表
+        function downloadRecords(parent) {
+
+            var _iiid = parent.iiid;
+            var _name = parent.name;
+            var _author = parent.author;
+            var _producttype = parent.producttype;
+            //当前的下载次数+1
+            $.ajax({
+                url: "/User/DownLoadRecords",
+                type: "post",
+                data: { "iiid": _iiid, name: _name, author: _author, producttype: _producttype },
+                success: function (result) {
+                    console.log(result);
+                },
+                error: function (result) {
+                    console.log(result);
+                }
+            });
+        }
+
+        //* 計算單元成果
+        //********* 
+        //分页组件相关的js代码
+        var _pagesize2 = 10;
+        var _count2 = 0;
+        var _items2 = 10;
+        var pager_demo2 = new Vue({
+            el: '#app2',
+            data: function () {
+                return {
+                    id: "_id2",
+                    activeItem2: 1,
+                    pagesize2: _pagesize2,
+                    count2: _count2,
+                    items2: _items2,
+                    show2: true
+                }
+            },
+            computed: {
+                _showFirstPrev2: function () {
+                    return this.activeItem2 > 1;
+                },
+                _showNextLast2: function () {
+                    return this.activeItem2 < Math.ceil(this.count2 / this.pagesize2);
+                },
+                _items2: function () {
+                    var temp = [],
+                        maxItem = Math.ceil(this.count2 / this.pagesize2),
+                        len = maxItem > this.items2 ? this.items2 : maxItem,
+                        midIndex = this.items2 % 2 == 0 ? Math.ceil((this.items2 + 1) / 2) : Math.ceil(this.items2 / 2);
+                    for (var i = 1; i <= len; i++) {
+                        temp.push(i);
+                    }
+                    if (this.activeItem2 > midIndex) {
+                        var span = this.activeItem2 - midIndex;
+                        for (var i = 0; i < span && temp[temp.length - 1] < maxItem; i++) {
+                            temp.shift(temp[i]);
+                            temp.push(len + 1 + i);
+                        }
+                    }
+                    return temp;
+                }
+            },
+            watch: {
+                activeItem2: function () {
+                    this.selectItem2();
+                }
+            },
+            methods: {
+                onPrev2: function () {
+                    this.activeItem2 = this.activeItem2 - 1;
+                },
+                onCurrent2: function (item) {
+                    this.activeItem2 = item;
+                },
+                onNext2: function () {
+                    this.activeItem2 = this.activeItem2 + 1;
+                },
+                selectItem2: function () {
+                    var page = this.activeItem2;
+                    var index = (page - 1) * 10; 
+                    loadAchieveList2(currentUnit, index);
+                }
+            }
+        });
+        //**************
+    </script>
+}

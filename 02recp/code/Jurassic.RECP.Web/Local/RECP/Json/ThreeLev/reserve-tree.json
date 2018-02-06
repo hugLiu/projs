@@ -1,0 +1,54 @@
+﻿[
+    {
+        id: "0",
+        text: "全部",
+        parent: "#",
+        state: {
+            opened: true,
+            selected: true
+        }
+    },
+    {
+        id: "01",
+        text: "探明",
+        parent: "0",
+        state: {
+            opened: true,
+            selected: false
+        }
+    },
+    {
+        id: "0101",
+        text: "已开发",
+        parent: "01",
+        state: { selected: false },
+        layer_no: 20,
+        layer_title: "探明石油储量"
+    },
+    {
+        id: "0102",
+        text: "未开发",
+        parent: "01",
+        state: { selected: false },
+        layer_no: 17,
+        layer_title: "探明天然气储量"
+    },
+    {
+        id: "02",
+        text: "控制",
+        parent: "0",
+        state: {
+            opened: true,
+            selected: false
+        }
+    }, 
+    {
+        id: "03",
+        text: "预测",
+        parent: "0",
+        state: {
+            opened: true,
+            selected: false
+        }
+    } 
+]

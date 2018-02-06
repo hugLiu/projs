@@ -1,0 +1,113 @@
+﻿@{
+    Layout = "~/Views/shared/_RECPLayout.cshtml";
+}
+@section css{
+    <link href="~/scripts/GeoTopic/bootstrap-3.3.5-dist/css/font-awesome.css" rel="stylesheet">
+}
+<div class="row">
+    <div class="col-md-12 col-sm-12" style="margin-top:5px; margin-bottom:0px">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>成果类型统计 <small>成果类型分类统计成果</small></h5>
+            </div>
+            <div class="ibox-content">
+                <!--柱状图-->
+                <div id="chart_1" style="width: 100%;height:300px;"></div>
+            </div>
+        </div><!-- ibox end -->
+    </div>
+    @*<div class="col-md-6 col-sm-6" style="margin-top:5px; margin-bottom:0px">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>研究过程统计 <small>汇总研究过程分类统计成果</small></h5>
+                </div>
+                <div class="ibox-content">
+                    <!--饼图-->
+                    <div id="chart_2" style="width: 100%;height:300px;"></div>
+                </div>
+            </div><!-- ibox end -->
+        </div>*@
+</div>
+<div class="row" style="margin-top:0px">
+    <div class="col-md-12 col-sm-12">
+        <div class="row" style="margin-left:10px;">
+            <div style="float:left; margin-right:25px;">
+                <gt:rencentlook :id="rencentlook1" :count="countLook" :style="styleLook"></gt:rencentlook>
+            </div>
+            <div style="float:left;margin-right:25px;">
+                <gt:downloadhistory :id="downloadhistory2" :count="countDownload" :style="styleDownload"></gt:downloadhistory>
+            </div>
+            <div style="float:left;">
+                <gt:newestpt :id="newestpt1" :style="styleNewestpt"></gt:newestpt>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <!--eCharts-->
+    <script src="~/Content/RECP/js/plugins/eCharts/echarts.min.js"></script>
+    <!-- 自定义js -->
+    <script src="~/Content/RECP/js/HomePage/HomePage.js"></script>
+    <!-- 用户行为转移 -->
+    <script>
+        var delayGet = function () {
+            $.ajax({
+                url: "/UserBehavior/GetDownloadMessByUserId",
+                type: "post",
+                data: { count: 1000000 },
+                success: function (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        var temp = result[i];
+                        var content = temp.Content;
+                        var obj = JSON.parse(content); 
+                        if (obj) {
+                            var userId = temp.UserId;
+                            var title = temp.Title;
+                            var author = temp.CreatedBy;
+                            var createDate = temp.CreatedDate;
+                            var iiid = obj.id; 
+                            getMeta(iiid, userId, title, author, createDate);
+                        }
+                    }
+
+                },
+                error: function (message) {
+                    console.log(message);
+                }
+            });
+        } 
+
+        var getMeta = function (iiid, userId, title, author, createDate) {
+            $.ajax({
+                url: "/RECP/GetMateData",
+                type: "post",
+                data: { iiid: iiid },
+                success: function (result) {
+                    if (result && result != "null") {
+                        var result = JSON.parse(result);
+                        var productType = result.ep ? (result.ep.producttype ? result.ep.producttype : "") : "";
+                        gtUserBehaviorToRECP(iiid, userId, title, author, createDate, productType);
+                    }
+                },
+                error: function (message) {
+                    console.log(message);
+                }
+            });
+        }
+
+        var gtUserBehaviorToRECP = function (iiid, userId, title, author, createDate, productType) {
+            $.ajax({
+                url: "/User/SaveGtUserBehavoir",
+                type: "post",
+                data: { iiid: iiid, userId: userId, title: title, author: author, createDate: createDate, productType: productType },
+                success: function (result) {
+
+                },
+                error: function (message) {
+                    console.log(message);
+                }
+            });
+        }
+        //delayGet();
+    </script>
+} 

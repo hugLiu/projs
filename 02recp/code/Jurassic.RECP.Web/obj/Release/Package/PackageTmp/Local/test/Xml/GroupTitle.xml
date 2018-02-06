@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<XmlData>
+  <Feature>
+    <Well>
+      <GeoMap name="" url="">
+        <Layer name="">
+          <Element name="" id="" />
+        </Layer>
+      </GeoMap>
+      <Layout LayerIds="1,2" />
+    </Well>
+  </Feature>
+  <ProData>
+    <WellPoint>
+      <Records>
+        <Parents display="false">P1j,P3w1,P3w2</Parents>
+        <BlockGuan display="false" />
+        <BlockType display="false" />
+        <A caption="井区" cell="A" translate="" units="" />
+        <B caption="井号" units="" translate="" cell="B">JL2006</B>
+        <C caption="X坐标" cell="C" translate="" units="" />
+        <D caption="Y坐标" cell="D" translate="" units="" />
+        <E caption="井别" cell="E" translate="" units="" />
+        <F caption="类型" cell="F" translate="" units="" />
+        <G caption="井深" cell="G" translate="" units="" />
+        <H caption="井用地面积" cell="H" translate="" units="" />
+        <I caption="使用状况" cell="I" translate="" units="" />
+      </Records>
+    </WellPoint>
+    <WellTest>
+      <Records>
+        <Parents display="false">P1j</Parents>
+        <BlockGuan display="false" />
+        <BlockType display="false" />
+        <A caption="井号" units="" translate="" cell="A">JL2006</A>
+        <B caption="层位" units="" translate="" cell="B">P1j</B>
+        <C caption="解释层号" units="" translate="" cell="C">S1</C>
+        <D caption="射孔井段" units="" translate="" cell="D">3710-3725</D>
+        <E caption="厚度" units="" translate="" cell="E">8</E>
+        <F caption="试油或措施" units="" translate="" cell="F">2</F>
+        <G caption="日期" units="" translate="" cell="G">08  5 2013 12:00AM</G>
+        <H caption="工作制度" units="" translate="" cell="H">28次，1510m，1050-1310m</H>
+        <I caption="原油密度" units="" translate="" cell="I">0.8877</I>
+        <J caption="矿化度" cell="J" translate="" units="" />
+        <K caption="氯离子" cell="K" translate="" units="" />
+        <L caption="水型" units="" translate="" cell="L">CaCL2</L>
+        <DailyProduction caption="日产量">
+          <M caption="油" cell="M" translate="" units="t" />
+          <N caption="气" cell="N" translate="" units="m&lt;sup&gt;3&lt;/sup&gt;" />
+          <O caption="水" units="m&lt;sup&gt;3&lt;/sup&gt;" translate="" cell="O">15.31</O>
+        </DailyProduction>
+        <CumulativeProduction caption="累产量">
+          <P caption="油" units="t" translate="" cell="P">2.81</P>
+          <Q caption="水" units="m&lt;sup&gt;3&lt;/sup&gt;" translate="" cell="Q">97.58</Q>
+        </CumulativeProduction>
+        <R caption="试油结论" units="" translate="" cell="R">水层</R>
+      </Records>
+      <Records>
+        <Parents display="false">P3w1</Parents>
+        <BlockGuan display="false" />
+        <BlockType display="false" />
+        <A caption="井号" units="" translate="" cell="A">JL2006</A>
+        <B caption="层位" units="" translate="" cell="B">P3w1</B>
+        <C caption="解释层号" units="" translate="" cell="C">S2</C>
+        <D caption="射孔井段" units="" translate="" cell="D">3576-3590</D>
+        <E caption="厚度" units="" translate="" cell="E">14</E>
+        <F caption="试油或措施" units="" translate="" cell="F">1</F>
+        <G caption="日期" units="" translate="" cell="G">09 11 2013 12:00AM</G>
+        <H caption="工作制度" units="" translate="" cell="H">6mm油嘴</H>
+        <I caption="原油密度" units="" translate="" cell="I">0.8684</I>
+        <J caption="矿化度" cell="J" translate="" units="" />
+        <K caption="氯离子" cell="K" translate="" units="" />
+        <L caption="水型" cell="L" translate="" units="" />
+        <DailyProduction caption="日产量">
+          <M caption="油" units="t" translate="" cell="M">2.2</M>
+          <N caption="气" cell="N" translate="" units="m&lt;sup&gt;3&lt;/sup&gt;" />
+          <O caption="水" cell="O" translate="" units="m&lt;sup&gt;3&lt;/sup&gt;" />
+        </DailyProduction>
+        <CumulativeProduction caption="累产量">
+          <P caption="油" units="t" translate="" cell="P">62.95</P>
+          <Q caption="水" cell="Q" translate="" units="m&lt;sup&gt;3&lt;/sup&gt;" />
+        </CumulativeProduction>
+        <R caption="试油结论" units="" translate="" cell="R">低产油层</R>
+      </Records>
+      <Records>
+        <Parents display="false">P3w2</Parents>
+        <BlockGuan display="false" />
+        <BlockType display="false" />
+        <A caption="井号" units="" translate="" cell="A">JL2006</A>
+        <B caption="层位" units="" translate="" cell="B">P3w2</B>
+        <C caption="解释层号" units="" translate="" cell="C">S3</C>
+        <D caption="射孔井段" units="" translate="" cell="D">3511.5-3533</D>
+        <E caption="厚度" units="" translate="" cell="E">12</E>
+        <F caption="试油或措施" units="" translate="" cell="F">2</F>
+        <G caption="日期" units="" translate="" cell="G">04  7 2014 12:00AM</G>
+        <H caption="工作制度" units="" translate="" cell="H">16次，1430.00m，750.00-1230.00m</H>
+        <I caption="原油密度" units="" translate="" cell="I">0.8876</I>
+        <J caption="矿化度" cell="J" translate="" units="" />
+        <K caption="氯离子" cell="K" translate="" units="" />
+        <L caption="水型" units="" translate="" cell="L">CaCl2</L>
+        <DailyProduction caption="日产量">
+          <M caption="油" units="t" translate="" cell="M">1.43</M>
+          <N caption="气" cell="N" translate="" units="m&lt;sup&gt;3&lt;/sup&gt;" />
+          <O caption="水" units="m&lt;sup&gt;3&lt;/sup&gt;" translate="" cell="O">7.81</O>
+        </DailyProduction>
+        <CumulativeProduction caption="累产量">
+          <P caption="油" units="t" translate="" cell="P">18.93</P>
+          <Q caption="水" units="m&lt;sup&gt;3&lt;/sup&gt;" translate="" cell="Q">139.91</Q>
+        </CumulativeProduction>
+        <R caption="试油结论" units="" translate="" cell="R">低产油层</R>
+      </Records>
+    </WellTest>
+  </ProData>
+</XmlData>

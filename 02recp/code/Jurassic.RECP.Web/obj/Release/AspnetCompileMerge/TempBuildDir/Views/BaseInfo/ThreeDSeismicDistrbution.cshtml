@@ -1,0 +1,768 @@
+﻿@{
+    Layout = "~/Views/shared/_RECPLayout.cshtml";
+}
+
+@section css{
+    <link rel="stylesheet" href="/scripts/GeoTopic/bootstrap-3.3.5-dist/css/font-awesome.css">
+    <link href="~/content/RECP/css/animate.css" rel="stylesheet" />
+    <link href="~/content/RECP/css/style.css" rel="stylesheet" />
+    <!--<link href="~/Content/RECP/js/plugins/kendo/2017.1.223/styles/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />-->
+    <!--<link href="~/Content/RECP/js/plugins/kendo/2017.1.223/styles/kendo.common-bootstrap.min.css" rel="stylesheet" type="text/css" />-->
+    <link href="~/Content/RECP/css/plugins/split/css/style.css" rel="stylesheet" />
+    <link href="~/content/RECP/css/plugins/toastr/toastr.min.css" rel="stylesheet" />
+
+    <style>
+        #gbox_grid {
+            height: 100%;
+        }
+
+        .jqGrid_wrapper {
+            height: 100%;
+        }
+
+        .nav-tabs a {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            text-align: center !important;
+            min-width: 0 !important;
+        }
+
+        #gbox_grid {
+            height: auto;
+        }
+
+        .jqGrid_wrapper {
+            overflow-y: hidden;
+        }
+#ulul a{padding:15px 21px !important;};
+    </style>
+}
+
+<form id="formDown" method="post" style="display:inline-block;">
+    <input type="hidden" name="id" id="id" />
+    <input type="hidden" name="title" id="title" />
+    <input type="hidden" name="url" id="url" />
+    <input type="hidden" name="ticket" id="ticket" />
+    <input type="hidden" name="format" id="format" />
+    <input type="hidden" name="name" id="name" />
+</form>
+
+<div class="row">
+    <div id="splitter">
+        <div id="leftPane" class="split split-horizontal">
+            <div class="ibox float-e-margins" style="margin-bottom:0;height:100%;">
+                <div class="ibox-title">
+                    <h5>目标树 <small>选择目标对象</small></h5>
+                </div>
+                <div class="ibox-content" id="iboxContent" style="padding: 5px 5px 5px 5px;">
+                    <div class="">
+                        <so:tree :id="threeD_tree" :data="threeD_data" :onLoaded="loaded" :onNodeSelected="nodeSelected"></so:tree>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="rightPane" class="split split-horizontal">
+            <div class="tabs-container" style="height: 100%;">
+                <div class="tabs-right" style="height: 100%;">
+                    <ul class="nav nav-tabs" style="margin-left:0;width:5%;height:99%;background-color:rgba(242, 242, 243, 1)"  id="ulul">
+                        <li class="active">
+                            <a data-toggle="tab" href="#tab-1" aria-expanded="true">工区分布</a>
+                        </li>
+                        <li class="">
+                            <a data-toggle="tab" href="#tab-2" aria-expanded="false">相关成果</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" style="height: 100%;">
+                        <div id="tab-1" class="tab-pane active" style="height: 100%;">
+                            <div class="panel panel-default" style="margin-bottom: 0; height: 100%;">
+
+                                <div class="panel-body" style="height: 100%;width:95%;padding: 0;">
+                                    <div id="joGIS_map" class="split content">
+                                        <div class="ibox float-e-margins" style="margin-bottom: 0;height: 100%; ">
+                                            <div class="ibox-content" style="padding: 0; height: 100%;">
+                                                <object id="joGIS1" classid="clsid:D2546426-13FD-4018-85F1-F5BD61147C8F" codebase="JoGIS4.ocx#version=1,0,0,1" style="width:100%;" wmode="Opaque"
+                                                        viewastext>
+                                                    <param name="_Version" value="65536">
+                                                    <param name="_ExtentX" value="20000">
+                                                    <param name="_ExtentY" value="15000">
+                                                    <param name="_StockProps" value="0">
+                                                    <param name="WMODE" value="transparent">
+                                                </object>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tablelist" class="split content">
+                                        <div class="ibox float-e-margins" style="margin-bottom: 0;height: 100%; ">
+                                            <div class="ibox-content" style="padding: 5px 5px 0 5px;height: 100%; ">
+                                                <div class="jqGrid_wrapper" style="overflow-x: auto;width: 100%">
+                                                    <table id="grid"></table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tab-2" class="tab-pane" style="height: 100%;">
+                            <div class="panel panel-default" style="margin-bottom: 0; ">
+                                <div class="panel-body" style="height: 100%;width:95%;padding: 0;">
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="row" style="width:100%;">
+                                            <div class="project-list" id="myAchieveList">
+                                                <table id="table_list" class="table table-hover no-margins">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width:45px">编号</th>
+                                                            <th style="width:120px;">名称</th>
+                                                            <th style="width:65px">作者</th>
+                                                            <th style="width:60px">浏览次数</th>
+                                                            <th style="width:70px">成果来源</th>
+                                                            <th style="width:80px;">操作</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody data-bind="foreach:myAchieveListData">
+                                                        <tr>
+                                                            <td data-bind="text:$index() + 1"></td>
+                                                            <td data-bind="text:name"></td>
+                                                            <td data-bind="text:author"></td>
+                                                            <td data-bind="text:skimCount"></td>
+                                                            <td data-bind="text:source"></td>
+                                                            <td>
+                                                                <button class="btn btn-info btn-circle" data-bind="click: $parent.openDetailPage" type="button" data-toggle="tooltip" data-placement="left" title="浏览">
+                                                                    <i class="fa fa-sticky-note-o"></i>
+                                                                </button>
+                                                                <span data-bind="click: $parent.collectAchieveList">
+                                                                    <button data-bind="css:(flagFav ==1 ?  'btn btn-danger btn-circle btn-outline hasCollected' : 'btn  btn-default btn-circle btn-outline hasNotCollected'),attr:{title:(flagFav ==1 ?'已收藏':'未收藏')}" type="button" data-toggle="tooltip" data-placement="left" title="">
+                                                                        <i class="fa fa-heart"></i>
+                                                                    </button>
+                                                                </span>
+                                                                <button class="btn btn-success btn-circle" type="button" data-bind="click: $parent.downloadAchieve" data-toggle="tooltip" data-placement="left" title="下载">
+                                                                    <i class="fa fa-download"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <div class="container">
+                                                    <div class="col-md-8 col-md-offset-3">
+                                                        <div id="app">
+                                                            <div id="_id">
+                                                                <nav class="boot-nav" v-if="show">
+                                                                    <ul class="pagination boot-item pagination-lg">
+                                                                        <li v-if="_showFirstPrev">
+                                                                            <a href="##" @@click="onPrev">
+                                                                                <span aria-hidden="true">上一页</span>
+                                                                            </a>
+                                                                        </li>
+                                                                        <li v-for="item in _items" class="activeItem === item ? 'active' : ''">
+                                                                            <a href="##" v-text="item" @@click="onCurrent(item)"></a>
+                                                                        </li>
+                                                                        <li v-if="_showNextLast">
+                                                                            <a href="##" @@click="onNext">
+                                                                                <span aria-hidden="true">下一页</span>
+                                                                            </a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </nav>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="@Url.Content("~/content/RECP/js/tree/tree.min.js")" type="text/javascript"></script>
+    <script src="~/content/RECP/js/jquery.slimscroll.min.js"></script>
+    <script src="~/content/RECP/js/plugins/toastr/toastr.min.js"></script>
+    <script src="~/content/RECP/js/content.js"></script>
+    <script src="~/content/RECP/js/plugins/knockout/knockout.js"></script>
+    <script src="~/Content/RECP/js/vue.js"></script>
+    <script src="~/Content/RECP/js/common/AchieveDown.js"></script>
+    <script src="~/Content/RECP/js/plugins/split/split.min.js"></script>
+
+    <script type="text/javascript">
+        // 正文高度
+        var fix_height = function () {
+            var heightWithoutNavbar = $("body").height();
+            $("#splitter").css("height", heightWithoutNavbar - 85);
+            $("#iboxContent").css("height", heightWithoutNavbar - 135);
+
+        }
+
+        //修复JoGis展示区
+        var fixJoGISHeight = function () {
+            var height = $("#joGIS_map").height();
+            $("#joGIS1").css("height", height - 10);
+        };
+
+        $(document).ready(function () {
+            fix_height();
+            fixJoGISHeight();
+            //修复JoGis展示区
+            $(window).bind("load resize click scroll",
+                function () {
+                    if (!$("body").hasClass('body-small')) {
+                        fix_height();
+                        fixJoGISHeight();
+                    }
+                });
+
+            $('.navbar-nav li a').each(function () {
+                if ($($(this))[0].href == String(window.location)) {
+                    $("#homepage").removeClass('active');
+                    $(this).parent().parent().parent().addClass('active');
+                }
+            });
+            Split(['#leftPane', '#rightPane'],
+            {
+                gutterSize: 8,
+                sizes: [20, 80]
+            });
+            Split(['#joGIS_map', '#tablelist'], {
+                gutterSize: 8,
+                direction: 'vertical',
+                sizes: [75, 25],
+                onDrag: fixJoGISHeight
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        var threeD_data, tempTreeData;
+        var JoGis4 = null;
+        var jogis4_options = {
+            Style: { border: "solid 1px #666", width: "100%" },
+            ShowEagleEye: true
+        };
+
+        var clientHeight = document.body.clientHeight;
+        var fixHeight = clientHeight - 100;
+        var iboxContentHeight = fixHeight - 48;
+
+        var currentWellName = "";
+        var nodeSelected = function (event) {
+            var id = event.detail.activeNode.id;
+            var pid = event.detail.activeNode.parentId;
+            if (pid == null) {
+                getBaseInfoGdbUrl(id);
+                getBaseInfoProDataByPid2(id);
+                loadAchieveList("", 0);
+            } else {
+                getBaseInfoProDataById(id);
+                getBaseInfoFeatureById(id);
+                //加载当前工区单元的成果列表
+                var name = event.detail.activeNode.text;
+                currentWellName = name;
+                loadAchieveList(name, 0);
+            }
+        }
+
+        var loaded = function (event) {
+            if (event && event.detail && event.detail.selectedNodes[0]) {
+                var id = event.detail.selectedNodes[0].id;
+                var pid = event.detail.selectedNodes[0].parentId;
+                if (pid == null || pid == "#") {
+                    getBaseInfoGdbUrl(id);
+                    getBaseInfoProDataByPid(id);
+                }
+                else {
+                    getBaseInfoProDataById(id);
+                }
+            }
+        }
+        function getBaseInfoGdbUrl(id) {
+            $.ajax({
+                url: "/BaseInfo/GetBOBaseInfoUrl",
+                type: "get",
+                data: { boc: "三维地震", id: id, feature: "Reserve" },
+                dataType: "json",
+                success: function (url) {
+                    if (url) {
+                        url = defaultUrl.ResourceDefaultUrl + "GDB/" + encodeURI(url);
+                        loadGdbFile(url);
+                    }
+                }
+            });
+        }
+
+        function getBaseInfoProDataByPid(id) {
+            $.ajax({
+                url: "/BaseInfo/GetBOBaseInfoProDataByPid",
+                type: "post",
+                data: { pid: id },
+                success: function (result) {
+                    var d = result.split('#');
+                    var data1 = eval('(' + d[0] + ')');
+                    var arr = eval('(' + d[1] + ')');
+                    var temp = [];
+                    for (var i = 0; i < arr.length; i++) {
+                        if (arr[i] == "id") {
+                            temp.push({ "index": arr[i], "name": arr[i], hidden: true });
+                        } else {
+                            temp.push({ "index": arr[i], "name": arr[i] ,width:193});
+                        }
+                    }
+                    var data2 = temp;
+                    var data3 = eval('(' + d[2] + ')');
+                    var data4 = eval('(' + d[3] + ')');
+                    loadGrid(data1, data2, data4);
+                }
+            });
+        }
+
+        function getBaseInfoProDataById(id) {
+            $.ajax({
+                url: "/BaseInfo/GetBOBaseInfoProDataById",
+                type: "post",
+                data: { id: id },
+                success: function (result) {
+                    var d = result.split('#');
+                    var data1 = eval('(' + d[0] + ')');
+                    var arr = eval('(' + d[1] + ')');
+                    var temp = [];
+                    for (var i = 0; i < arr.length; i++) {
+                        if (arr[i] == "ID") {
+                            temp.push({ "index": arr[i], "name": arr[i], hidden: true });
+                        } else {
+                            temp.push({ "index": arr[i], "name": arr[i],width:150 });
+                        }
+                    }
+                    var data2 = temp;
+                    var data3 = eval('(' + d[2] + ')');
+                    var data4 = eval('(' + d[3] + ')');
+                    $("#grid").jqGrid("clearGridData");
+                    $("#grid").jqGrid("setGridParam", { data: data4 }).trigger("reloadGrid");
+                }
+            });
+        }
+
+        function getBaseInfoProDataByPid2(id) {
+            $.ajax({
+                url: "/BaseInfo/GetBOBaseInfoProDataByPid",
+                type: "post",
+                data: { pid: id },
+                success: function (result) {
+                    var d = result.split('#');
+                    var data1 = eval('(' + d[0] + ')');
+                    var arr = eval('(' + d[1] + ')');
+                    var temp = [];
+                    for (var i = 0; i < arr.length; i++) {
+                        if (arr[i] == "ID") {
+                            temp.push({ "index": arr[i], "name": arr[i], hidden: true });
+                        } else {
+                            temp.push({ "index": arr[i], "name": arr[i] ,width:150});
+                        }
+                    }
+                    var data2 = temp;
+                    var data3 = eval('(' + d[2] + ')');
+                    var data4 = eval('(' + d[3] + ')');
+                    $("#grid").jqGrid("clearGridData");
+                    $("#grid").jqGrid("setGridParam", { data: data4 }).trigger("reloadGrid");
+                }
+            });
+        }
+
+        $("#threeD_tree")
+            .slimScroll({
+                height: '100%',
+                railOpacity: 0.9
+            });
+
+        loadTreeData();
+        function loadTreeData() {
+            $.ajax({
+                url: "/BaseInfo/GetBOBaseInfo",
+                type: "get",
+                data: { boc: "三维地震" },
+                dataType: "json",
+                success: function (result) {
+                    var arr = [];
+                    tempTreeData = result;
+                    result.forEach(function (value) {
+                        arr.push({
+                            "id": value.ID,
+                            "parentId": value.PID,
+                            "text": value.Name,
+                            "state": {
+                                "opened": true,
+                                "selected": value.PID == null ? true : false
+                            }
+                        });
+                    });
+                    soUIDev.setDataById("threeD_tree", "threeD_data", arr);
+                }
+            });
+        }
+
+        function loadGdbFile(url) {
+            JoGis4.options.GDBPath = url;
+            try {
+                JoGis4.loadGeoMapFile();
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+        initJoGis();
+        function initJoGis() {
+            JoGis4 = new JoGis(joGIS1, jogis4_options);
+
+            joGIS1.SelectMode = 0;
+            joGIS1.ShowToolTips(1);
+            df_ZoomScale = joGIS1.ZoomScale; //记录默认比例尺
+            createContextMenu();
+        }
+
+        function createContextMenu() {
+            joGIS1.ResetTools();
+            // 定制右键菜单测试
+            joGIS1.AddTool(0); //选择
+            joGIS1.AddTool(13); //放大
+            joGIS1.AddTool(14); //缩小
+            joGIS1.AddTool(15); //移动/手势
+            joGIS1.AddTool(17); //复位
+            // 定制自定义菜单测试
+            joGIS1.AddCustomTool("下载", 99); //菜单开始
+        }
+
+        function loadGrid(data1, data2, data4) {
+            $("#grid")
+                .jqGrid({
+                    data: data4,
+                    datatype: "local",
+                    height: 200,
+                    rowNum: data4.length + 1,
+                    colNames: data1,
+                    colModel: data2,
+                    autowidth:true,
+                    shrinkToFit: false,
+                    autoScroll: true,
+                    gridview: true,
+                    scrollrows: true,
+                    pgbuttons: false,
+                    pginput: false,
+                    viewrecords: true,
+                    add: false,
+                    edit: false,
+                    hidegrid: false,
+                    guiStyle: "bootstrap",
+                    iconSet: "fontAwesome",
+                    onSelectRow: function (id) {
+                        var thisId = $("#grid").getCell(id, "id");
+                        var arr = [];
+                        tempTreeData.forEach(function (value) {
+                            arr.push({
+                                "id": value.ID,
+                                "parentId": value.PID,
+                                "text": value.Name,
+                                "state": {
+                                    "opened": true,
+                                    "selected": value.ID.toString() == thisId ? true : false
+                                }
+                            });
+                        });
+                        soUIDev.setDataById("threeD_tree", "threeD_data", arr);
+                        getBaseInfoFeatureById(thisId);
+                    }
+                });
+        }
+
+        function getBaseInfoFeatureById(id) {
+            $.ajax({
+                url: "/BaseInfo/GetBaseInfoFeatureById",
+                type: "post",
+                data: { id: id, feature: "Reserve" },
+                success: function (result) {
+                    var d = result.split('#');
+                    var url = d[0];
+                    var layerName = d[1];
+                    var elementName = d[2];
+                    var elementId = d[3];
+
+                    var n = joGIS1.GetElementCount(layerName.toString());
+                    var eleid = [];
+                    var tempIds = "";
+                    for (var i = 0; i < n; i++) {
+                        eleid.push(joGIS1.GetElementID(layerName.toString(), i));
+                    }
+                    if (n > 1) {
+                        tempIds = eleid.join(',');
+                        joGIS1.LocateObjs(tempIds, n, 1);
+                    } else {
+                        tempIds = eleid;
+                        joGIS1.Locate(eleid, 1);
+                    }
+                    joGIS1.SelectElement(layerName.toString());
+                    joGIS1.FocusMode = 1;
+                    joGIS1.ClearAllFocusElements();
+                    joGIS1.AddFocusElement(tempIds);
+                }
+            });
+        }
+
+        //菜单事件
+        function joGIS1::CustomMenu(nID) {
+            var filedir = null;
+            switch (nID) {
+                case 99: {//下载
+                    filedir = joGIS1.DoFileDialog(false, "GDBX", "Geomap图件");
+                    if (filedir == '') return;
+                    joGIS1.SaveMapFile(filedir);
+                    break;
+                }
+            }
+        }
+
+        init();
+        //分页组件
+        var _pagesize = 10;
+        var _count = 0;
+        var _items = 10;
+        function init() {
+            var achieveListData = [];
+            var _param = {
+                "filter": {
+                    "$and": [
+                        {
+                            "ep.bo.value": {
+                                "$regex": ""
+                            }
+                        },
+                        {
+                            "ep.bo.type": {
+                                "$eq": "Workarea"
+                            }
+                        },
+                        {
+                            "$or": [{
+                                "ep.producttype": { "$eq": "三维采集立项PPT" },
+                                "ep.producttype": { "$eq": "三维重新处理立项PPT" }
+                            }]
+                        }
+                    ]
+                },
+                "pager": {
+                    "From": 0,
+                    "Size": 10
+                }
+            }
+            var ViewModel = function () {
+                var self = this;
+                self.myAchieveListData = ko.observableArray(achieveListData);
+                //加载成果列表
+                loadAchieveList = function (wellName, index) {
+                    _param.filter["$and"][0]["ep.bo.value"]["$regex"] = wellName;
+                    _param.pager.From = index;
+                    var paramJson = JSON.stringify(_param);
+                    $.ajax({
+                        url: "/Document/GetMatchData",
+                        type: "post",
+                        data: { param: paramJson },
+                        success: function (resultMetaData) {
+                            var _resultMetaData = JSON.parse(resultMetaData);
+                            pager_demo.count = _resultMetaData.count;
+                            if (_resultMetaData.count <= _pagesize) {
+                                pager_demo.show = false;
+                            }
+                            if (_resultMetaData.count > _pagesize) {
+                                pager_demo.show = true;
+                            }
+                            self.myAchieveListData.removeAll();
+
+                            if (_resultMetaData.count > 0) {
+                                for (var i = 0; i < _resultMetaData.metadatas.length; i++) {
+                                    //针对某条成果-->通过iiid拿到所有人浏览次数和以及当前用户这条成果是否收藏
+                                    var _iiid = _resultMetaData.metadatas[i].iiid;
+                                    var result = _resultMetaData.metadatas[i];
+                                    $.ajax({
+                                        url: "/GeoNav/GetSkimCountByiiid",
+                                        type: "post",
+                                        async: false,
+                                        data: { iiid: _iiid },
+                                        success: function (result2) {
+                                            var name = result.dc ? result.dc.title ? result.dc.title[0].text : '' : '';
+                                            var author = result.dc ? result.dc.contributor ? result.dc.contributor[0].name : '' : '';
+                                            var source = result.ep ? result.ep.scope ? result.ep.scope : '' : '';
+                                            self.myAchieveListData.push({
+                                                "iiid": result.iiid,
+                                                "name": name,
+                                                "author": author,
+                                                "skimCount": result2.countLook,
+                                                "source": source,
+                                                "flagFav": result2.flagFav,
+                                                "producttype": result.ep.producttype ? result.ep.producttype : '',
+                                                "indexDate": result.indexeddate ? result.indexeddate.slice(0, 10) : "",
+                                                "createdDate": new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate(),
+                                            }); 
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    });
+                },
+
+                //浏览
+                self.openDetailPage = function ($parent) {
+                    var _iiid = $parent.iiid;
+                    var _name = $parent.name;
+                    var _author = $parent.author;
+                    var _producttype = $parent.producttype;
+                    window.open("/Render/PTDetail?iiid=" + _iiid);
+                    //当前用户成果浏览次数加1
+                    $.ajax({
+                        url: "/User/OpenDetailPage",
+                        type: "post",
+                        data: { "iiid": _iiid, name: _name, author: _author, producttype: _producttype },
+                        success: function (result) {
+                            console.log(result);
+                        },
+                        error: function (result) {
+                            console.log(result);
+                        }
+                    });
+                },
+
+                //收藏成果列表
+                self.collectAchieveList = function ($parent, $index) {
+                    var data = $parent;
+                    $.ajax({
+                        url: "/GeoNav/Collect",
+                        type: "post",
+                        //async:false,
+                        data: { iiid: data.iiid, name: data.name, author: data.author, producttype: data.producttype, indexDate: data.indexDate, createdDate: data.createdDate },
+                        success: function (result) {
+                            if (result == "CollectSuccess") {
+                                toastr.success('收藏成功！', '成功提示');
+                                var searchText = "";
+                                var index = 0;
+                                loadAchieveList(currentWellName, index);
+                            } else if (result == "CollectCancel") {
+                                toastr.warning('取消收藏！', '成功提示');
+                                var searchText = "";
+                                var index = 0;
+                                loadAchieveList(currentWellName, index);
+                            }
+                        }
+                    });
+                },
+                self.downloadAchieve = function ($parent) {
+                    var iiid = $parent.iiid;
+                    $.ajax({
+                        url: "/RECP/GetMateData",
+                        type: "post",
+                        data: { iiid: iiid },
+                        async: false,
+                        success: function (result) {
+                            var data = JSON.parse(result);
+                            var id = iiid;
+                            var urlStr = data.source.url;
+                            var _apiPath = "@ViewBag._apiPath";
+                            var _achieveDown = "@ViewBag._achieveDown";
+                            Retrieve(id, urlStr, _apiPath, _achieveDown);
+                        }
+                    });
+                    // 下载记录收集到表
+                    downloadRecords($parent);
+                }
+            };
+
+            var currentViewModel = new ViewModel();
+            ko.applyBindings(currentViewModel);
+        }
+
+        // 下载记录收集到表
+        function downloadRecords(parent) {
+            var _iiid = parent.iiid;
+            var _name = parent.name;
+            var _author = parent.author;
+            var _producttype = parent.producttype;
+            //当前的下载次数+1
+            $.ajax({
+                url: "/User/DownLoadRecords",
+                type: "post",
+                data: { "iiid": _iiid, name: _name, author: _author, producttype: _producttype },
+                success: function (result) {
+                    console.log(result);
+                },
+                error: function (result) {
+                    console.log(result);
+                }
+            });
+        }
+
+        var pager_demo = new Vue({
+            el: '#app',
+            data: function () {
+                return {
+                    id: "_id1",
+                    activeItem: 1,
+                    pagesize: _pagesize,
+                    count: _count,
+                    items: _items,
+                    show: true
+                }
+            },
+            computed: {
+                _showFirstPrev: function () {
+                    return this.activeItem > 1;
+                },
+                _showNextLast: function () {
+                    return this.activeItem < Math.ceil(this.count / this.pagesize);
+                },
+                _items: function () {
+                    var temp = [],
+		    		maxItem = Math.ceil(this.count / this.pagesize),
+		    		len = maxItem > this.items ? this.items : maxItem,
+		    		midIndex = this.items % 2 == 0 ? Math.ceil((this.items + 1) / 2) : Math.ceil(this.items / 2)
+                    for (var i = 1; i <= len; i++) {
+                        temp.push(i);
+                    }
+                    if (this.activeItem > midIndex) {
+                        var span = this.activeItem - midIndex;
+                        for (var i = 0; i < span && temp[temp.length - 1] < maxItem; i++) {
+                            temp.shift(temp[i]);
+                            temp.push(len + 1 + i);
+                        }
+                    }
+                    return temp;
+                }
+            },
+            watch: {
+                activeItem: function () {
+                    this.selectItem();
+                }
+            },
+            methods: {
+                onPrev: function () {
+                    this.activeItem = this.activeItem - 1;
+                },
+                onCurrent: function (item) {
+                    this.activeItem = item;
+                },
+                onNext: function () {
+                    this.activeItem = this.activeItem + 1;
+                },
+                selectItem: function () {
+                    var page = this.activeItem;
+                    var index = (page - 1) * 10;
+                    loadAchieveList(currentWellName, index);
+                }
+            }
+        });
+
+        //加载地震工区所有成果列表
+        loadAchieveList("", 0);
+    </script>
+}

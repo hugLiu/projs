@@ -1,0 +1,1324 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{553FD5BA-CB59-4254-B7F9-5FDC5BEFEAC0}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Jurassic.RECP.Web</RootNamespace>
+    <AssemblyName>Jurassic.RECP.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Controllers\RECP\BaseInfoController.cs" />
+    <Compile Include="Controllers\RECP\BOManageController.cs" />
+    <Compile Include="Controllers\RECP\GeoNavController.cs" />
+    <Compile Include="Controllers\RECP\GeoSearchController.cs" />
+    <Compile Include="Controllers\RECP\HomePageController.cs" />
+    <Compile Include="Controllers\RECP\ProDataController.cs" />
+    <Compile Include="Controllers\RECP\ProMetadataController.cs" />
+    <Compile Include="Controllers\RECP\RECPController.cs" />
+    <Compile Include="Controllers\RECP\RECPUserBehaviorController.cs" />
+    <Compile Include="Controllers\RECP\TipMessController.cs" />
+    <Compile Include="Controllers\RECP\UserController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App_Data\KMD.json" />
+    <Content Include="App_Data\MetadataDefinition%28MongoDB%29.txt" />
+    <Content Include="Content\RECP\css\animate.css" />
+    <Content Include="Content\RECP\css\bootstrap.min.css" />
+    <Content Include="Content\RECP\css\chosen-sprite%402x.png" />
+    <Content Include="Content\RECP\css\chosen-sprite.png" />
+    <Content Include="Content\RECP\css\chosen.css" />
+    <Content Include="Content\RECP\css\font-awesome-ie7.min.css" />
+    <Content Include="Content\RECP\css\font-awesome.min.css" />
+    <Content Include="Content\RECP\css\ion.rangeSlider.css" />
+    <Content Include="Content\RECP\css\jquery.gritter.css" />
+    <Content Include="Content\RECP\css\jstree\32px.png" />
+    <Content Include="Content\RECP\css\jstree\40px.png" />
+    <Content Include="Content\RECP\css\jstree\jstree.min.css" />
+    <Content Include="Content\RECP\css\jstree\throbber.gif" />
+    <Content Include="Content\RECP\css\morris-0.4.3.min.css" />
+    <Content Include="Content\RECP\css\plugins\awesome-bootstrap-checkbox\awesome-bootstrap-checkbox.css" />
+    <Content Include="Content\RECP\css\plugins\blueimp\blueimp-gallery.min.css" />
+    <Content Include="Content\RECP\css\plugins\chosen\chosen.css" />
+    <Content Include="Content\RECP\css\plugins\clockpicker\clockpicker.css" />
+    <Content Include="Content\RECP\css\plugins\codemirror\ambiance.css" />
+    <Content Include="Content\RECP\css\plugins\codemirror\codemirror.css" />
+    <Content Include="Content\RECP\css\plugins\colorpicker\bootstrap-colorpicker.min.css" />
+    <Content Include="Content\RECP\css\plugins\cropper\cropper.min.css" />
+    <Content Include="Content\RECP\css\plugins\datapicker\datepicker3.css" />
+    <Content Include="Content\RECP\css\plugins\dataTables\dataTables.bootstrap.css" />
+    <Content Include="Content\RECP\css\plugins\dataTables\jquery.dataTables.css" />
+    <Content Include="Content\RECP\css\plugins\footable\all\bootstrap-responsive.css" />
+    <Content Include="Content\RECP\css\plugins\footable\all\bootstrap.css" />
+    <Content Include="Content\RECP\css\plugins\footable\all\bootstrapSwitch.css" />
+    <Content Include="Content\RECP\css\plugins\footable\all\footable-0.1.css" />
+    <Content Include="Content\RECP\css\plugins\footable\all\footable.paginate.css" />
+    <Content Include="Content\RECP\css\plugins\footable\all\footable.sortable-0.1.css" />
+    <Content Include="Content\RECP\css\plugins\footable\fonts\footable.svg" />
+    <Content Include="Content\RECP\css\plugins\footable\footable-0.1.css" />
+    <Content Include="Content\RECP\css\plugins\footable\footable.bootstrap.min.css" />
+    <Content Include="Content\RECP\css\plugins\footable\footable.core.css" />
+    <Content Include="Content\RECP\css\plugins\footable\footable.paginate.css" />
+    <Content Include="Content\RECP\css\plugins\gritter\jquery.gritter.css" />
+    <Content Include="Content\RECP\css\plugins\iCheck\custom.css" />
+    <Content Include="Content\RECP\css\plugins\images\sprite-skin-flat.png" />
+    <Content Include="Content\RECP\css\plugins\ionRangeSlider\ion.rangeSlider.css" />
+    <Content Include="Content\RECP\css\plugins\ionRangeSlider\ion.rangeSlider.skinFlat.css" />
+    <Content Include="Content\RECP\css\plugins\jasny\jasny-bootstrap.min.css" />
+    <Content Include="Content\RECP\css\plugins\jqGrid-master\plugins\css\ui.multiselect.css" />
+    <Content Include="Content\RECP\css\plugins\jqGrid-master\plugins\css\ui.multiselect.min.css" />
+    <Content Include="Content\RECP\css\plugins\jqGrid-master\ui.jqgrid.css" />
+    <Content Include="Content\RECP\css\plugins\jqGrid-master\ui.jqgrid.min.css" />
+    <Content Include="Content\RECP\css\plugins\jqGrid\jquery-ui-1.8.16.custom.css" />
+    <Content Include="Content\RECP\css\plugins\jqGrid\ui.jqgrid.css" />
+    <Content Include="Content\RECP\css\plugins\jsTree\style.min.css" />
+    <Content Include="Content\RECP\css\plugins\layer\layui.css" />
+    <Content Include="Content\RECP\css\plugins\miniui\core.css" />
+    <Content Include="Content\RECP\css\plugins\miniui\demo.css" />
+    <Content Include="Content\RECP\css\plugins\miniui\miniui.css" />
+    <Content Include="Content\RECP\css\plugins\morris\morris-0.4.3.min.css" />
+    <Content Include="Content\RECP\css\plugins\nouslider\jquery.nouislider.css" />
+    <Content Include="Content\RECP\css\plugins\split\css\default.css" />
+    <Content Include="Content\RECP\css\plugins\split\css\normalize.css" />
+    <Content Include="Content\RECP\css\plugins\split\css\style.css" />
+    <Content Include="Content\RECP\css\plugins\split\fonts\icomoon.svg" />
+    <Content Include="Content\RECP\css\plugins\split\grips\horizontal.png" />
+    <Content Include="Content\RECP\css\plugins\split\grips\vertical.png" />
+    <Content Include="Content\RECP\css\plugins\switchery\switchery.css" />
+    <Content Include="Content\RECP\css\plugins\toastr\toastr.min.css" />
+    <Content Include="Content\RECP\css\style.css" />
+    <Content Include="App_Data\MetadataDefinition.json" />
+    <Content Include="Content\RECP\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\RECP\gtUI.js" />
+    <Content Include="Content\RECP\gtui\elementui.js" />
+    <Content Include="Content\RECP\gtui\elementui.styles.css" />
+    <Content Include="Content\RECP\gtui\gtui.js" />
+    <Content Include="Content\RECP\gtui\gtui.styles.css" />
+    <Content Include="Content\RECP\gtui\manifest.js" />
+    <Content Include="Content\RECP\gtui\media\bmp.gif" />
+    <Content Include="Content\RECP\gtui\media\cab.gif" />
+    <Content Include="Content\RECP\gtui\media\collect.png" />
+    <Content Include="Content\RECP\gtui\media\dataset.gif" />
+    <Content Include="Content\RECP\gtui\media\default.png" />
+    <Content Include="Content\RECP\gtui\media\delete.png" />
+    <Content Include="Content\RECP\gtui\media\doc.gif" />
+    <Content Include="Content\RECP\gtui\media\docx.gif" />
+    <Content Include="Content\RECP\gtui\media\file.gif" />
+    <Content Include="Content\RECP\gtui\media\gif.gif" />
+    <Content Include="Content\RECP\gtui\media\htm.gif" />
+    <Content Include="Content\RECP\gtui\media\html.gif" />
+    <Content Include="Content\RECP\gtui\media\ico.gif" />
+    <Content Include="Content\RECP\gtui\media\jpg.gif" />
+    <Content Include="Content\RECP\gtui\media\pdf.gif" />
+    <Content Include="Content\RECP\gtui\media\png.gif" />
+    <Content Include="Content\RECP\gtui\media\position.png" />
+    <Content Include="Content\RECP\gtui\media\ppt.gif" />
+    <Content Include="Content\RECP\gtui\media\pptx.gif" />
+    <Content Include="Content\RECP\gtui\media\rar.gif" />
+    <Content Include="Content\RECP\gtui\media\refresh.png" />
+    <Content Include="Content\RECP\gtui\media\save.png" />
+    <Content Include="Content\RECP\gtui\media\slt.png" />
+    <Content Include="Content\RECP\gtui\media\swf.gif" />
+    <Content Include="Content\RECP\gtui\media\tif.gif" />
+    <Content Include="Content\RECP\gtui\media\txt.gif" />
+    <Content Include="Content\RECP\gtui\media\xls.gif" />
+    <Content Include="Content\RECP\gtui\media\xlsx.gif" />
+    <Content Include="Content\RECP\gtui\media\zoomin.png" />
+    <Content Include="Content\RECP\gtui\media\zoomout.png" />
+    <Content Include="Content\RECP\gtui\vuedll.js" />
+    <Content Include="Content\RECP\js\common\AchieveDown.js" />
+    <Content Include="Content\RECP\js\geoConvert.js" />
+    <Content Include="Content\RECP\js\HomePage\HomePage.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\grid.base.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\grid.celledit.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\grid.common.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\grid.custom.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\grid.filter.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\grid.formedit.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\grid.grouping.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\grid.import.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\grid.inlinedit.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\grid.jqueryui.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\grid.pivot.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\grid.subgrid.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\grid.tbltogrid.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\grid.treegrid.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-ar.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-bg.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-bs.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-ca.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-cn.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-cs.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-da.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-de.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-el.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-en.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-es.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-fa.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-fi.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-fr.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-gl.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-he.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-hr.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-hu.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-id.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-is.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-it.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-ja.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-kr.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-lt.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-me.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-nl.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-no.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-pl.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-pt-br.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-pt.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-ro.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-ru.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-sk.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-sr.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-sv.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-th.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-tr.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-tw.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-ua.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\grid.locale-vi.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-ar.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-bg.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-ca.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-cn.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-cs.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-da.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-de.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-el.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-en.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-es.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-fa.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-fi.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-fr.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-gl.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-he.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-hr.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-hu.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-id.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-is.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-it.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-ja.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-kr.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-lt.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-me.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-nl.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-no.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-pl.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-pt-br.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-pt.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-ro.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-ru.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-sk.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-sr.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-sv.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-th.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-tr.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-tw.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-ua.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-vi.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\jqdnr.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\jqmodal.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\jquery.fmatter.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\jquery.jqgrid.min.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\jquery.jqgrid.src.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\jsonxml.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\grid.base.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\grid.celledit.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\grid.common.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\grid.custom.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\grid.filter.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\grid.formedit.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\grid.grouping.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\grid.import.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\grid.inlinedit.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\grid.jqueryui.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\grid.pivot.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\grid.subgrid.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\grid.tbltogrid.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\grid.treegrid.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\jqdnr.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\jqmodal.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\jquery.fmatter.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\jsonxml.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\plugins\grid.odata.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\plugins\jquery.contextmenu-ui.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\plugins\jquery.contextmenu.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\plugins\jquery.createcontexmenufromnavigatorbuttons.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\plugins\jquery.jqgrid.showhidecolumnmenu.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\plugins\min\grid.odata.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\plugins\min\jquery.contextmenu-ui.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\plugins\min\jquery.contextmenu.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\plugins\min\jquery.createcontexmenufromnavigatorbuttons.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\plugins\min\jquery.jqgrid.showhidecolumnmenu.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\plugins\min\ui.multiselect.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\plugins\ui.multiselect.js" />
+    <Content Include="Content\RECP\js\plugins\kendo\2017.1.223\js\kendo.all.min.js" />
+    <Content Include="Content\RECP\js\plugins\kendo\2017.1.223\styles\Bootstrap\sprite.png" />
+    <Content Include="Content\RECP\js\plugins\kendo\2017.1.223\styles\Default\sprite.png" />
+    <Content Include="Content\RECP\js\plugins\kendo\2017.1.223\styles\kendo.bootstrap.min.css" />
+    <Content Include="Content\RECP\js\plugins\kendo\2017.1.223\styles\kendo.common-bootstrap.min.css" />
+    <Content Include="Content\RECP\js\plugins\split\split.js" />
+    <Content Include="Content\RECP\js\plugins\split\split.min.js" />
+    <Content Include="Content\RECP\js\swfupload.js" />
+    <Content Include="Content\RECP\js\swfupload.swf" />
+    <Content Include="Content\RECP\js\User\FormCheckTip.css" />
+    <Content Include="Content\RECP\js\User\FormCheck.js" />
+    <Content Include="Content\RECP\js\vue.js" />
+    <Content Include="Local\test\Xml\GroupTitle.xml" />
+    <Content Include="Local\test\Xml\ReserveOil.xml" />
+    <Content Include="Local\Tools\AdbeRdr930_zh_CN.exe" />
+    <Content Include="Local\Tools\IE11-For-Win7-x64.exe" />
+    <Content Include="Local\Tools\JoGIS组件安装包1.40.0000.exe" />
+    <Content Include="Scripts\jquery.signalR-2.2.1.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
+    <Content Include="Views\BOManage\Index.cshtml" />
+    <Content Include="Views\BOManage\BOTabPartial.cshtml" />
+    <Content Include="Views\BOManage\BOTreePartial.cshtml" />
+    <Content Include="Views\ProData\Index.cshtml" />
+    <Content Include="xls\Book1.xls" />
+    <Content Include="Views\ProMetadata\MetaTreeEdit.cshtml" />
+    <Content Include="Views\ProData\Importing.cshtml" />
+    <Content Include="Views\GeoNav\Standard.cshtml" />
+    <Content Include="Views\home\index.cshtml" />
+    <Content Include="Views\GeoNav\Research.cshtml" />
+    <Content Include="Views\BOManage\Importing.cshtml" />
+    <Resource Include="Content\RECP\images\locked.png" />
+    <Content Include="Content\RECP\images\login-background.jpg" />
+    <Content Include="Content\RECP\images\logo-small.png" />
+    <Content Include="Content\RECP\images\sprite-skin-flat.png" />
+    <Content Include="Content\RECP\images\user.png" />
+    <Content Include="Content\RECP\images\User2.png" />
+    <Content Include="Content\RECP\images\thumbnail.png" />
+    <Content Include="Content\RECP\js\BaseInfo\RemainDis\RemainDistraction.js" />
+    <Content Include="Content\RECP\js\BaseInfo\ThreeLevReserveDistrbution\ThreeLev.js" />
+    <Content Include="Content\RECP\js\bootstrap.min.js" />
+    <Content Include="Content\RECP\js\contabs.js" />
+    <Content Include="Content\RECP\js\content.js" />
+    <Content Include="Content\RECP\js\global.js" />
+    <Content Include="Content\RECP\js\hplus.js" />
+    <Content Include="Content\RECP\js\joGis\jogis-frame.js" />
+    <Content Include="Content\RECP\js\jquery.easypiechart.js" />
+    <Content Include="Content\RECP\js\jquery.flot.js" />
+    <Content Include="Content\RECP\js\jquery.flot.pie.js" />
+    <Content Include="Content\RECP\js\jquery.flot.resize.js" />
+    <Content Include="Content\RECP\js\jquery.flot.spline.js" />
+    <Content Include="Content\RECP\js\jquery.flot.symbol.js" />
+    <Content Include="Content\RECP\js\jquery.flot.tooltip.min.js" />
+    <Content Include="Content\RECP\js\jquery.metisMenu.js" />
+    <Content Include="Content\RECP\js\jquery.min.js" />
+    <Content Include="Content\RECP\js\jquery.peity.min.js" />
+    <Content Include="Content\RECP\js\jquery.slimscroll.min.js" />
+    <Content Include="Content\RECP\js\jquery.sparkline.min.js" />
+    <Content Include="Content\RECP\js\jsTools.js" />
+    <Content Include="Content\RECP\js\linq.js" />
+    <Content Include="Content\RECP\js\linq.min.js" />
+    <Content Include="Content\RECP\js\LJTree\jstree.min.js" />
+    <Content Include="Content\RECP\js\LJTree\tree.js" />
+    <Content Include="Content\RECP\js\pace.min.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\amcharts.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\funnel.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\gantt.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\gauge.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIcon.gif" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconBlack.gif" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconH.gif" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconHBlack.gif" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRectBig.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRectBig.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRectBigBlack.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRectBigBlack.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRectBigBlackH.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRectBigBlackH.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRectBigH.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRectBigH.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRectSmall.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRectSmall.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRectSmallBlack.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRectSmallBlack.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRectSmallBlackH.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRectSmallBlackH.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRectSmallH.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRectSmallH.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRoundBig.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRoundBig.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRoundBigBlack.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRoundBigBlack.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRoundBigBlackH.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRoundBigBlackH.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRoundBigH.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRoundBigH.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRoundSmall.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRoundSmall.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRoundSmallBlack.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRoundSmallBlack.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRoundSmallBlackH.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRoundSmallBlackH.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRoundSmallH.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\dragIconRoundSmallH.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\eraserIcon.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\eraserIconH.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\export.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\exportWhite.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\lens.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\lens.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\lensWhite.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\lensWhite_old.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\lens_old.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\lens_white.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\pencilIcon.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\pencilIconH.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\xIcon.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\images\xIconH.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\lang\az.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\lang\bg.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\lang\de.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\lang\es.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\lang\fi.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\lang\fo.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\lang\fr.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\lang\hr.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\lang\hu.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\lang\id.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\lang\is.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\lang\it.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\lang\lt.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\lang\lv.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\lang\mk.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\lang\mn.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\lang\mt.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\lang\nl.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\lang\no.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\lang\pl.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\lang\pt.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\lang\ro.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\lang\ru.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\lang\rw.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\lang\sk.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\lang\so.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\lang\th.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\lang\tr.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\black\pattern1.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\black\pattern10.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\black\pattern11.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\black\pattern12.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\black\pattern13.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\black\pattern14.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\black\pattern15.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\black\pattern16.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\black\pattern17.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\black\pattern18.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\black\pattern19.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\black\pattern2.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\black\pattern20.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\black\pattern21.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\black\pattern3.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\black\pattern4.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\black\pattern5.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\black\pattern6.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\black\pattern7.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\black\pattern8.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\black\pattern9.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\chalk\pattern1.jpg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\chalk\pattern1r.jpg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\chalk\pattern2.jpg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\chalk\pattern3.jpg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\chalk\pattern4.jpg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\chalk\pattern5.jpg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\chalk\pattern6.jpg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\white\pattern1.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\white\pattern10.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\white\pattern11.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\white\pattern12.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\white\pattern13.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\white\pattern14.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\white\pattern15.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\white\pattern16.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\white\pattern17.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\white\pattern18.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\white\pattern19.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\white\pattern2.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\white\pattern20.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\white\pattern21.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\white\pattern3.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\white\pattern4.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\white\pattern5.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\white\pattern6.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\white\pattern7.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\white\pattern8.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\patterns\white\pattern9.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\pie.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\dataloader\dataloader.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\dataloader\dataloader.min.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\dataloader\examples\gauge_json.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\dataloader\examples\map_json.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\dataloader\examples\pie_csv.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\dataloader\examples\pie_json.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\dataloader\examples\serial2_json.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\dataloader\examples\serial_csv.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\dataloader\examples\serial_json.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\dataloader\examples\serial_with_dynamic_graphs.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\dataloader\examples\stock_csv_data_and_events.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\dataloader\lang\en.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\dataloader\lang\lt.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\dataloader\license.txt" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\examples\export.config.advanced.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\examples\export.config.default.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\examples\funnel.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\examples\gantt.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\examples\gauge.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\examples\images\bicycle.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\examples\images\car.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\examples\images\motorcycle.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\examples\index.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\examples\map.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\examples\pie1.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\examples\pie2.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\examples\pie3.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\examples\pie4.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\examples\radar.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\examples\serial1.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\examples\serial2.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\examples\serial3.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\examples\stock.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\examples\xy.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\export.css" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\export.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\export.min.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\lang\de.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\lang\en.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\lang\lt.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\lang\pl.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\libs\blob.js\blob.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\libs\fabric.js\fabric.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\libs\fabric.js\fabric.min.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\libs\FileSaver.js\FileSaver.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\libs\FileSaver.js\FileSaver.min.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\libs\jszip\jszip.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\libs\jszip\jszip.min.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\libs\pdfmake\pdfmake.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\libs\pdfmake\pdfmake.min.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\libs\pdfmake\vfs_fonts.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\libs\xlsx\xlsx.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\libs\xlsx\xlsx.min.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\1.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\10.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\11.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\12.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\13.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\14.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\15.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\16.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\17.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\18.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\19.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\2.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\20.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\21.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\22.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\23.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\24.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\25.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\26.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\27.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\28.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\29.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\3.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\30.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\31.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\4.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\5.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\6.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\7.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\8.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\shapes\9.svg" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\responsive\examples\funnel.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\responsive\examples\gantt.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\responsive\examples\gauge.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\responsive\examples\images\bicycle.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\responsive\examples\images\car.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\responsive\examples\images\motorcycle.png" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\responsive\examples\index.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\responsive\examples\map.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\responsive\examples\pie1.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\responsive\examples\pie2.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\responsive\examples\pie3.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\responsive\examples\radar.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\responsive\examples\serial1.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\responsive\examples\serial2.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\responsive\examples\serial3.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\responsive\examples\stock.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\responsive\examples\xy.html" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\responsive\license.txt" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\responsive\responsive.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\responsive\responsive.min.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\radar.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\serial.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\themes\black.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\themes\chalk.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\themes\dark.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\themes\light.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\themes\patterns.js" />
+    <Content Include="Content\RECP\js\plugins\amcharts\xy.js" />
+    <Content Include="Content\RECP\js\plugins\blueimp\jquery.blueimp-gallery.min.js" />
+    <Content Include="Content\RECP\js\plugins\chosen\chosen.jquery.js" />
+    <Content Include="Content\RECP\js\plugins\clockpicker\clockpicker.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\codemirror.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\apl\apl.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\apl\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\asterisk\asterisk.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\asterisk\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\clike\clike.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\clike\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\clike\scala.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\clojure\clojure.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\clojure\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\cobol\cobol.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\cobol\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\coffeescript\coffeescript.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\coffeescript\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\commonlisp\commonlisp.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\commonlisp\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\css\css.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\css\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\css\less.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\css\less_test.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\css\scss.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\css\scss_test.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\css\test.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\cypher\cypher.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\cypher\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\dart\dart.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\dart\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\diff\diff.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\diff\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\django\django.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\django\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\dockerfile\dockerfile.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\dockerfile\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\dtd\dtd.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\dtd\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\dylan\dylan.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\dylan\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\d\d.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\d\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\ebnf\ebnf.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\ebnf\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\ecl\ecl.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\ecl\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\eiffel\eiffel.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\eiffel\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\erlang\erlang.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\erlang\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\fortran\fortran.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\fortran\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\gas\gas.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\gas\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\gfm\gfm.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\gfm\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\gfm\test.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\gherkin\gherkin.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\gherkin\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\go\go.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\go\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\groovy\groovy.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\groovy\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\haml\haml.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\haml\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\haml\test.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\haskell\haskell.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\haskell\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\haxe\haxe.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\haxe\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\htmlembedded\htmlembedded.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\htmlembedded\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\htmlmixed\htmlmixed.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\htmlmixed\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\http\http.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\http\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\idl\idl.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\idl\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\jade\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\jade\jade.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\javascript\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\javascript\javascript.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\javascript\json-ld.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\javascript\test.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\javascript\typescript.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\jinja2\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\jinja2\jinja2.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\julia\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\julia\julia.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\kotlin\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\kotlin\kotlin.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\livescript\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\livescript\livescript.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\lua\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\lua\lua.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\markdown\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\markdown\markdown.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\markdown\test.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\meta.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\mirc\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\mirc\mirc.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\mllike\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\mllike\mllike.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\modelica\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\modelica\modelica.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\nginx\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\nginx\nginx.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\ntriples\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\ntriples\ntriples.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\octave\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\octave\octave.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\pascal\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\pascal\pascal.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\pegjs\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\pegjs\pegjs.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\perl\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\perl\perl.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\php\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\php\php.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\php\test.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\pig\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\pig\pig.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\properties\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\properties\properties.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\puppet\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\puppet\puppet.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\python\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\python\python.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\q\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\q\q.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\rpm\changes\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\rpm\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\rpm\rpm.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\rst\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\rst\rst.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\ruby\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\ruby\ruby.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\ruby\test.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\rust\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\rust\rust.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\r\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\r\r.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\sass\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\sass\sass.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\scheme\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\scheme\scheme.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\shell\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\shell\shell.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\shell\test.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\sieve\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\sieve\sieve.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\slim\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\slim\slim.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\slim\test.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\smalltalk\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\smalltalk\smalltalk.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\smartymixed\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\smartymixed\smartymixed.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\smarty\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\smarty\smarty.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\solr\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\solr\solr.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\soy\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\soy\soy.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\sparql\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\sparql\sparql.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\spreadsheet\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\spreadsheet\spreadsheet.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\sql\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\sql\sql.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\stex\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\stex\stex.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\stex\test.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\tcl\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\tcl\tcl.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\textile\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\textile\test.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\textile\textile.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\tiddlywiki\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\tiddlywiki\tiddlywiki.css" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\tiddlywiki\tiddlywiki.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\tiki\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\tiki\tiki.css" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\tiki\tiki.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\toml\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\toml\toml.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\tornado\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\tornado\tornado.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\turtle\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\turtle\turtle.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\vbscript\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\vbscript\vbscript.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\vb\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\vb\vb.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\velocity\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\velocity\velocity.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\verilog\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\verilog\test.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\verilog\verilog.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\xml\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\xml\test.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\xml\xml.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\xquery\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\xquery\test.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\xquery\xquery.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\yaml\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\yaml\yaml.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\z80\index.html" />
+    <Content Include="Content\RECP\js\plugins\codemirror\mode\z80\z80.js" />
+    <Content Include="Content\RECP\js\plugins\codemirror\xml.js" />
+    <Content Include="Content\RECP\js\plugins\colorpicker\bootstrap-colorpicker.min.js" />
+    <Content Include="Content\RECP\js\plugins\cropper\cropper.min.js" />
+    <Content Include="Content\RECP\js\plugins\datapicker\bootstrap-datepicker.js" />
+    <Content Include="Content\RECP\js\plugins\dataTables\dataTables.bootstrap.js" />
+    <Content Include="Content\RECP\js\plugins\dataTables\jquery.dataTables.js" />
+    <Content Include="Content\RECP\js\plugins\dataTables\jquery.dataTables.min.js" />
+    <Content Include="Content\RECP\js\plugins\easypiechart\jquery.easypiechart.js" />
+    <Content Include="Content\RECP\js\plugins\eCharts\echarts.min.js" />
+    <Content Include="Content\RECP\js\plugins\flot\curvedLines.js" />
+    <Content Include="Content\RECP\js\plugins\flot\jquery.flot.js" />
+    <Content Include="Content\RECP\js\plugins\flot\jquery.flot.pie.js" />
+    <Content Include="Content\RECP\js\plugins\flot\jquery.flot.resize.js" />
+    <Content Include="Content\RECP\js\plugins\flot\jquery.flot.spline.js" />
+    <Content Include="Content\RECP\js\plugins\flot\jquery.flot.symbol.js" />
+    <Content Include="Content\RECP\js\plugins\flot\jquery.flot.tooltip.min.js" />
+    <Content Include="Content\RECP\js\plugins\footable\all\bootstrapSwitch.js" />
+    <Content Include="Content\RECP\js\plugins\footable\all\footable.filter.js" />
+    <Content Include="Content\RECP\js\plugins\footable\all\footable.js" />
+    <Content Include="Content\RECP\js\plugins\footable\all\footable.paginate.js" />
+    <Content Include="Content\RECP\js\plugins\footable\all\footable.sortable.js" />
+    <Content Include="Content\RECP\js\plugins\footable\footable.all.min.js" />
+    <Content Include="Content\RECP\js\plugins\footable\footable.filter.js" />
+    <Content Include="Content\RECP\js\plugins\footable\footable.js" />
+    <Content Include="Content\RECP\js\plugins\footable\footable.paginate.js" />
+    <Content Include="Content\RECP\js\plugins\footable\footable.sortable.js" />
+    <Content Include="Content\RECP\js\plugins\iCheck\icheck.min.js" />
+    <Content Include="Content\RECP\js\plugins\ionRangeSlider\ion.rangeSlider.min.js" />
+    <Content Include="Content\RECP\js\plugins\jasny\jasny-bootstrap.min.js" />
+    <Content Include="Content\RECP\js\plugins\jeditable\jquery.jeditable.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid\grid.locale-cn.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid\jquery.jqGrid.min.js" />
+    <Content Include="Content\RECP\js\plugins\jqGrid\jquery.jqGrid.src.js" />
+    <Content Include="Content\RECP\js\plugins\jquery-treegrid\css\jquery.treegrid.css" />
+    <Content Include="Content\RECP\js\plugins\jquery-treegrid\img\collapse.png" />
+    <Content Include="Content\RECP\js\plugins\jquery-treegrid\img\expand.png" />
+    <Content Include="Content\RECP\js\plugins\jquery-treegrid\img\file.png" />
+    <Content Include="Content\RECP\js\plugins\jquery-treegrid\img\folder.png" />
+    <Content Include="Content\RECP\js\plugins\jquery-treegrid\js\jquery.cookie.js" />
+    <Content Include="Content\RECP\js\plugins\jquery-treegrid\js\jquery.treegrid.bootstrap2.js" />
+    <Content Include="Content\RECP\js\plugins\jquery-treegrid\js\jquery.treegrid.bootstrap3.js" />
+    <Content Include="Content\RECP\js\plugins\jquery-treegrid\js\jquery.treegrid.js" />
+    <Content Include="Content\RECP\js\plugins\jquery-treegrid\js\jquery.treegrid.min.js" />
+    <Content Include="Content\RECP\js\plugins\jsKnob\jquery.knob.js" />
+    <Content Include="Content\RECP\js\plugins\jsTree\jstree.min.js" />
+    <Content Include="Content\RECP\js\plugins\knockout\knockout.js" />
+    <Content Include="Content\RECP\js\plugins\layer\layer.min.js" />
+    <Content Include="Content\RECP\js\plugins\layer\layui.js" />
+    <Content Include="Content\RECP\js\plugins\metisMenu\jquery.metisMenu.js" />
+    <Content Include="Content\RECP\js\plugins\miniui\boot.js" />
+    <Content Include="Content\RECP\js\plugins\miniui\core.js" />
+    <Content Include="Content\RECP\js\plugins\miniui\miniui.js" />
+    <Content Include="Content\RECP\js\plugins\nouslider\jquery.nouislider.min.js" />
+    <Content Include="Content\RECP\js\plugins\metisMenu\pace.min.js" />
+    <Content Include="Content\RECP\js\plugins\prettyfile\bootstrap-prettyfile.js" />
+    <Content Include="Content\RECP\js\plugins\slimscroll\jquery.slimscroll.min.js" />
+    <Content Include="Content\RECP\js\plugins\sparkline\jquery.sparkline.min.js" />
+    <Content Include="Content\RECP\js\plugins\switchery\switchery.js" />
+    <Content Include="Content\RECP\js\plugins\toastr\toastr.min.js" />
+    <Content Include="Content\RECP\js\plugins\validate\additional-methods.min.js" />
+    <Content Include="Content\RECP\js\plugins\validate\jquery.validate.min.js" />
+    <Content Include="Content\RECP\js\plugins\validate\messages_zh.min.js" />
+    <Content Include="Content\RECP\js\ProMetadata\ProMetadata.js" />
+    <Content Include="Content\RECP\js\tree\tree.min.js" />
+    <Content Include="Content\RECP\js\User\User.js" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Start\" />
+    <Folder Include="Content\RECP\js\plugins\pace\" />
+    <Folder Include="Models\" />
+    <Folder Include="Resource\Excel\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="areas\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\AppFunctions.json" />
+    <Content Include="App_Data\AppRoles.json" />
+    <Content Include="App_Data\ModuleConfig.json" />
+    <Content Include="App_Data\UserConfigs.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="App_Data\CustomStrings.en-US.resx">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App_Data\CustomStrings.zh-CN.resx">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Aspose.Cells">
+      <HintPath>..\lib\Aspose.Cells.dll</HintPath>
+    </Reference>
+    <Reference Include="Aspose.Pdf">
+      <HintPath>..\lib\Aspose.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="Aspose.Slides">
+      <HintPath>..\lib\Aspose.Slides.dll</HintPath>
+    </Reference>
+    <Reference Include="Aspose.Words">
+      <HintPath>..\lib\Aspose.Words.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper">
+      <HintPath>..\lib\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\lib\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\lib\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\lib\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Jurassic.AppCenter.Core, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\02产品\01GeoTopic1.0\开发库\04编码\项目模板\Jurassic.So.GeoTemplate\lib\Jurassic.AppCenter.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Jurassic.Com, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\02产品\01GeoTopic1.0\开发库\04编码\项目模板\Jurassic.So.GeoTemplate\lib\Jurassic.Com.dll</HintPath>
+    </Reference>
+    <Reference Include="Jurassic.CommonModels, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\bin\Jurassic.CommonModels.dll</HintPath>
+    </Reference>
+    <Reference Include="Jurassic.CommonModels.EFProvider, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\02产品\01GeoTopic1.0\开发库\04编码\项目模板\Jurassic.So.GeoTemplate\lib\Jurassic.CommonModels.EFProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="Jurassic.GeoBank.Services, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\bin\Jurassic.GeoBank.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="Jurassic.Log4, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\02产品\01GeoTopic1.0\开发库\04编码\项目模板\Jurassic.So.GeoTemplate\lib\Jurassic.Log4.dll</HintPath>
+    </Reference>
+    <Reference Include="Jurassic.PKS.Service, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\bin\Jurassic.PKS.Service.dll</HintPath>
+    </Reference>
+    <Reference Include="Jurassic.PKS.WebAPI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\02产品\01GeoTopic1.0\开发库\04编码\项目模板\Jurassic.So.GeoTemplate\lib\Jurassic.PKS.WebAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="Jurassic.So.GeoTopic.Database, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\02产品\01GeoTopic1.0\开发库\04编码\项目模板\Jurassic.So.GeoTemplate\lib\Jurassic.So.GeoTopic.Database.dll</HintPath>
+    </Reference>
+    <Reference Include="Jurassic.So.GeoTopic.DataService, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\02产品\01GeoTopic1.0\开发库\04编码\项目模板\Jurassic.So.GeoTemplate\lib\Jurassic.So.GeoTopic.DataService.dll</HintPath>
+    </Reference>
+    <Reference Include="Jurassic.So.GeoTopic.DocumentConverter, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\02产品\01GeoTopic1.0\开发库\04编码\项目模板\Jurassic.So.GeoTemplate\lib\Jurassic.So.GeoTopic.DocumentConverter.dll</HintPath>
+    </Reference>
+    <Reference Include="Jurassic.So.GeoTopic.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Jurassic.So.GeoTopic.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Jurassic.So.Infrastructure, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\02产品\01GeoTopic1.0\开发库\04编码\项目模板\Jurassic.So.GeoTemplate\lib\Jurassic.So.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Jurassic.WebApi, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\02产品\01GeoTopic1.0\开发库\04编码\项目模板\Jurassic.So.GeoTemplate\lib\Jurassic.WebApi.dll</HintPath>
+    </Reference>
+    <Reference Include="Jurassic.WebFrame, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\bin\Jurassic.WebFrame.dll</HintPath>
+    </Reference>
+    <Reference Include="Jurassic.WebGeoBank, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\bin\Jurassic.WebGeoBank.dll</HintPath>
+    </Reference>
+    <Reference Include="Jurassic.WebHtmlEditor">
+      <HintPath>..\bin\Jurassic.WebHtmlEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="Jurassic.WebUpload">
+      <HintPath>..\bin\Jurassic.WebUpload.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\lib\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\lib\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Common">
+      <HintPath>..\lib\Ninject.Web.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Mvc">
+      <HintPath>..\lib\Ninject.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI, Version=1.2.4.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>..\lib\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net">
+      <HintPath>..\lib\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats">
+      <HintPath>..\lib\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.DomainServices.Hosting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.ServiceModel.DomainServices.Server, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebActivatorEx">
+      <HintPath>..\lib\WebActivatorEx.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_RECPLayout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\RECP\css\plugins\footable\fonts\footable.eot" />
+    <Content Include="Content\RECP\css\plugins\footable\fonts\footable.ttf" />
+    <Content Include="Content\RECP\css\plugins\footable\fonts\footable.woff" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\dataloader\examples\data\gauge.json" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\dataloader\examples\data\map.json" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\dataloader\examples\data\MSFT.csv" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\dataloader\examples\data\MSFT_events.csv" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\dataloader\examples\data\pie.csv" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\dataloader\examples\data\pie.json" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\dataloader\examples\data\serial.csv" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\dataloader\examples\data\serial.json" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\dataloader\examples\data\serial2.json" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\dataloader\examples\data\TXN.csv" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\dataloader\readme.md" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\libs\pdfmake\pdfmake.min.js.map" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\libs\xlsx\LICENSE" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\libs\xlsx\xlsx.min.map" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\LICENSE" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\export\README.md" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\responsive\readme.md" />
+    <Content Include="Content\RECP\js\plugins\amcharts\plugins\responsive\responsive.min.js.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\RECP\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\GeoSearch\Index.cshtml" />
+    <Content Include="Views\GeoSearch\Table.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\GeoNav\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\BaseInfo\RemainDistrbution.cshtml" />
+    <Content Include="Views\BaseInfo\ScopeDistrbution.cshtml" />
+    <Content Include="Views\BaseInfo\ThreeDSeismicDistrbution.cshtml" />
+    <Content Include="Views\BaseInfo\ThreeLevReserveDistrbution.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ProMetadata\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\User\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Local\RECP\Json\ThreeLev\reserve-tree.json" />
+    <Content Include="Local\RECP\Json\ProMetadata\MetaDataEntityClass.json" />
+    <Content Include="Content\RECP\gtUI.js.map" />
+    <Content Include="Content\RECP\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\RECP\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\RECP\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\RECP\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\RECP\css\plugins\split\fonts\icomoon.eot" />
+    <Content Include="Content\RECP\css\plugins\split\fonts\icomoon.ttf" />
+    <Content Include="Content\RECP\css\plugins\split\fonts\icomoon.woff" />
+    <Content Include="Content\RECP\gtui\elementui.js.map" />
+    <Content Include="Content\RECP\gtui\elementui.styles.css.map" />
+    <Content Include="Content\RECP\gtui\gtui.js.map" />
+    <Content Include="Content\RECP\gtui\gtui.styles.css.map" />
+    <Content Include="Content\RECP\gtui\manifest.js.map" />
+    <Content Include="Content\RECP\gtui\media\element-icons.ttf" />
+    <Content Include="Content\RECP\gtui\media\element-icons.woff" />
+    <Content Include="Content\RECP\gtui\vuedll.js.map" />
+    <Content Include="Content\RECP\css\plugins\jqGrid-master\plugins\css\ui.multiselect.min.css.map" />
+    <Content Include="Content\RECP\css\plugins\jqGrid-master\ui.jqgrid.min.css.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-ar.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-bg.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-ca.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-cn.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-cs.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-da.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-de.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-el.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-en.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-es.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-fa.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-fi.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-fr.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-gl.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-he.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-hr.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-hu.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-id.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-is.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-it.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-ja.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-kr.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-lt.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-me.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-nl.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-no.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-pl.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-pt-br.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-pt.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-ro.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-ru.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-sk.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-sr.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-sv.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-th.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-tr.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-tw.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-ua.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\i18n\min\grid.locale-vi.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\jquery.jqgrid.min.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\grid.base.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\grid.celledit.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\grid.common.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\grid.custom.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\grid.filter.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\grid.formedit.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\grid.grouping.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\grid.import.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\grid.inlinedit.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\grid.jqueryui.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\grid.pivot.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\grid.subgrid.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\grid.tbltogrid.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\grid.treegrid.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\jqdnr.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\jqmodal.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\jquery.fmatter.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\min\jsonxml.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\plugins\min\grid.odata.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\plugins\min\jquery.contextmenu-ui.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\plugins\min\jquery.contextmenu.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\plugins\min\jquery.createcontexmenufromnavigatorbuttons.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\plugins\min\jquery.jqgrid.showhidecolumnmenu.js.map" />
+    <Content Include="Content\RECP\js\plugins\jqGrid-master\plugins\min\ui.multiselect.js.map" />
+    <None Include="Properties\PublishProfiles\geotopic.pubxml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Jurassic.RECP.DataBase\Jurassic.RECP.DataBase.csproj">
+      <Project>{3dd4030b-b0fa-4565-968d-f695ca559170}</Project>
+      <Name>Jurassic.RECP.DataBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Jurassic.RECP.DataService\Jurassic.RECP.DataService.csproj">
+      <Project>{36f47542-fe26-4f20-bc17-7a4db2b3163b}</Project>
+      <Name>Jurassic.RECP.DataService</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>55061</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:55061/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

@@ -1,0 +1,505 @@
+﻿@{
+    Layout = "~/Views/shared/_RECPLayout.cshtml";
+}
+
+@section css{
+    <link rel="stylesheet" href="/scripts/GeoTopic/bootstrap-3.3.5-dist/css/font-awesome.css">
+    <link href="~/content/RECP/css/animate.css" rel="stylesheet" />
+    <link href="~/content/RECP/css/style.css" rel="stylesheet" />
+    <link href="~/content/RECP/css/jquery.gritter.css" rel="stylesheet" />
+    <link href="~/content/RECP/css/morris-0.4.3.min.css" rel="stylesheet" />
+    <style>
+        body {
+            font-family: "HiraginoSansGB-W3", "STHeitiSC-Light", "微软雅黑", SimHei, sans-serif;
+        }
+        /*搜索列表的样式*/
+        .achieve_list_title {
+        }
+
+            .achieve_list_title:hover {
+                cursor: pointer;
+                color: red;
+            }
+
+        .search-result__body td {
+            float: left;
+            font-size: 14px;
+            line-height: 22px;
+            color: #535353;
+            margin-right: 15px;
+        }
+        /*分页组件的样式*/
+        .boot-select {
+            float: right;
+            width: 80px;
+        }
+
+        .pagination {
+            margin: 10px 0;
+        }
+
+        .boot-nav {
+            float: left;
+        }
+
+        .boot-item {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .item-total {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .active .aaa {
+            background: #008AC3 !important;
+            color: black !important;
+        }
+
+        #fybox li:nth-of-type(1) a {
+            background: #008AC3;
+            color: black;
+        }
+
+        .gray-bg {
+            height: 100%;
+        }
+
+        .ibox {
+            height: 100%;
+        }
+    </style>
+}
+
+<form id="formDown" method="post" style="display:inline-block;">
+    <input type="hidden" name="id" id="id" />
+    <input type="hidden" name="title" id="title" />
+    <input type="hidden" name="url" id="url" />
+    <input type="hidden" name="ticket" id="ticket" />
+    <input type="hidden" name="format" id="format" />
+    <input type="hidden" name="name" id="name" />
+</form>
+
+<div class="row" style="height:90%;">
+    <div class="col-sm-12" style="height:100%">
+        <div class="ibox float-e-margins" style="margin-bottom:0;">
+            <div style="height:100%;width:99%;overflow:hidden">
+                <div class="ibox-content" style="height: 100%; overflow: auto;width:103%;">
+                    <div style="height:61px;">
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="search-result" id="searchList" data-bind="foreach:mySearchList">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12" style="line-height:35px;font-size:18px;">
+                                        <span style="color:#F0C44E"><input type="checkbox" data-bind="checked:check,click:$parent.checkState"></span>
+                                        <span class="search-result__title" style="color:#F0C44E">[标题]</span>&nbsp;&nbsp;<span data-bind="text:title,click: $parent.opendetail" class="achieve_list_title"></span>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 search-result__body" style="margin-top:15px;height:22px;">
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td><span style="color:#535353;font-weight:bold;" data-bind="if: author">作者：</span><span data-bind="text:author"></span></td>
+                                                    <td><span style="color:#535353;font-weight:bold;" data-bind="if: createdDate">创建时间：</span><span data-bind="text:createdDate"></span></td>
+                                                    <td><span style="color:#535353;font-weight:bold;" data-bind="if: theme">主题：</span><span data-bind="text:theme"></span></td>
+                                                    <td><span style="color:#535353;font-weight:bold;" data-bind="if: source">成果来源：</span><span data-bind="text:source"></span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12" style="font-size: 13px;line-height: 24px;color: #8A8A8A;padding-top: 12px;padding-bottom: 10px;">
+                                        <span data-bind="text:description"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                    </div>
+                    <div class="container" style='margin:0;'>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12" style='margin:0;padding:0;'>
+                                <div class="col-md-4 col-sm-4" style='margin-left:0;padding:0;position:absolute;top:12px;left:0;'>
+                                    <input type="checkbox" title="全选当前页" onclick="choseAllBtn(this)" data-bind="checked:checkall" />
+                                    &nbsp;&nbsp;
+                                    <button type="button" class="btn btn-default" style="background:#18a689;" onclick="batchDownload()">批量下载</button>
+                                </div>
+                                <div class="col-md-8 col-md-offset-3" style='margin-left: 400px;'>
+                                    <div id="app">
+                                        <div id="_id">
+                                            <nav class="boot-nav" v-if="show">
+                                                <ul class="pagination boot-item pagination-lg" id="fybox">
+                                                    <li v-if="_showFirstPrev" id='previousPage'>
+                                                        <span href="##" @@click="onPrev" style='cursor: pointer;'>
+                                                            <span aria-hidden="true">上一页</span>
+                                                        </span>
+                                                    </li>
+                                                    <li v-for="item in _items">
+                                                        <a href="#" v-text="item" @@click="onCurrent(item)" class='aaa'></a>
+                                                    </li>
+                                                    <li v-if="_showNextLast" id='nextPage'>
+                                                        <span href="##" @@click="onNext" style='cursor: pointer;'>
+                                                            <span aria-hidden="true">下一页</span>
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="position:fixed;top:56px;left:15px;height:85px;z-index:2;background:#fff;padding:0 20px;width:96.5%;">
+    <div class="search-form">
+        <div class="input-group">
+            <input type="text" id="searchAchieveInput" placeholder="请输入成果名称" name="search" class="form-control input-lg" style='width:100%'>
+            <div class="input-group-btn">
+                <button class="btn btn-lg btn-primary" type="button" id="searchAchievList" style='width:180px'>
+                    搜索
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/content/RECP/js/content.js"></script>
+    <script src="~/content/RECP/js/jquery.easypiechart.js"></script>
+    <script src="~/content/RECP/js/jquery.peity.min.js"></script>
+    <script src="~/content/RECP/js/jquery.sparkline.min.js"></script>
+    <script src="~/content/RECP/js/linq.min.js"></script>
+    <script src="~/content/RECP/js/plugins/knockout/knockout.js"></script>
+    <script src="~/Content/RECP/js/vue.js"></script>
+
+    <script>
+        $(function () {
+            var x = 0;
+            $('.pagination').on('click', 'li', function () {
+                document.getElementsByClassName('ibox-content')[0].scrollTop = 0;
+                x++;
+                if (x == 1) {
+                    $('.pagination li:eq(0)').attr('class', 'active')
+                }
+                if ($(this).attr('id') == 'nextPage' || $(this).attr('id') == 'previousPage') {
+                    if ($(this).attr('id') == 'nextPage') {
+                        $('.pagination').find('.active').attr('class', '').next().attr('class', 'active')
+                    }
+                    else {
+                        $('.pagination').find('.active').attr('class', '').prev().attr('class', 'active')
+                    }
+                }
+                else {
+                    $(this).attr('class', 'active').siblings().attr('class', '')
+                }
+            })
+        })
+    </script>
+
+    <script type="text/javascript">
+        var currentViewModel = null;
+        //分页组件有关的参数_pagesize,_count,_items
+        var _pagesize = 10;
+        var _count = 0;
+        var _items = 10;
+        var _param = {
+            "filter": {
+                "dc.title.text": {
+                    "$regex": ""
+                }
+            },
+            "pager": {
+                "From": 0,
+                "Size": 10
+            }
+        };
+
+        //通过关键字搜索
+        $("#searchAchievList").on('click', function () {
+            var searchText = $("#searchAchieveInput").val().replace(/^\s+|\s+$/g, "");
+            var index = 0;
+            //加载成果列表通过搜索关键字  还需要拿到当前点击研究对象节点数据和相关成果分类节点信息
+            currentViewModel.loadAchieveList(searchText, index);
+        });
+
+        document.onkeydown = function (event) {
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+            if (e && e.keyCode == 13) { // enter 键
+                var searchText = $("#searchAchieveInput").val().replace(/^\s+|\s+$/g, "");
+                var index = 0;
+                //加载成果列表通过搜索关键字  还需要拿到当前点击研究对象节点数据和相关成果分类节点信息
+                currentViewModel.loadAchieveList(searchText, index);
+            }
+        };
+
+        $(document).ready(function () {
+            $('.navbar-nav li a')
+                    .each(function () {
+                        if ($($(this))[0].href == String(window.location)) {
+                            $("#homepage").removeClass('active');
+                            $(this).parent().addClass('active');
+                        }
+                    });
+
+
+            var ViewModel = function () {
+                var self = this;
+                self.mySearchList = ko.observableArray([]);
+                self.checkall = ko.observable(false);
+                //加载成果列表
+                self.loadAchieveList = function (search, index) {
+                    _param.filter["dc.title.text"]["$regex"] = search;
+                    _param.pager.From = index;
+                    var paramJson = JSON.stringify(_param);
+                    $.ajax({
+                        url: "/Document/GetMatchData",
+                        type: "post",
+                        data: { param: paramJson },
+                        async: false,
+                        success: function (resultMetaData) {
+                            var _resultMetaData = JSON.parse(resultMetaData);
+                            pager_demo.count = _resultMetaData.count;
+                            if (_resultMetaData.count <= _pagesize) {
+                                pager_demo.show = false;
+                            }
+                            if (_resultMetaData.count > _pagesize) {
+                                pager_demo.show = true;
+                            }
+                            self.mySearchList([]);
+                            for (var i = 0; i < _resultMetaData.metadatas.length; i++) {
+                                //针对某条成果-->通过iiid拿到所有人浏览次数和以及当前用户这条成果是否收藏
+                                var data = _resultMetaData.metadatas[i];
+                                var source = data.ep ? data.ep.scope ? data.ep.scope : '' : '';
+                                self.mySearchList.push({
+                                    "iiid": data.iiid,
+                                    "title": data.dc ? (data.dc.title ? data.dc.title[0].text : "") : "",
+                                    "author": data.dc ? (data.dc.contributor ? data.dc.contributor[0].name : "") : "",
+                                    "productType": data.ep ? (data.ep.producttype ? data.ep.producttype : "") : "",
+                                    "indexDate": data.indexeddate ? data.indexeddate.slice(0, 10) : "",
+                                    "createdDate": data.dc ? (data.dc.date ? data.dc.date[0].value ? data.dc.date[0].value.slice(0, 10) : "" : "") : "",
+                                    "description": data.dc ? (data.dc.description ? data.dc.description[0].text : "") : "",
+                                    "theme": data.ep ? (data.ep.theme ? data.ep.theme[0].value : "") : "",
+                                    "source": source,
+                                    "check": false
+                                });
+                            }
+                        }
+                    });
+                }
+                //浏览
+                self.opendetail = function ($parent) {
+                    var _iiid = $parent.iiid;
+                    var _name = $parent.title;
+                    var _author = $parent.author;
+                    var _producttype = $parent.productType;
+                    window.open("/Render/PTDetail?iiid=" + _iiid);
+                    $.ajax({
+                        url: "/User/OpenDetailPage",
+                        type: "get",
+                        //async:false,
+                        data: { iiid: _iiid, name: _name, author: _author, producttype: _producttype },
+                        success: function (result) {
+                            console.log(result);
+                        },
+                        error: function (result) {
+                            console.log(result);
+                        }
+                    });
+                }
+
+                //check 状态切换
+                self.checkState = function ($parent) {
+                    var data = currentViewModel.mySearchList();
+                    currentViewModel.mySearchList([]);
+                    data.forEach(function (value) {
+                        currentViewModel.mySearchList.push(value);
+                    });
+                    checkAllState();
+                }
+            };
+            currentViewModel = new ViewModel();
+            ko.applyBindings(currentViewModel);
+
+            currentViewModel.loadAchieveList("", 0);
+        });
+
+        //分页组件有关的js代码
+        var pager_demo = new Vue({
+            el: '#app',
+            data: function () {
+                return {
+                    id: "_id1",
+                    activeItem: 1,
+                    pagesize: _pagesize,
+                    count: _count,
+                    items: _items,
+                    show: true
+                }
+            },
+            computed: {
+                _showFirstPrev: function () {
+                    return this.activeItem > 1;
+                },
+                _showNextLast: function () {
+                    return this.activeItem < Math.ceil(this.count / this.pagesize)
+                },
+                _items: function () {
+                    var temp = [],
+                            maxItem = Math.ceil(this.count / this.pagesize),
+                            len = maxItem > this.items ? this.items : maxItem,
+                            midIndex = this.items % 2 == 0 ? Math.ceil((this.items + 1) / 2) : Math.ceil(this.items / 2)
+                    for (var i = 1; i <= len; i++) {
+                        temp.push(i);
+                    }
+                    if (this.activeItem > midIndex) {
+                        var span = this.activeItem - midIndex;
+                        for (var i = 0; i < span && temp[temp.length - 1] < maxItem; i++) {
+                            temp.shift(temp[i]);
+                            temp.push(len + 1 + i);
+                        }
+                    }
+                    return temp;
+                }
+            },
+            watch: {
+                activeItem: function () {
+                    this.selectItem();
+                }
+            },
+            methods: {
+                onPrev: function () {
+                    this.activeItem = this.activeItem - 1;
+                },
+                onCurrent: function (item) {
+                    this.activeItem = item;
+                },
+                onNext: function () {
+                    this.activeItem = this.activeItem + 1;
+                },
+                selectItem: function () {
+                    currentViewModel.checkall(false);
+                    var page = this.activeItem;
+                    var index = (page - 1) * 10;
+                    var searchText = $("#searchAchieveInput").val().replace(/^\s+|\s+$/g, "");
+                    currentViewModel.loadAchieveList(searchText, index);
+                }
+            }
+        });
+
+        //********** 新增批量下载功能
+        //*****
+        //全选按钮
+        var choseAllBtn = function (obj) {
+            if (obj.checked == true) {
+                var data = currentViewModel.mySearchList();
+                currentViewModel.mySearchList([]);
+                data.forEach(function (value) {
+                    value.check = true;
+                    currentViewModel.mySearchList.push(value);
+                });
+            } else {
+                var data = currentViewModel.mySearchList();
+                currentViewModel.mySearchList([]);
+                data.forEach(function (value) {
+                    value.check = false;
+                    currentViewModel.mySearchList.push(value);
+                });
+            }
+        }
+
+        //检测checkbox所有的状态
+        var checkAllState = function () {
+            var _check = true;
+            var data = currentViewModel.mySearchList();
+            data.forEach(function (value) {
+                var check = value.check;
+                if (!check) {
+                    _check = false;
+                    return;
+                }
+            });
+            currentViewModel.checkall(_check);
+        }
+
+        var batchDownload = function () { 
+            var data = currentViewModel.mySearchList();
+            data.forEach(function (value,i) {
+                var check = value.check;
+                if (check) {
+                    down(value) 
+                }
+            });
+        }
+
+        var down = function (value) { 
+            var iiid = value.iiid;
+            $.ajax({
+                url: "/RECP/GetMateData",
+                type: "get",
+                async:false,
+                data: { iiid: iiid },
+                success: function (result) { 
+                    var data = JSON.parse(result);
+                    var id = iiid;
+                    var urlStr = data.source.url;
+                    var _apiPath = "@ViewBag._apiPath";
+                    var _achieveDown = "@ViewBag._achieveDown";
+                    Retrieve(id, urlStr, _apiPath, _achieveDown);
+                }
+            });
+            // 下载记录收集到表
+            downloadRecords(value);
+        }
+
+        function Retrieve(id, urlStr, _apiPath, _achieveDown) {
+            $.ajax({
+                url: _apiPath + "/DataService/Retrieve", //url: "http://192.168.1.239:8811/API/DataService/Retrieve",
+                type: "get",
+                data: { url: urlStr },
+                async: false,
+                success: function (result) {
+                    var ticket = result[0].ticket;
+                    var format = result[0].format.toLocaleLowerCase();
+                    var name = result[0].name;
+                    download(id, urlStr, ticket, format, name, _achieveDown);
+                }
+            });
+        }
+        function download(id, urlStr, ticket, format, name, _achieveDown) {
+            var title = "";
+            if (name && name != "") {
+                title = name.substring(0, name.indexOf("."));
+            }
+            var url = _achieveDown + "FileInfo/DownLoad"; //'http://192.168.1.239:8810/FileInfo/DownLoad';
+            url = url + "?id=" + id + "&title=" + title + "&url=" + urlStr + "&ticket=" + ticket + "&format=" + format + "&name=" + name;
+            window.open(url, '_blank');
+        }
+
+        // 下载记录收集到表
+        function downloadRecords(parent) {
+            var _iiid = parent.iiid;
+            var _name = parent.name;
+            var _author = parent.author;
+            var _producttype = parent.producttype;
+            //当前的下载次数+1
+            $.ajax({
+                url: "/User/DownLoadRecords",
+                type: "post",
+                data: { "iiid": _iiid, name: _name, author: _author, producttype: _producttype },
+                success: function (result) {
+                    console.log(result);
+                },
+                error: function (result) {
+                    console.log(result);
+                }
+            });
+        }
+        //*****
+    </script>
+}

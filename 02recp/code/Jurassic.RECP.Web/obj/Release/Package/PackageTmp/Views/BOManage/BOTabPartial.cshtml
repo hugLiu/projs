@@ -1,0 +1,332 @@
+﻿
+<div style="height: 100%; border: 1px solid #d3d3d3; ">
+    <div style="background-color: #f5f5f5; height: 5%; ">
+        <div style="padding-right: 8px;">
+            <h5>业务对象属性及别名管理 <small>选择目标对象</small></h5>
+        </div>
+    </div>
+    <div style="height: 8%;padding:7px 0px 0px 5px;">
+        <a style="margin-left:2px;" class="mini-button" iconcls="icon-new-save" onclick="onSaveData()">保存</a>
+    </div>
+    <div class="mini-splitter" style="width: 100%;height: 87%">
+        <div size="60%" showCollapseButton="true" style="padding:5px;">
+            <div id="_BO_BaseInfo">
+                <input name="ID" class="mini-hidden" />
+                <table>
+                    <tr>
+                        <td style="padding-left: 10px;">
+                            对象名称：
+                        </td>
+                        <td>
+                            <input id="Name" name="Name" class="mini-textbox" required="required" style="width: 100%;" />
+                        </td>
+                    </tr>
+                    <tr class="tr-height"></tr>
+                    <tr>
+                        <td style="padding-left: 10px;">
+                            <label for="url$text">对象类型：</label>
+                        </td>
+                        <td>
+                            <input id="comboxBOT" name="BOT" textfield="Title" class="mini-combobox" valuefield="Title" style="width: 100%;" />
+                        </td>
+                    </tr>
+                    <tr class="tr-height"></tr>
+                    @*<tr>
+                            <td style="padding-left: 10px;">
+                                <label for="url$text">对象类别：</label>
+                            </td>
+                            <td>
+                                <input id="comboxBOC" name="BOC" textfield="Title" class="mini-combobox" valuefield="Title" style="width: 100%;" />
+                            </td>
+                        </tr>*@
+                    <tr class="tr-height"></tr>
+                    <tr>
+                        <td style="padding-left: 10px;">
+                            标准编码：
+                        </td>
+                        <td>
+                            <input id="SID" name="SID" class="mini-textbox" style="width: 100%;" />
+                        </td>
+                    </tr>
+                    <tr class="tr-height"></tr>
+                    <tr>
+                        <td style="padding-left: 10px;">
+                            备注：
+                        </td>
+                        <td>
+                            <input id="Remark" name="Remark" class="mini-textbox" style="width: 100%;" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div style="background-color: #f5f5f5; height: 5%;">
+                <div style="padding-right: 8px;">
+                    <h5>对象特征属性</h5>
+                </div>
+            </div>
+            <div id="_BO_Feature">
+                <fieldset id="fs" style="width:100%;">
+                    <legend><span>主要特征属性</span></legend>
+                    <div class="fieldset-body">
+                        <table>
+                            <tr>
+                                <td style="padding-left: 10px;">
+                                    <label for="url$text">图件（名称）：</label>
+                                </td>
+                                <td>
+                                    <input id="GeoMapUrl" name="GeoMapUrl" class="mini-textbox" style="width: 250px;" />
+                                    <input type="button" onclick="uploadGdb()" value="上 传" />
+                                </td>
+                            </tr>
+                            <tr class="tr-height"></tr>
+                            <tr>
+                                <td style="padding-left: 10px;">
+                                    <label for="url$text">图层（名称）：</label>
+                                </td>
+                                <td>
+                                    <input id="LayerName" name="LayerName" class="mini-textbox" style="width: 100%;" />
+                                </td>
+                            </tr>
+                            <tr class="tr-height"></tr>
+                            <tr>
+                                <td style="padding-left: 10px;">
+                                    <label for="url$text">图元（名称）：</label>
+                                </td>
+                                <td>
+                                    <input id="ElementName" name="ElementName" class="mini-textbox" style="width: 100%;" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left: 10px;">
+                                    <label for="url$text">图元（编号）：</label>
+                                </td>
+                                <td>
+                                    <input id="ElementId" name="ElementId" class="mini-textbox" style="width: 100%;" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </fieldset>
+                <fieldset id="fs2" style="width:100%;">
+                    <legend><span>次要特征属性</span></legend>
+                    <div class="fieldset-body">
+                        <table>
+                            <tr width:100%>
+                                <td style="padding-left: 10px;">
+                                    <label for="url$text">图件（名称）：</label>
+                                </td>
+                                <td>
+                                    <input id="GeoMapUrl2" name="GeoMapUrl2" class="mini-textbox" style="width: 250px;" />
+                                    <input type="button" onclick="uploadGdb2()" value="上 传" />
+                                </td>
+                            </tr>
+                            <tr class="tr-height"></tr>
+                            <tr>
+                                <td style="padding-left: 10px;">
+                                    <label for="url$text">图层（名称）：</label>
+                                </td>
+                                <td>
+                                    <input id="LayerName2" name="LayerName2" class="mini-textbox" style="width: 100%;" />
+                                </td>
+                            </tr>
+                            <tr class="tr-height"></tr>
+                            <tr>
+                                <td style="padding-left: 10px;">
+                                    <label for="url$text">图元（名称）：</label>
+                                </td>
+                                <td>
+                                    <input id="ElementName2" name="ElementName2" class="mini-textbox" style="width: 100%;" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left: 10px;">
+                                    <label for="url$text">图元（编号）：</label>
+                                </td>
+                                <td>
+                                    <input id="ElementId2" name="ElementId2" class="mini-textbox" style="width: 100%;" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+        <div showCollapseButton="true">
+            <div style="float:left;width: 100%;">
+                <div class="mini-toolbar">
+                    <a class="mini-button frame-submit mini-button-plain" onclick="onAddRow()">
+                        <span class="mini-button-text  mini-button-icon icon-new-add">添加别名</span>
+                    </a>
+                    <a class="mini-button frame-submit mini-button-plain" onclick="onRemoveRow()">
+                        <span class="mini-button-text  mini-button-icon icon-new-delete">删除所选别名</span>
+                    </a>
+                </div>
+                <div id="_BO_BOAliasGrid" class="mini-datagrid" idfield="ID" multiselect="true" showpager="false" allowresize="false"
+                     url="@Url.Action("GetBOAlias", "BOManage")" allowcellselect="true" allowcelledit="true">
+                    <div property="columns">
+                        <div type="checkcolumn" headeralign="center" align="center" width="20"></div>
+                        <div name="Alias" field="Alias" headeralign="center" align="left">
+                            对象别名
+                            <input property="editor" class="mini-textbox" style="width: 100%;" required="required" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .tr-height {
+        height: 2px;
+    }
+</style>
+
+<script src="~/Content/RECP/js/jquery.form.js"></script>
+<script>
+    mini.parse();
+    var _BO_BaseInfoForm = new mini.Form("_BO_BaseInfo");
+    var _BO_FeatureForm = new mini.Form("_BO_Feature");
+    var _BOAliasGrid = mini.get("_BO_BOAliasGrid");
+
+    var comboxBOT = mini.get("comboxBOT");
+    //var comboxBOC = mini.get("comboxBOC"); // boc 保持不变
+
+    $.newGET('@Url.Action("GetGT_CodeTypeInfo", "BOManage")', fillData2);
+
+    function fillData2(result) {
+        var tId = "", cId = "";
+        result.forEach(function (v) {
+            if (v.Code == "BOT") {
+                tId = v.Id;
+            }
+            if (v.Code == "BOC") {
+                cId = v.Id;
+            }
+        });
+        comboxBOT.load("@Url.Action("GetGT_CodeInfo", "BOManage")?id=" + tId);
+        //comboxBOC.load("@Url.Action("GetGT_CodeInfo", "BOManage")?id=" + cId);
+    }
+
+    function onAddRow() {
+        var id = _BOAliasGrid.data.ID;
+        var newRow = { Alias: "" };
+        _BOAliasGrid.addRow(newRow, 0);
+    }
+
+    function onRemoveRow() {
+        var rows = _BOAliasGrid.getSelecteds();
+        if (rows.length > 0) {
+            if (confirm("确定删除选中别名?")) {
+                _BOAliasGrid.removeRows(rows, true);
+            }
+        }
+    }
+
+    var strBoc = "";
+    var strId = "";
+    function onSaveData() {
+        _BOAliasGrid.commitEdit();
+        var _data1 = _BO_BaseInfoForm.getData();
+        var _data2 = _BOAliasGrid.getChanges();
+        var _data3 = _BO_FeatureForm.getData();
+        for (var i = 0; i < _data2.length; i++) {
+            if (_data2[i].Alias == null || _data2[i].Alias.trim() == "") {
+                toastr["error"]("@Html.Str("对象别名为必填项!")");
+                return;
+            }
+        }
+        var data1 = mini.encode(_data1);
+        var data2 = mini.encode(_data2);
+        var data3 = mini.encode(_data3);
+        var msgid = mini.loading("数据保存中，请稍后......", "保存数据");
+        if (!(data1 || data2)) return;
+        $.ajax({
+            url: "/BOManage/SaveBOInfo",
+            data: { boc: strBoc, id: _data1.ID, baseInfo: data1, alias: data2, baseFeature: data3 },
+            type: "post",
+            success: function (text) {
+                mini.hideMessageBox(msgid);
+                toastr["success"]("@Html.Str("保存成功!")");
+                _BOAliasGrid.reload();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR.responseText);
+            }
+        });
+    }
+
+    function loadBOTab(type, id) {
+        strBoc = type;
+        strId = id;
+        setForm(type, id);
+        setBOFeatureForm(type, id);
+        setGrid(id);
+    }
+
+    function setForm(type, id) {
+        $.newGET('@Url.Action("GetBOBaseInfo", "BOManage")', { type: type, id: id }, setFormData);
+    }
+
+    function setBOFeatureForm(type, id) {
+        $.newGET('@Url.Action("GetBOFeatureInfo", "BOManage")', { type: type, id: id }, setBOFeatureFormData);
+    }
+
+    function setGrid(id) {
+        _BOAliasGrid.load({ id: id });
+    }
+
+    function setFormData(result) {
+        _BO_BaseInfoForm.setData(result[0]);
+    }
+
+    function setBOFeatureFormData(result) {
+        _BO_FeatureForm.setData(result);
+    }
+
+    var geoMapUrl = mini.get("GeoMapUrl");
+    function uploadGdb() {
+        mini.open({
+            url: "/BOManage/Importing",
+            title: "图件导入",
+            allowResize: false, //允许尺寸调节
+            allowDrag: false, //允许拖拽位置
+            width: 425,
+            height: 250,
+            showModal: true,
+            onload: function () {
+            },
+            ondestroy: function (action) { 
+                if (action == "Ok") {
+                    var iframe = this.getIFrameEl();
+                    var data = iframe.contentWindow.GetData();
+                    data = mini.clone(data); 
+                    geoMapUrl.setValue(data)
+                }
+            }
+        });
+    }
+
+    var geoMapUrl2 = mini.get("GeoMapUrl2");
+    function uploadGdb2() {
+        mini.open({
+            url: "/BOManage/Importing",
+            title: "图件导入",
+            allowResize: false, //允许尺寸调节
+            allowDrag: false, //允许拖拽位置
+            width: 425,
+            height: 250,
+            showModal: true,
+            onload: function () {
+            },
+            ondestroy: function (action) {
+                if (action == "Ok") {
+                    var iframe = this.getIFrameEl();
+                    var data = iframe.contentWindow.GetData();
+                    data = mini.clone(data); 
+                    geoMapUrl2.setValue(data)
+                }
+            }
+        });
+    }
+</script>
