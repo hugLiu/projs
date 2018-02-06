@@ -1,0 +1,167 @@
+﻿<link href="~/Content/RECP/css/plugins/fileinput/fileinput.css" rel="stylesheet" />
+<style>
+    .tr-height {
+        height: 6px;
+    }
+
+    .td-input .file-drop-zone {
+        max-height: 240px;
+        max-width: calc(100% - 100px);
+        max-width: -moz-calc(100% - 100px);
+        max-width: -webkit-calc(100% - 100px);
+        overflow: auto;
+    }
+</style>
+
+<div style="height: 96%; border: 0px solid #d3d3d3; ">
+    <div style="background-color: #f5f5f5; height: 5%; ">
+        <div style="padding-right: 8px;">
+            <h5>相册目录属性管理  <small>选择目录树</small></h5>
+        </div>
+    </div>
+    <div style="height: 8%;padding:7px 0px 0px 5px;">
+        <a style="margin-left:2px;" class="mini-button" iconcls="icon-new-save" onclick="onSaveData()">保存</a>
+    </div>
+    <div class="" style="width: 100%;height: 87%;">
+        <div style="padding:5px;">
+            <div id="baseInfo">
+                <input name="id" class="mini-hidden" />
+                <table width=100%>
+                    <tr>
+                        <td style="padding-left: 10px;" width="20%">
+                            相册\图片名称：
+                        </td>
+                        <td width="80%">
+                            <input id="name" name="name" class="mini-textbox" required="required" style="width: 100%;" />
+                        </td>
+                    </tr>
+                    <tr class="tr-height"></tr>
+                    <tr>
+                        <td style="padding-left: 10px;">
+                            相册\图片顺序：
+                        </td>
+                        <td>
+                            <input id="fieldIndex" name="fieldIndex" class="mini-textbox" required="required" style="width: 100%;" vtype="int" />
+                        </td>
+                    </tr>
+                    <tr class="tr-height">
+                        <td style="padding-left: 10px;">
+                            相册\图片预览：
+                        </td>
+                        <td>
+                            <img id="album-img" width="73" height="73" border="0" style="margin-top:6px;" />
+                        </td>
+                    </tr>
+                    <tr class="tr-height"></tr>
+                    <tr>
+                        <td style="padding-left: 10px;">
+                            上传缩略图：
+                        </td>
+                        <td class="td-input">
+                            <input id="url" name="url" class="mini-textbox" style="width:100%" required="required" />
+                            <div class="" style="width:100%;margin-top:3px;">
+                                <input id="album-input-img" name="album-input-img" type="file" accept="image/*">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Content/RECP/js/plugins/fileinput/fileinput.min.js"></script>
+<script src="~/Content/RECP/js/plugins/fileinput/locales/zh.js"></script>
+
+<script>
+    mini.parse();
+    var form = new mini.Form("#baseInfo");
+    var gUrl = mini.get("url");
+    var tempValue = mini.get("name").getValue();
+    var iName = tempValue ? tempValue : "";
+    var imgUpload = $("#album-input-img");
+    var strId = "", parameter = null, parentName = "", iUrl = "";
+
+    $(document).on('ready', function () {
+        imgUpload.fileinput({
+            language: 'zh',
+            previewFileType: "image",
+            browseClass: "btn btn-success",
+            browseLabel: "浏览图片",
+            browseIcon: "<i class=\"glyphicon glyphicon-picture\"></i> ",
+            removeClass: "btn btn-danger",
+            removeLabel: "删除",
+            removeIcon: "<i class=\"glyphicon glyphicon-trash\"></i> ",
+            uploadClass: "btn btn-info",
+            uploadLabel: "上传",
+            uploadIcon: "<i class=\"glyphicon glyphicon-upload\"></i> ",
+            maxFileSize: 2000,
+            maxFileCount: 1,
+            initialCaption: "请选择图片",
+            uploadUrl: '/AlbumEdit/ImgUpload',
+            uploadExtraData: function () {
+                return parameter;
+            }
+        });
+        //导入文件上传完成之后的事件
+        imgUpload.on("fileuploaded", function (event, data, previewId, index) {
+            if (data.response) {
+                //通过 data.response.Json对象属性 获得返回数据
+                var result = data.response;
+                if (result == "null") {
+                    toastr["error"]("@Html.Str("请上传图片!")");
+                }
+                if (result != "error") {
+                    toastr["success"](result.name + "@Html.Str("上传成功!")");
+                    gUrl.setValue(result.path);
+                }
+            }
+        });
+        imgUpload.on('fileselectnone', function (event) {
+            toastr["error"]("@Html.Str("请上传图片!")");
+        });
+        imgUpload.on('filepreajax', function (event) {
+            if (!iName) {
+                toastr["error"]("@Html.Str("请选择相册目录!")");
+            }
+            parameter = { "iUrl": iUrl, "iName": iName, "parentName": parentName };
+        });
+    });
+
+    function onSaveData() {
+        var _data1 = form.getData();
+        var data = mini.encode(_data1);
+        var msgid = mini.loading("数据保存中，请稍后......", "保存数据");
+
+        $.ajax({
+            url: "/AlbumEdit/SaveAlbumInfo",
+            data: { nodeParams: data },
+            type: "post",
+            success: function (text) {
+                mini.hideMessageBox(msgid);
+                toastr["success"]("@Html.Str("保存成功!")");
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR.responseText);
+            }
+        });
+    }
+
+    function loadAlbumTab(id, albumUrl, name, pName) {
+        strId = id;
+        imgUpload.fileinput('clear');
+        iName = name;
+        iUrl = albumUrl;
+        parentName = pName;
+        setForm(id);
+    }
+
+    function setForm(id) {
+        $.newGET('@Url.Action("GetAlbumInfoById", "AlbumEdit")', { id: id }, setFormData);
+    }
+
+    function setFormData(result) {
+        form.setData(result[0]);
+        $("#album-img").attr("src", result[0] ? result[0].url : "");
+    }
+</script>

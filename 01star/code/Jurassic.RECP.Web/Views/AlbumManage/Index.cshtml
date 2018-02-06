@@ -1,0 +1,193 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/RECP/css/plugins/fileinput/fileinput.css" rel="stylesheet" />
+<style>
+    .tr-height {
+        height: 4px;
+    }
+
+    .td-input .file-drop-zone {
+        max-height: 240px;
+        max-width: calc(100% - 50px);
+        max-width: -moz-calc(100% - 50px);
+        max-width: -webkit-calc(100% - 50px);
+        overflow: auto;
+    }
+</style>
+
+<div class="mini-splitter" style="width: 100%; height: 100%;">
+    <div size="25%" showCollapseButton="true" style="padding: 5px 5px 0 5px;">
+        <div style="background-color: #f5f5f5; height: 5%;">
+            <div style="padding-right: 8px;">
+                <h5>相册文件夹<small>  批量上传</small></h5>
+            </div>
+        </div>
+        <div style="height: 8%;padding:7px 0px 0px 5px;">
+            <div style="float:left;">相册名称：</div>
+            <div style="">
+                <input id="comboxAlbum" class="mini-combobox" style="width: 70%;" emptyText="请选择..."
+                       textfield="name" valuefield="id" allowInput="true" onvaluechanged="onAlbumChanged" />
+            </div>
+        </div>
+    </div>
+    <div style="height: 96%; border: 0px solid #d3d3d3; padding-top: 5px;">
+        <div style="background-color: #f5f5f5; height: 5%; ">
+            <div style="padding-right: 8px;">
+                <h5>相册属性管理  <small>选择\输入文件夹名称</small></h5>
+            </div>
+        </div>
+        <div style="height: 8%;padding:7px 0px 0px 5px;">
+            <a style="margin-left:2px;" class="mini-button" iconcls="icon-new-save" onclick="onSaveData()">保存</a>
+        </div>
+        <div class="" style="width: 100%;height: 87%;margin-top:10px;">
+            <div style="padding:5px;">
+                <div id="baseInfo">
+                    <input name="id" class="mini-hidden" />
+                    <table width=100%>
+                        <tr class="tr-height"></tr>
+                        <tr>
+                            <td style="padding-left: 10px;" width="20%">
+                                相册名称：
+                            </td>
+                            <td width="80%">
+                                <input id="name" name="name" class="mini-textbox" required="required" style="width: 100%;" />
+                            </td>
+                        </tr>
+                        <tr class="tr-height"></tr>
+                        <tr>
+                            <td style="padding-left: 10px;">
+                                相册顺序：
+                            </td>
+                            <td>
+                                <input id="fieldIndex" name="fieldIndex" class="mini-textbox" required="required" style="width: 100%;" vtype="int" />
+                            </td>
+                        </tr>
+                        <tr class="tr-height"></tr>
+                        <tr>
+                            <td style="padding-left: 10px;">
+                                相册子文件总数：
+                            </td>
+                            <td>
+                                <input id="total" name="total" class="mini-textbox" required="required" style="width: 100%;" readonly="readonly" />
+                            </td>
+                        </tr>
+                        <tr class="tr-height"></tr>
+                        <tr class="tr-height"></tr>
+                        <tr>
+                            <td style="padding-left: 10px;">
+                                上传相册内图片：
+                            </td>
+                            <td class="td-input">
+                                <input id="url" name="url" class="mini-textbox" style="width:100%" />
+                                <div class="" style="width:100%;margin-top:3px;">
+                                    <input id="album-input-imgs" name="album-input-imgs" type="file" multiple accept="image/*">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Content/RECP/js/plugins/fileinput/fileinput.min.js"></script>
+<script src="~/Content/RECP/js/plugins/fileinput/locales/zh.js"></script>
+
+<script>
+    mini.parse();
+    var combox = mini.get("comboxAlbum"),form = new mini.Form("#baseInfo"),albumName = mini.get("name"),albumUrl = mini.get("url"); 
+    var actionUrl = "@Url.Action("GetAlbumFolder", "AlbumManage")";
+    combox.load(actionUrl);
+    var strId = "", text = "",imgUpload = $("#album-input-imgs"),parameter = null; 
+
+    $(document).on('ready', function () {
+        imgUpload.fileinput({
+            language: 'zh',
+            previewFileType: "image",
+            browseClass: "btn btn-success",
+            browseLabel: "浏览图片",
+            browseIcon: "<i class=\"glyphicon glyphicon-picture\"></i> ",
+            removeClass: "btn btn-danger",
+            removeLabel: "删除",
+            removeIcon: "<i class=\"glyphicon glyphicon-trash\"></i> ",
+            uploadClass: "btn btn-info",
+            uploadLabel: "上传",
+            uploadIcon: "<i class=\"glyphicon glyphicon-upload\"></i> ",
+            maxFileSize: 2000,
+            initialCaption: "请选择相册图片",
+            uploadUrl: '/AlbumManage/ImgUpload',
+            uploadExtraData: function () {
+                return parameter;
+            }
+        });
+        //导入文件上传完成之后的事件
+        imgUpload.on("fileuploaded", function (event, data, previewId, index) {
+            if (data.response) {
+                var result = data.response;
+                if (result == "null") {
+                    toastr["error"]("@Html.Str("请上传图片!")");
+                }
+                if (result != "error") {
+                    toastr["success"](result.name + "@Html.Str("上传成功!")");
+                    albumUrl.setValue(result.path);
+                }
+            }
+        });
+        imgUpload.on('fileselectnone', function (event) {
+            toastr["error"]("@Html.Str("请上传图片!")");
+        });
+        imgUpload.on('filepreajax', function (event) {
+            if (!text) toastr["error"]("@Html.Str("请选择或添加相册名称!")");
+            parameter = { "folder": text };
+        });
+    });
+
+    function onAlbumChanged(e) {
+        var form = new mini.Form("#baseInfo");
+        form.clear();
+        var sender = e.sender;
+        strId = sender.value.trim();
+        text = sender.text.trim();
+        imgUpload.fileinput('clear');
+        loadAlbumTab(strId, text);
+    }
+
+    var loadAlbumTab = function (strId, text) {
+        if (strId.split('-').length == 5) {
+            setForm(strId);
+        } else {
+            albumName.setValue(text);
+        }
+    }
+
+    var setForm = function (id) {
+        $.newGET('@Url.Action("GetAlbumInfoById", "AlbumManage")', { id: id }, setFormData);
+    }
+
+    var setFormData = function (result) {
+        if (result) {
+            form.setData(result[0]);
+        }
+    }
+
+    var onSaveData = function () {
+        var _data1 = form.getData();
+        var data = mini.encode(_data1);
+        var msgid = mini.loading("数据保存中，请稍后......", "保存数据");
+        $.ajax({
+            url: "/AlbumManage/SaveAlbumFolderInfo",
+            data: { nodeParams: data },
+            type: "post",
+            success: function (text) {
+                mini.hideMessageBox(msgid);
+                toastr["success"]("@Html.Str("保存成功!")");
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR.responseText);
+            }
+        });
+    }
+</script>

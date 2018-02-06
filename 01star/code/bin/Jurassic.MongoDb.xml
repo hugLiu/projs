@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Jurassic.MongoDb</name>
+    </assembly>
+    <members>
+        <member name="T:Jurassic.MongoDb.CacheProvider">
+            <summary>
+            MongoDB实现的键值对访问类
+            </summary>
+        </member>
+        <member name="P:Jurassic.MongoDb.BI.BD">
+            <summary>
+            业务域
+            </summary>
+        </member>
+        <member name="P:Jurassic.MongoDb.BI.BP">
+            <summary>
+            业务过程
+            </summary>
+        </member>
+        <member name="P:Jurassic.MongoDb.BI.BA">
+            <summary>
+            业务活动
+            </summary>
+        </member>
+        <member name="P:Jurassic.MongoDb.BI.BT">
+            <summary>
+            业务类型
+            </summary>
+        </member>
+        <member name="P:Jurassic.MongoDb.CacheInfoItem.InInfoItemSource">
+            <summary>
+            用于缓冲库，表示是否已经进入主库
+            </summary>
+        </member>
+        <member name="P:Jurassic.MongoDb.CacheInfoItem.CompletelyRate">
+            <summary>
+            信息完整率（主要针对必填信息项目）
+            必填项为Title、Contributor、Organization、Date、BO、PT、BP、BF
+            </summary>
+        </member>
+        <member name="P:Jurassic.MongoDb.CacheInfoItem.OperationState">
+            <summary>
+            界面操作备用字段
+            1：表示当前操作阶段是成果类型采集阶段
+            2：表示当前操作阶段是索引数据编辑验证阶段
+            3：表示当前操作阶段是提交主库阶段
+            </summary>
+        </member>
+        <member name="T:Jurassic.MongoDb.Coverage2">
+            <summary>
+            用于从数据源到Mongodb的数据转化
+            </summary>
+        </member>
+        <member name="P:Jurassic.MongoDb.Coverage2.Spatial">
+            <summary>
+            如果是SQL SERVER数据库的空间类型SQLGeoMetry,直接将该类型转化为WKT串
+            </summary>
+        </member>
+        <member name="P:Jurassic.MongoDb.IndexDataQueryModel.InInfoItemSource">
+            <summary>
+            用于缓冲库，表示是否已经进入主库
+            </summary>
+        </member>
+        <member name="P:Jurassic.MongoDb.IndexDataQueryModel.CompletelyRate">
+            <summary>
+            信息完整率（主要针对必填信息项目）
+            必填项为Title、Contributor、Organization、Date、BO、PT、BP、BF
+            </summary>
+        </member>
+        <member name="P:Jurassic.MongoDb.IndexDataQueryModel.OperationState">
+            <summary>
+            界面操作备用字段
+            1：表示当前操作阶段是成果类型采集阶段
+            2：表示当前操作阶段是索引数据编辑验证阶段
+            3：表示当前操作阶段是提交主库阶段
+            </summary>
+        </member>
+        <member name="P:Jurassic.MongoDb.MongoInfoItem.CreateDate">
+            <summary>
+            用于同步工具，表示InfoItem在Mongodb中的创建时间
+            </summary>
+        </member>
+        <member name="P:Jurassic.MongoDb.MongoInfoItem.UpdateDate">
+            <summary>
+            用于同步工具，表示InfoItem在Mongodb中的最后更新时间
+            </summary>
+        </member>
+        <member name="P:Jurassic.MongoDb.MongoInfoItem.DeleteDate">
+            <summary>
+            用于同步工具，表示InfoItem删除时间
+            </summary>
+        </member>
+        <member name="T:Jurassic.MongoDb.MongoDBFileAccess">
+            <summary>
+            mongodb文件管理
+            </summary>
+        </member>
+        <member name="M:Jurassic.MongoDb.MongoDBFileAccess.FindingFile(System.String)">
+            <summary>
+            查找一个文件信息
+            </summary>
+            <param name="id">文件id</param>
+            <returns></returns>
+        </member>
+        <member name="M:Jurassic.MongoDb.MongoDBFileAccess.DeletingFiles(MongoDB.Bson.ObjectId)">
+            <summary>
+            Use the Delete or DeleteAsync methods to delete a single file identified by its Id.
+            </summary>
+        </member>
+        <member name="M:Jurassic.MongoDb.MongoDBFileAccess.DroppingFiles">
+            <summary>
+            Use the Drop or DropAsync methods to drop an entire GridFS bucket at once.
+            Note 
+            The “fs.files” collection will be dropped first, followed by the “fs.chunks” collection. 
+            This is the fastest way to delete all files stored in a GridFS bucket at once. 
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:Jurassic.MongoDb.MongoDBFileAccess.RenamingFiles(MongoDB.Bson.ObjectId,System.String)">
+            <summary>
+            Use the Rename or RenameAsync methods to rename a single file identified by its Id.
+            </summary>
+        </member>
+        <member name="M:Jurassic.MongoDb.MongoDBFileAccess.RenamingAllFiles(System.String,System.String)">
+            <summary>
+            Renaming all revisions of a file
+            To rename all revisions of a file you first use the Find or FindAsync method to find all the revisions, 
+            and then loop over the revisions and use the Rename or RenameAsync method to rename each revision one at a time.
+            </summary>
+            <param name="id"></param>
+            <param name="newFilename"></param>
+        </member>
+        <member name="T:Jurassic.MongoDb.StreamCacheProvider">
+            <summary>
+            基于MongoDb实现的流缓冲器
+            </summary>
+        </member>
+    </members>
+</doc>

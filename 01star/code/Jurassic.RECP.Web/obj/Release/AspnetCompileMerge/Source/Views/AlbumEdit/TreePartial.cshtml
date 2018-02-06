@@ -1,0 +1,216 @@
+﻿<div size="25%" showcollapsebutton="false" style="height: 100%;">
+    <div style="background-color: #f5f5f5; height: 5%; ">
+        <div style="padding-right: 8px;">
+            <h5>相册目录管理  <small>编辑目录树</small></h5>
+        </div>
+    </div>
+    <div class="mini-toolbar" style="padding-top: 3px; padding-left: 2px; ">
+        <a class="mini-button frame-submit mini-button-plain" onclick="onAdd">
+            <span class="mini-button-text  mini-button-icon icon-new-add">新增节点</span>
+        </a>
+        <a class="mini-button frame-submit mini-button-plain" onclick="onAddChild">
+            <span class="mini-button-text  mini-button-icon icon-new-addchild">新增子节点</span>
+        </a>
+        <a class="mini-button frame-submit mini-button-plain" onclick="onRemove">
+            <span class="mini-button-text  mini-button-icon icon-new-delete">删除节点</span>
+        </a>
+    </div>
+    <div class="mini-fit" style="width: 100%; padding-left: 25px; height: 75%;">
+        <div style="padding-top: 10px; height: 50%">
+            <ul id="tree2" class="mini-tree"
+                showtreeicon="true"
+                textfield="name" valuefield="name" idfield="id" parentfield="pid"
+                resultastree="false" expandonload="1" onendedit="endEdit" onnodedblclick="onEdit"></ul>
+        </div>
+    </div>
+</div>
+
+<style>
+
+</style>
+
+<script type="text/javascript">
+    mini.parse();
+
+    var tree = mini.get("tree2");
+    $.newGET('@Url.Action("GetAlbumTree", "AlbumEdit")', setData);
+
+    function setData(result) {
+        tree.loadList(result);
+        nodeSelect();
+    }
+
+    //默认选中第一个
+    var nodeSelect = function () {
+        var i = 0;
+        tree.cascadeChild(tree.getRootNode(), function (node) {
+            if (node.pid == null && i == 0) {
+                tree.selectNode(node);
+            }
+            i++;
+        });
+    }
+
+    //增加节点
+    function onAdd() {
+        var node = tree.getSelectedNode();
+        if (node != null) {
+            expandNodeFunc(node);
+        }
+        var newNode = { name: "新建节点" };
+        tree.addNode(newNode, "after", node);
+        tree.beginEdit(newNode);
+    }
+
+    function expandNodeFunc(node) {
+        var parentNode = tree.getParentNode(node);
+        if (parentNode != null) {
+            if (!tree.isExpandedNode(parentNode)) {
+                tree.expandNode(parentNode);
+            }
+            expandNodeFunc(parentNode);
+        }
+    }
+    //增加子节点
+    function onAddChild() {
+        var node = tree.getSelectedNode();
+        if (node != null) {
+            expandNodeFunc(node);
+            if (!tree.isExpandedNode(node)) {
+                tree.expandNode(node);
+            }
+        }
+        var newNode = { name: "新建子节点" };
+        tree.addNode(newNode, "add", node);
+        tree.beginEdit(newNode);
+    }
+    //编辑节点
+    var editNodeName = "";
+    function onEdit() {
+        var node = tree.getSelectedNode();
+        editNodeName = node.name.trim();
+        tree.beginEdit(node);
+    }
+
+    function endEdit(e, flag) {
+        var node = e.node;
+        var name = node.name.trim();
+        var pid = node.pid;
+        // 编辑时排除自身项，name 不做任何改变时
+        if (editNodeName == name) {
+            return;
+        }
+        if (flag) {
+            $.ajax({
+                url: "/AlbumEdit/GetNameCount",
+                type: "get",
+                data: { name: encodeURIComponent(name), pid: encodeURIComponent(pid) },
+                success: function (result) {
+                    if (result > 0) {
+                        //重名
+                        alert("同一相册的名称已存在！");
+                        node.name = "重命名";
+                        tree.beginEdit(node, true);
+                    } else {
+                        tree.beginEdit(node, false);
+                    }
+                }
+            });
+        } else {
+            $.ajax({
+                url: "/AlbumEdit/GetNameCount",
+                type: "get",
+                data: { name: encodeURIComponent(name), pid: encodeURIComponent(pid) },
+                success: function (result) {
+                    if (result > 0) {
+                        //重名
+                        alert("同一相册的名称已存在！");
+                        node.name = "重命名";
+                        tree.beginEdit(node, true);
+                    } else {
+                        if (node != null) {
+                            if (node.name == "") {
+                                node.name = "新建节点";
+                            }
+                            if ("id" in node) {
+                                SaveData();
+                            } else {
+                                NewNodeSaveData(node);
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    //删除节点数据
+    function onRemove() {
+        var node = tree.getSelectedNode();
+        if (node) {
+            if (!tree.isLeaf(node)) {
+                alert("该节点还存在下级节点，无法直接删除，请先删除下级节点");
+                return;
+            }
+            if (confirm("确定删除选中节点?")) {
+                tree.removeNode(node);
+                SaveData();
+                var form = new mini.Form("#baseInfo");
+                form.clear();
+                $("#album-img").attr("src", "");
+            }
+        }
+    }
+
+    //保存树节点信息
+    function SaveData() {
+        var data = tree.getChanges();
+        var msgid = mini.loading("数据保存中，请稍后......", "保存数据");
+        var nodeParams = mini.encode(data);
+        $.ajax({
+            url: "/AlbumEdit/UpdateAlbumTree",
+            data: { nodeParams: encodeURIComponent(nodeParams) },
+            type: "get",
+            success: function (text) {
+                mini.hideMessageBox(msgid);
+                tree.accept();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                //tree.reload();
+            }
+        });
+    }
+
+    ///新增树节点
+    function NewNodeSaveData(node) {
+        var data = tree.getChanges();
+        var nodeParams = mini.encode(data);
+        var msgid = mini.loading("数据保存中，请稍后......", "保存数据");
+        $.ajax({
+            url: "/AlbumEdit/AddAlbumTree",
+            data: { nodeParams: encodeURIComponent(nodeParams) },
+            type: "post",
+            async: false,
+            success: function (text) {
+                console.log(text);
+                mini.hideMessageBox(msgid);
+                node.id = text;
+                tree.accept();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(jqXHR.responseText);
+            }
+        });
+    }
+
+    //树节点选择事件
+    tree.on("nodeselect", function (e) {
+        if (e) {
+            var record = e._records[0];
+            var id = record.id; 
+            var parent = tree.getParentNode(record);
+            if (id)
+                loadAlbumTab(id, record.url, record.name, parent && parent.name ? parent.name : "");
+        }
+    });
+</script>

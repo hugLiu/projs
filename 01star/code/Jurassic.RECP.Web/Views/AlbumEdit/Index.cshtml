@@ -1,0 +1,12 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<body>
+    <div id="content" style="width: 32%;height: 98%;float: left;">
+        @Html.Partial("TreePartial")
+    </div>
+    <div id="side" style="width: 68%; height: 98%; float: right;padding-left: 5px">
+        @Html.Partial("TabPartial")
+    </div>
+</body>

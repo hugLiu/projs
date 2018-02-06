@@ -1,0 +1,13 @@
+E:\projs\搜索业务部\03项目\02重油开发公司油藏评价与储量评估协同平台\开发库\04编码\源代码\项目源码\油藏评价与储量评估协同平台\Star\Jurassic.RECP.DataBase\bin\Release\Jurassic.RECP.DataBase.dll.config
+E:\projs\搜索业务部\03项目\02重油开发公司油藏评价与储量评估协同平台\开发库\04编码\源代码\项目源码\油藏评价与储量评估协同平台\Star\Jurassic.RECP.DataBase\bin\Release\Jurassic.RECP.DataBase.dll
+E:\projs\搜索业务部\03项目\02重油开发公司油藏评价与储量评估协同平台\开发库\04编码\源代码\项目源码\油藏评价与储量评估协同平台\Star\Jurassic.RECP.DataBase\bin\Release\Jurassic.RECP.DataBase.pdb
+E:\projs\搜索业务部\03项目\02重油开发公司油藏评价与储量评估协同平台\开发库\04编码\源代码\项目源码\油藏评价与储量评估协同平台\Star\Jurassic.RECP.DataBase\bin\Release\EntityFramework.dll
+E:\projs\搜索业务部\03项目\02重油开发公司油藏评价与储量评估协同平台\开发库\04编码\源代码\项目源码\油藏评价与储量评估协同平台\Star\Jurassic.RECP.DataBase\bin\Release\EntityFramework.SqlServer.dll
+E:\projs\搜索业务部\03项目\02重油开发公司油藏评价与储量评估协同平台\开发库\04编码\源代码\项目源码\油藏评价与储量评估协同平台\Star\Jurassic.RECP.DataBase\bin\Release\Newtonsoft.Json.dll
+E:\projs\搜索业务部\03项目\02重油开发公司油藏评价与储量评估协同平台\开发库\04编码\源代码\项目源码\油藏评价与储量评估协同平台\Star\Jurassic.RECP.DataBase\bin\Release\EntityFramework.xml
+E:\projs\搜索业务部\03项目\02重油开发公司油藏评价与储量评估协同平台\开发库\04编码\源代码\项目源码\油藏评价与储量评估协同平台\Star\Jurassic.RECP.DataBase\bin\Release\EntityFramework.SqlServer.xml
+E:\projs\搜索业务部\03项目\02重油开发公司油藏评价与储量评估协同平台\开发库\04编码\源代码\项目源码\油藏评价与储量评估协同平台\Star\Jurassic.RECP.DataBase\bin\Release\zh-Hans\EntityFramework.resources.dll
+E:\projs\搜索业务部\03项目\02重油开发公司油藏评价与储量评估协同平台\开发库\04编码\源代码\项目源码\油藏评价与储量评估协同平台\Star\Jurassic.RECP.DataBase\bin\Release\zh-Hans\EntityFramework.SqlServer.resources.dll
+E:\projs\搜索业务部\03项目\02重油开发公司油藏评价与储量评估协同平台\开发库\04编码\源代码\项目源码\油藏评价与储量评估协同平台\Star\Jurassic.RECP.DataBase\obj\Release\Jurassic.RECP.DataBase.csprojResolveAssemblyReference.cache
+E:\projs\搜索业务部\03项目\02重油开发公司油藏评价与储量评估协同平台\开发库\04编码\源代码\项目源码\油藏评价与储量评估协同平台\Star\Jurassic.RECP.DataBase\obj\Release\Jurassic.RECP.DataBase.dll
+E:\projs\搜索业务部\03项目\02重油开发公司油藏评价与储量评估协同平台\开发库\04编码\源代码\项目源码\油藏评价与储量评估协同平台\Star\Jurassic.RECP.DataBase\obj\Release\Jurassic.RECP.DataBase.pdb

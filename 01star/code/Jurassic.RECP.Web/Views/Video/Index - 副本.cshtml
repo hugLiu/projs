@@ -1,0 +1,151 @@
+﻿@{
+    Layout = "~/Views/shared/_RECPLayout.cshtml";
+}
+
+<style>
+    .icon-title, .site-title {
+        color: #699f00;
+        float: left;
+        padding-right: 7px;
+        height: 20px;
+        white-space: nowrap;
+    }
+
+    .tit-bgLine {
+        border-bottom: 2px solid #8ac024;
+        margin-bottom: 25px;
+    }
+
+    .video-content {
+        width: 140px;
+        float: left;
+        margin-right: 20px;
+        margin-bottom: 10px;
+    }
+
+    .content-background {
+        background: url('../../Content/RECP/images/star/movieclip.gif') repeat-x;
+        width: 140px;
+        height: 112px;
+        float: left;
+        margin-right: 20px;
+        text-align: center;
+    }
+
+    .box-a {
+        display: block;
+        text-align: center;
+        margin-top: 15px;
+    }
+
+    .text-overflow {
+        padding: 5px;
+        overflow: hidden; /*内容超出宽度时隐藏超出部分的内容 */
+        text-overflow: ellipsis; /* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+        white-space: nowrap; /*不换行 */
+    }
+</style>
+
+<div class="panel-heading">xiangmu</div>
+<div class="panel-body" style="min-height: 50%;height: 90%;overflow: auto;">
+    <div class="container-fluid">
+        <div id="js-grid-juicy-projects" class="">
+            <!-- ko foreach: {data:resultVideo,as:'video'} -->
+            <div>
+                <div class="icon-title icon-caret-right" style="font-size:27px;margin-right:3px;"></div>
+                <h3 data-bind="text:video.name" class="site-title"></h3>
+                <div style="clear:both;"></div>
+                <div class="tit-bgLine"></div>
+                <!--ko foreach: {data:video.child,as:'child'}-->
+                <div class="video-content">
+                    <div class="cbp-caption">
+                        <div class="cbp-caption-defaultWrap content-background">
+                            <a class="cbp-lightbox box-a" data-bind="attr:{href:child.link,title:child.name}" target='_blank'>
+                                <img data-bind="attr:{src:child.url}" width="115" height="73" border="0" style="margin-left:-5px;" />
+                            </a>
+                        </div>
+                    </div>
+                    <a class="cbp-lightbox" data-bind="attr:{href:child.link}" target='_blank' style="display:block">
+                        <div class="cbp-l-grid-projects-title uppercase text-center text-center tooltips text-overflow" data-bind="text:child.name,attr:{title:child.name}"></div>
+                    </a>
+                </div>
+                <!-- /ko -->
+            </div>
+            <div style="clear:both;"></div>
+            <!-- /ko -->
+        </div>
+    </div>
+</div>
+
+@*<div class="container-fluid">
+        <div id="js-grid-juicy-projects" class="cbp">
+            <!-- ko foreach: resultVideo -->
+            <div data-bind="attr:{class:'cbp-item '+productTypeId}">
+                <div class="cbp-caption">
+                    <div class="cbp-caption-defaultWrap">
+                        <a class="cbp-lightbox" data-bind="attr:{href:'data:image/png;base64,'+thumb,'data-title':name + '<br>制图人：'+ author}">
+                            <img data-bind="attr:{src:'data:image/png;base64,'+thumb}" />
+                        </a>
+                    </div>
+                </div>
+                <div class="cbp-l-grid-projects-title uppercase text-center text-center tooltips text-overflow" data-bind="attr:{'data-original-title':title},text:title"></div>
+            </div>
+            <!-- /ko -->
+        </div>
+    </div>*@
+
+
+<!--cubeportfolio-->
+<script src="~/Content/RECP/js/plugins/cubeportfolio/js/jquery.cubeportfolio.min.js"></script>
+<!--rangeSlider-->
+<script src="~/Content/RECP/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+<!--linq-->
+<script src="~/Content/RECP/js/plugins/linq.js_ver2.2.0.2/linq.min.js"></script>
+
+<script>
+    var vm = null;
+    var ViewModel = function () {
+        var self = this;
+        self.resultVideo = ko.observableArray([]);
+    }
+    $(document).ready(function () {
+        //document.onmousewheel = function() {return false;}//屏蔽鼠标滚轮
+        document.onselectstart = function () { return false; }//禁止选取、防止复制
+        document.oncopy = function () { return false; }//禁止复制和剪切
+        document.onpaste = function () { return false; }//禁止粘贴
+
+        vm = new ViewModel();
+        ko.applyBindings(vm);
+        getVideoInfo();
+    });
+
+    var getVideoInfo = function () {
+        vm.resultVideo([]);
+        $.ajax({
+            url: "/Video/GetVideoInfo",
+            type: "post",
+            success: function (result) {
+                if (result) {
+                    Enumerable.From(result).Where("x=>x.pid==null").OrderBy("x=>x.fieldIndex")
+                              .ForEach(function (value) {
+                                  var obj = {};
+                                  obj.name = "搜索";//value.name;
+                                  var child = [];
+                                  Enumerable.From(result).Where("x=>x.pid=='" + value.id + "'").OrderBy("x=>x.fieldIndex")
+                                            .ForEach(function (value) {
+                                                var temp = {};
+                                                temp.name = "结果";//value.name;
+                                                temp.thumbnail = value.thumbnail;
+                                                //temp.thumbnail = "/Upload/Video/《叛国者》/EM截图_20171212155432.png";
+                                                temp.url = value.url;
+                                                child.push(temp);
+
+                                            });
+                                  obj.child = child;
+                                  vm.resultVideo.push(obj);
+                              });
+                }
+            }
+        });
+    }
+</script>
